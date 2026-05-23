@@ -684,21 +684,428 @@ con la condizione di non singolarità
 È stata evidenziata la simmetria rispetto all'asse delle ascisse, il ruolo del punto all'infinito e l'importanza dell'intersezione tra rette e curve cubiche. Questi elementi permettono di introdurre, nel capitolo successivo, la legge di gruppo sui punti della curva.
 
 La trattazione sui reali ha quindi una funzione preparatoria: fornisce l'intuizione geometrica che verrà poi tradotta in formule algebriche e, infine, adattata ai campi finiti utilizzati nella crittografia.
-
-\section{Definizione di curva ellittica}
-\section{Forma normale di Weierstrass}
-\section{Condizione di non singolarità}
-\section{Interpretazione geometrica}
-\section{Punto all'infinito}
-
+% ==========================================================
+% Chapter 4
+% ==========================================================
 \chapter{Legge di gruppo sulle curve ellittiche}
-\section{Somma geometrica di punti}
-\section{Somma algebrica di punti distinti}
-\section{Raddoppio di un punto}
-\section{Punti inversi ed elemento neutro}
-\section{Perché i punti formano un gruppo}
-\section{Esempio numerico}
 
+\section{Introduzione}
+
+Nel capitolo precedente abbiamo introdotto le curve ellittiche sui numeri reali come oggetti geometrici descritti da un'equazione del tipo
+
+\begin{equation}
+    y^2 = x^3 + ax + b.
+\end{equation}
+
+Il passo successivo è mostrare che i punti di una curva ellittica possono essere dotati di una struttura algebrica. Più precisamente, è possibile definire un'operazione di somma tra punti tale che l'insieme dei punti della curva, insieme al punto all'infinito \(\mathcal{O}\), formi un gruppo abeliano.
+
+Questa osservazione è fondamentale per la crittografia su curve ellittiche. Infatti, i protocolli ECC non utilizzano la curva solo come figura geometrica, ma come insieme algebrico su cui è possibile calcolare espressioni del tipo
+
+\[
+Q = kP,
+\]
+
+dove \(P\) è un punto della curva e \(k\) è uno scalare intero. Per comprendere questa operazione, bisogna prima definire in modo preciso cosa significhi sommare due punti.
+
+\section{Idea geometrica della somma}
+
+Sia \(E\) una curva ellittica sui numeri reali e siano \(P\) e \(Q\) due punti di \(E\). La somma \(P+Q\) viene definita usando una costruzione geometrica basata sulle intersezioni tra rette e curve cubiche.
+
+Se \(P\) e \(Q\) sono distinti, si considera la retta passante per \(P\) e \(Q\). Questa retta interseca la curva in un terzo punto, che indichiamo con \(R\). La somma \(P+Q\) è definita come il punto simmetrico di \(R\) rispetto all'asse delle ascisse.
+
+In simboli, se il terzo punto di intersezione è
+
+\[
+R=(x_R,y_R),
+\]
+
+allora
+
+\[
+P+Q = -R = (x_R,-y_R).
+\]
+
+Questa regola viene spesso descritta come metodo della ``corda e tangente''. La corda è la retta che passa per due punti distinti della curva; la tangente compare invece nel caso in cui si voglia sommare un punto con se stesso.
+
+\section{Somma di due punti distinti}
+
+Consideriamo due punti distinti della curva
+
+\[
+P=(x_P,y_P), \qquad Q=(x_Q,y_Q),
+\]
+
+con \(P \neq Q\) e \(Q \neq -P\). La retta passante per \(P\) e \(Q\) ha coefficiente angolare
+
+\begin{equation}
+    \lambda = \frac{y_Q-y_P}{x_Q-x_P}.
+    \label{eq:lambda-add-real}
+\end{equation}
+
+La somma \(S=P+Q\), con \(S=(x_S,y_S)\), è data dalle formule
+
+\begin{align}
+    x_S &= \lambda^2 - x_P - x_Q, \label{eq:add-xs-real} \\
+    y_S &= \lambda(x_P-x_S)-y_P. \label{eq:add-ys-real}
+\end{align}
+
+Queste formule derivano dalla costruzione geometrica descritta prima. La retta interseca la curva in un terzo punto \(R\); poi il punto viene riflesso rispetto all'asse \(x\), ottenendo \(S=P+Q\).
+
+\begin{example}
+Consideriamo la curva
+
+\[
+E: y^2 = x^3 - 7x + 10.
+\]
+
+I punti
+
+\[
+P=(1,2), \qquad Q=(3,4)
+\]
+
+appartengono alla curva, perché
+
+\[
+2^2 = 1^3 -7\cdot 1 +10 = 4
+\]
+
+e
+
+\[
+4^2 = 3^3 -7\cdot 3 +10 = 16.
+\]
+
+Calcoliamo ora \(P+Q\). Il coefficiente angolare della retta passante per \(P\) e \(Q\) è
+
+\[
+\lambda = \frac{4-2}{3-1} = 1.
+\]
+
+Dunque
+
+\[
+x_S = \lambda^2 - x_P - x_Q = 1^2 -1-3 = -3,
+\]
+
+e
+
+\[
+y_S = \lambda(x_P-x_S)-y_P = 1(1-(-3))-2 = 2.
+\]
+
+Quindi
+
+\[
+P+Q = (-3,2).
+\]
+
+Verifichiamo che il punto trovato appartiene alla curva:
+
+\[
+2^2 = (-3)^3 -7(-3)+10 = -27+21+10 = 4.
+\]
+
+Il risultato è quindi coerente.
+\end{example}
+
+\section{Punti opposti e retta verticale}
+
+Un caso particolare si verifica quando i due punti hanno la stessa ascissa ma ordinata opposta. Se
+
+\[
+P=(x,y),
+\]
+
+allora il suo opposto è
+
+\[
+-P=(x,-y).
+\]
+
+La retta passante per \(P\) e \(-P\) è verticale. Essa non interseca la curva in un terzo punto ordinario del piano reale; per completare la struttura algebrica, si introduce il punto all'infinito \(\mathcal{O}\). Si definisce quindi
+
+\begin{equation}
+    P + (-P) = \mathcal{O}.
+\end{equation}
+
+Questa proprietà giustifica l'interpretazione di \(-P\) come inverso additivo di \(P\). In particolare, il punto all'infinito svolge il ruolo di elemento neutro rispetto alla somma.
+
+\section{Raddoppio di un punto}
+
+Il caso \(P=Q\) richiede una costruzione leggermente diversa. Non esiste una retta passante per due punti distinti, perché i due punti coincidono. Si considera allora la tangente alla curva nel punto \(P\).
+
+Sia
+
+\[
+P=(x_P,y_P)
+\]
+
+un punto della curva, con \(y_P \neq 0\). La pendenza della tangente in \(P\) è
+
+\begin{equation}
+    \lambda = \frac{3x_P^2+a}{2y_P}.
+    \label{eq:lambda-double-real}
+\end{equation}
+
+Il punto \(2P=P+P\) ha coordinate
+
+\begin{align}
+    x_{2P} &= \lambda^2 - 2x_P, \label{eq:double-x-real} \\
+    y_{2P} &= \lambda(x_P-x_{2P})-y_P. \label{eq:double-y-real}
+\end{align}
+
+Anche qui la logica è la stessa: la tangente interseca la curva in un ulteriore punto \(R\), e il risultato \(2P\) è il simmetrico di \(R\) rispetto all'asse delle ascisse.
+
+\begin{example}
+Consideriamo ancora la curva
+
+\[
+E: y^2 = x^3 - 7x + 10
+\]
+
+e il punto
+
+\[
+P=(1,2).
+\]
+
+In questo caso \(a=-7\). Il coefficiente angolare della tangente è
+
+\[
+\lambda = \frac{3x_P^2+a}{2y_P}
+= \frac{3\cdot 1^2 -7}{2\cdot 2}
+= \frac{-4}{4}
+= -1.
+\]
+
+Quindi
+
+\[
+x_{2P} = \lambda^2 -2x_P = (-1)^2 -2 = -1,
+\]
+
+e
+
+\[
+y_{2P} = \lambda(x_P-x_{2P})-y_P
+= -1(1-(-1))-2
+= -4.
+\]
+
+Pertanto
+
+\[
+2P=(-1,-4).
+\]
+
+Verifichiamo che il punto appartiene alla curva:
+
+\[
+(-4)^2 = (-1)^3 -7(-1)+10 = -1+7+10 = 16.
+\]
+
+Il risultato è quindi corretto.
+\end{example}
+
+\section{Il caso della tangente verticale}
+
+Se \(P=(x_P,y_P)\) e \(y_P=0\), la tangente alla curva in \(P\) è verticale. In questo caso il raddoppio del punto produce il punto all'infinito:
+
+\begin{equation}
+    2P = \mathcal{O}.
+\end{equation}
+
+Questo è coerente con la regola degli opposti. Infatti, se \(y_P=0\), allora
+
+\[
+-P=(x_P,-y_P)=(x_P,0)=P.
+\]
+
+Quindi \(P=-P\), e di conseguenza
+
+\[
+P+P=P+(-P)=\mathcal{O}.
+\]
+
+\section{Elemento neutro}
+
+Il punto all'infinito \(\mathcal{O}\) è l'elemento neutro della somma sui punti della curva. Per ogni punto \(P \in E\), si ha
+
+\begin{equation}
+    P+\mathcal{O}=\mathcal{O}+P=P.
+\end{equation}
+
+Questa proprietà è necessaria affinché l'insieme dei punti formi un gruppo. Senza un elemento neutro, la struttura non potrebbe soddisfare gli assiomi di gruppo introdotti nel Capitolo 2.
+
+Dal punto di vista geometrico, il punto all'infinito può essere interpretato come il punto comune alle rette verticali nella chiusura proiettiva del piano. Nella trattazione crittografica, tuttavia, è sufficiente considerarlo come un elemento speciale che completa la legge di somma.
+
+\section{Inverso di un punto}
+
+Dato un punto
+
+\[
+P=(x,y)
+\]
+
+sulla curva, il suo inverso rispetto alla somma è
+
+\begin{equation}
+    -P=(x,-y).
+\end{equation}
+
+Infatti, \(P\) e \(-P\) sono allineati verticalmente e la loro somma è il punto all'infinito:
+
+\begin{equation}
+    P+(-P)=\mathcal{O}.
+\end{equation}
+
+Inoltre, il punto all'infinito è inverso di se stesso:
+
+\begin{equation}
+    -\mathcal{O}=\mathcal{O}.
+\end{equation}
+
+Questa definizione è compatibile con la simmetria della curva rispetto all'asse delle ascisse: se \((x,y)\) soddisfa l'equazione \(y^2=x^3+ax+b\), allora anche \((x,-y)\) la soddisfa.
+
+\section{Proprietà di gruppo}
+
+Possiamo ora riassumere le proprietà principali della somma sui punti di una curva ellittica non singolare.
+
+Sia
+
+\[
+E(\mathbb{R}) = \{(x,y)\in\mathbb{R}^2 : y^2=x^3+ax+b\}\cup\{\mathcal{O}\}.
+\]
+
+Allora l'operazione di somma appena descritta soddisfa le proprietà di gruppo abeliano:
+
+\begin{enumerate}
+    \item \textbf{Chiusura}: se \(P,Q \in E(\mathbb{R})\), allora anche \(P+Q \in E(\mathbb{R})\);
+    \item \textbf{Associatività}: per ogni \(P,Q,R \in E(\mathbb{R})\),
+    \[
+    (P+Q)+R=P+(Q+R);
+    \]
+    \item \textbf{Elemento neutro}: esiste \(\mathcal{O}\) tale che
+    \[
+    P+\mathcal{O}=\mathcal{O}+P=P;
+    \]
+    \item \textbf{Inverso}: per ogni \(P\in E(\mathbb{R})\), esiste \(-P\in E(\mathbb{R})\) tale che
+    \[
+    P+(-P)=\mathcal{O};
+    \]
+    \item \textbf{Commutatività}: per ogni \(P,Q \in E(\mathbb{R})\),
+    \[
+    P+Q=Q+P.
+    \]
+\end{enumerate}
+
+La commutatività è intuitiva dal punto di vista geometrico, perché la retta passante per \(P\) e \(Q\) è la stessa retta passante per \(Q\) e \(P\). L'associatività è invece meno evidente geometricamente e richiede una dimostrazione più tecnica. In questa relazione ci limiteremo a usare il risultato: la legge di somma rende i punti di una curva ellittica non singolare un gruppo abeliano.
+
+\section{Moltiplicazione scalare}
+
+Una volta definita la somma tra punti, è naturale definire la moltiplicazione di un punto per un intero. Se \(P\) è un punto della curva e \(k\) è un intero positivo, si definisce
+
+\begin{equation}
+    kP = \underbrace{P+P+\cdots+P}_{k \text{ volte}}.
+\end{equation}
+
+Per esempio,
+
+\[
+2P=P+P,
+\]
+
+\[
+3P=2P+P,
+\]
+
+\[
+4P=2P+2P.
+\]
+
+Questa operazione prende il nome di moltiplicazione scalare. Essa è centrale nella crittografia su curve ellittiche. Nei protocolli ECC, uno scalare segreto \(k\) viene usato per calcolare un punto pubblico \(Q=kP\), dove \(P\) è un punto base noto pubblicamente.
+
+La sicurezza si basa sul fatto che il calcolo diretto di \(Q=kP\) è efficiente, mentre il problema inverso, cioè determinare \(k\) conoscendo \(P\) e \(Q\), è computazionalmente difficile su curve e parametri scelti correttamente.
+
+\section{Metodo double-and-add}
+
+Calcolare \(kP\) sommando \(P\) con se stesso \(k\) volte sarebbe inefficiente quando \(k\) è molto grande. In crittografia, gli scalari sono numeri di centinaia di bit, quindi è necessario usare algoritmi più efficienti.
+
+Un metodo semplice è il metodo \textit{double-and-add}, analogo all'esponenziazione veloce. L'idea è usare la rappresentazione binaria di \(k\) e combinare raddoppi e somme.
+
+Per esempio, se
+
+\[
+k=13,
+\]
+
+allora
+
+\[
+13 = 8+4+1.
+\]
+
+Quindi
+
+\[
+13P = 8P+4P+P.
+\]
+
+I punti \(2P,4P,8P\) si ottengono mediante raddoppi successivi:
+
+\[
+2P,\qquad 4P=2(2P),\qquad 8P=2(4P).
+\]
+
+Poi si sommano solo i multipli corrispondenti ai bit uguali a \(1\) nella rappresentazione binaria di \(k\).
+
+\begin{algorithm}[h]
+\caption{Moltiplicazione scalare double-and-add}
+\begin{algorithmic}[1]
+\REQUIRE Punto \(P\), scalare \(k\)
+\ENSURE Punto \(Q=kP\)
+\STATE \(Q \leftarrow \mathcal{O}\)
+\STATE \(R \leftarrow P\)
+\WHILE{\(k>0\)}
+    \IF{\(k\) è dispari}
+        \STATE \(Q \leftarrow Q+R\)
+    \ENDIF
+    \STATE \(R \leftarrow 2R\)
+    \STATE \(k \leftarrow \lfloor k/2 \rfloor\)
+\ENDWHILE
+\RETURN \(Q\)
+\end{algorithmic}
+\end{algorithm}
+
+Questo algoritmo mostra perché la moltiplicazione scalare è efficiente: il numero di operazioni cresce in modo proporzionale al numero di bit di \(k\), non al valore numerico di \(k\).
+
+\section{Importanza crittografica della legge di gruppo}
+
+La legge di gruppo sulle curve ellittiche è il fondamento di ECC. Senza un'operazione di somma ben definita, non sarebbe possibile parlare di multipli di un punto, né costruire il problema del logaritmo discreto su curve ellittiche.
+
+Il passaggio concettuale è il seguente:
+
+\begin{enumerate}
+    \item i punti della curva formano un gruppo abeliano;
+    \item in un gruppo si può ripetere l'operazione, definendo \(kP\);
+    \item il calcolo di \(kP\) può essere eseguito efficientemente;
+    \item il problema inverso, cioè recuperare \(k\) da \(P\) e \(kP\), è difficile su curve scelte correttamente.
+\end{enumerate}
+
+Questa struttura permette di costruire protocolli di scambio di chiavi e firme digitali. Nei prossimi capitoli vedremo come la stessa legge di gruppo viene trasferita dai numeri reali ai campi finiti, dove diventa adatta all'implementazione crittografica.
+
+\section{Sintesi del capitolo}
+
+In questo capitolo è stata definita la legge di somma sui punti di una curva ellittica. La somma di due punti distinti si ottiene tracciando la retta che li unisce, individuando il terzo punto di intersezione con la curva e riflettendolo rispetto all'asse delle ascisse. Il raddoppio di un punto si ottiene invece usando la tangente alla curva.
+
+Sono stati introdotti i casi speciali della retta verticale, del punto all'infinito e dell'inverso di un punto. Questi elementi permettono ai punti della curva di formare un gruppo abeliano. Infine, è stata introdotta la moltiplicazione scalare \(kP\), operazione centrale nella crittografia su curve ellittiche.
+
+Il prossimo passo consiste nel trasferire questa struttura dai numeri reali ai campi finiti. In quel contesto, le stesse formule verranno interpretate modulo un primo \(p\), rendendo la costruzione adatta all'uso crittografico.
+
+% ==========================================================
+% Chapter 5
+% ==========================================================
 \chapter{Curve ellittiche su campi finiti}
 \section{Perché non si usano i reali in crittografia}
 \section{Curve su $\mathbb{F}_p$}
@@ -708,6 +1115,9 @@ La trattazione sui reali ha quindi una funzione preparatoria: fornisce l'intuizi
 \section{Sottogruppi ciclici}
 \section{Esempio su $\mathbb{F}_{17}$}
 
+% ==========================================================
+% Chapter 6
+% ==========================================================
 \chapter{Il problema del logaritmo discreto su curve ellittiche}
 \section{Definizione di ECDLP}
 \section{Facilità della moltiplicazione scalare}
@@ -715,6 +1125,9 @@ La trattazione sui reali ha quindi una funzione preparatoria: fornisce l'intuizi
 \section{Confronto con il logaritmo discreto classico}
 \section{Implicazioni per la sicurezza}
 
+% ==========================================================
+% Chapter 7
+% ==========================================================
 \chapter{Protocolli crittografici basati su ECC}
 \section{ECDH}
 \section{ECDSA}
@@ -728,6 +1141,9 @@ La trattazione sui reali ha quindi una funzione preparatoria: fornisce l'intuizi
 \section{Wallet, chiavi e indirizzi}
 \section{Firma delle transazioni}
 
+% ==========================================================
+% Chapter 8
+% ==========================================================
 \chapter{Confronto, limiti e prospettiva post-quantistica}
 \section{ECC vs RSA}
 \section{Efficienza e dimensione delle chiavi}
@@ -735,6 +1151,9 @@ La trattazione sui reali ha quindi una funzione preparatoria: fornisce l'intuizi
 \section{Algoritmo di Shor}
 \section{Transizione post-quantistica}
 
+% ==========================================================
+% Chapter 9
+% ==========================================================
 \chapter{Conclusioni}
 
 La crittografia su curve ellittiche mostra come strutture matematiche apparentemente astratte possano diventare strumenti centrali per la sicurezza delle comunicazioni digitali. La legge di gruppo sui punti di una curva, combinata con l'aritmetica dei campi finiti, permette di costruire problemi computazionalmente asimmetrici: facili da calcolare in una direzione, ma difficili da invertire senza informazione segreta.
