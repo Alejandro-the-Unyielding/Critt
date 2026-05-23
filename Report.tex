@@ -1652,11 +1652,365 @@ Infine, abbiamo introdotto la moltiplicazione scalare e i sottogruppi ciclici ge
 % Chapter 6
 % ==========================================================
 \chapter{Il problema del logaritmo discreto su curve ellittiche}
+
+\section{Introduzione}
+
+Nei capitoli precedenti abbiamo costruito progressivamente la struttura matematica necessaria alla crittografia su curve ellittiche. Abbiamo visto che i punti di una curva ellittica su un campo finito formano un gruppo abeliano e che, fissato un punto base \(G\), è possibile calcolare multipli del tipo
+
+\[
+Q = dG,
+\]
+
+dove \(d\) è un intero e \(Q\) è un altro punto della curva.
+
+Questo capitolo studia il problema inverso: dato il punto base \(G\) e il punto \(Q=dG\), quanto è difficile recuperare lo scalare \(d\)? Questa domanda è centrale perché la sicurezza di molti protocolli basati su curve ellittiche dipende proprio dall'impraticabilità di tale inversione.
+
+Il problema prende il nome di \textit{Elliptic Curve Discrete Logarithm Problem}, abbreviato in ECDLP. Esso è l'analogo, nel gruppo dei punti di una curva ellittica, del problema del logaritmo discreto nei gruppi moltiplicativi modulo un primo.
+
+\section{Richiamo: il logaritmo discreto classico}
+
+Nel caso classico, si considera un gruppo moltiplicativo modulo un numero primo \(p\). Dato un generatore \(g\) e un esponente \(x\), è efficiente calcolare
+
+\begin{equation}
+    y \equiv g^x \pmod p.
+\end{equation}
+
+Il problema inverso consiste nel trovare \(x\) conoscendo \(g\), \(y\) e \(p\). In altre parole, si vuole risolvere
+
+\begin{equation}
+    y \equiv g^x \pmod p.
+\end{equation}
+
+Il valore \(x\), se esiste, è chiamato logaritmo discreto di \(y\) in base \(g\).
+
+L'importanza crittografica nasce dall'asimmetria computazionale: l'esponenziazione modulare è efficiente, mentre il calcolo del logaritmo discreto è ritenuto difficile in gruppi opportunamente scelti.
+
+\begin{example}
+Nel gruppo \(\mathbb{Z}_{17}^{\ast}\), si ha
+
+\[
+3^4 = 81 \equiv 13 \pmod{17}.
+\]
+
+La direzione facile è calcolare \(13\) conoscendo \(3\) e \(4\). La direzione inversa è determinare \(4\) conoscendo \(3\) e \(13\), cioè risolvere
+
+\[
+13 \equiv 3^x \pmod{17}.
+\]
+
+Su un modulo piccolo si può procedere per tentativi. Su parametri crittografici, invece, questa ricerca diventa impraticabile.
+\end{example}
+
+\section{Dal caso moltiplicativo al caso ellittico}
+
+La crittografia su curve ellittiche sostituisce il gruppo moltiplicativo modulo \(p\) con il gruppo additivo dei punti di una curva ellittica su un campo finito.
+
+Nel caso moltiplicativo classico, l'operazione efficiente è
+
+\[
+g^x \pmod p.
+\]
+
+Nel caso ellittico, l'operazione corrispondente è la moltiplicazione scalare
+
+\[
+Q = dG.
+\]
+
+Qui:
+
+\begin{itemize}
+    \item \(G\) è un punto base pubblico della curva;
+    \item \(d\) è uno scalare intero, normalmente usato come chiave privata;
+    \item \(Q\) è un punto della curva, normalmente usato come chiave pubblica.
+\end{itemize}
+
+L'analogia può essere riassunta così:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Contesto} & \textbf{Operazione diretta} & \textbf{Problema inverso} \\
+\midrule
+Gruppo moltiplicativo & \(y = g^x \bmod p\) & trovare \(x\) da \(g\) e \(y\) \\
+Curva ellittica & \(Q = dG\) & trovare \(d\) da \(G\) e \(Q\) \\
+\bottomrule
+\end{tabular}
+\caption{Analogia tra logaritmo discreto classico e logaritmo discreto su curve ellittiche.}
+\label{tab:dlp-ecdlp-ch6}
+\end{table}
+
+Nel primo caso l'operazione viene scritta in notazione moltiplicativa; nel secondo caso in notazione additiva. La differenza di notazione riflette la diversa operazione di gruppo, ma il principio crittografico è lo stesso: una direzione deve essere efficiente, l'altra deve essere computazionalmente difficile.
+
 \section{Definizione di ECDLP}
-\section{Facilità della moltiplicazione scalare}
-\section{Difficoltà dell'inversione}
-\section{Confronto con il logaritmo discreto classico}
-\section{Implicazioni per la sicurezza}
+
+Sia \(E(\mathbb{F}_p)\) una curva ellittica definita su un campo finito e sia \(G\) un punto della curva di ordine \(n\). Consideriamo il sottogruppo ciclico generato da \(G\):
+
+\begin{equation}
+    \langle G \rangle = \{G,2G,3G,\ldots,nG=\mathcal{O}\}.
+\end{equation}
+
+Dato un punto \(Q \in \langle G \rangle\), esiste un intero \(d\), con \(0 \leq d < n\), tale che
+
+\begin{equation}
+    Q = dG.
+\end{equation}
+
+Il problema del logaritmo discreto su curve ellittiche consiste nel determinare \(d\) conoscendo \(G\), \(Q\), la curva \(E\) e il campo finito su cui essa è definita.
+
+\begin{definition}[Elliptic Curve Discrete Logarithm Problem]
+Siano \(E(\mathbb{F}_p)\) una curva ellittica su un campo finito, \(G\in E(\mathbb{F}_p)\) un punto di ordine \(n\), e \(Q\in \langle G\rangle\). Il problema del logaritmo discreto su curve ellittiche consiste nel trovare l'intero \(d\), con \(0 \leq d < n\), tale che
+
+\[
+Q=dG.
+\]
+\end{definition}
+
+Il valore \(d\) può essere interpretato come il logaritmo discreto di \(Q\) in base \(G\), ma nel gruppo additivo dei punti della curva.
+
+\section{Perché la direzione diretta è efficiente}
+
+Il calcolo diretto di
+
+\[
+Q=dG
+\]
+
+è efficiente perché può essere eseguito tramite algoritmi di moltiplicazione scalare come il metodo \textit{double-and-add}. Tale metodo sfrutta la rappresentazione binaria di \(d\) e calcola \(dG\) mediante una sequenza di raddoppi e somme.
+
+Se \(d\) ha \(m\) bit, il numero di operazioni richieste è proporzionale a \(m\), non al valore numerico di \(d\). Questo è essenziale: uno scalare di 256 bit può rappresentare un numero enorme, ma la sua lunghezza è soltanto 256 bit, e l'algoritmo lavora sulla lunghezza della rappresentazione.
+
+Per esempio, se
+
+\[
+d = 13,
+\]
+
+allora
+
+\[
+13 = 8+4+1,
+\]
+
+e quindi
+
+\[
+13G = 8G + 4G + G.
+\]
+
+I punti \(2G\), \(4G\), \(8G\) si ottengono con raddoppi successivi, e poi si sommano i punti corrispondenti ai bit uguali a \(1\).
+
+Questa efficienza rende possibile usare ECC in protocolli reali: generare una chiave pubblica a partire da una chiave privata deve essere un'operazione rapida per l'utente legittimo.
+
+\section{Perché l'inversione è difficile}
+
+Il problema inverso è molto diverso. Dati \(G\) e
+
+\[
+Q=dG,
+\]
+
+un avversario vuole recuperare \(d\). Il metodo più immediato è la forza bruta: calcolare
+
+\[
+G, 2G, 3G, \ldots
+\]
+
+fino a trovare \(Q\). Se \(Q=kG\), allora l'avversario ha trovato \(k=d\).
+
+Questo metodo è corretto, ma diventa impraticabile quando l'ordine \(n\) del punto base è molto grande. Se \(n\) è dell'ordine di \(2^{256}\), una ricerca esaustiva richiederebbe, nel caso peggiore, un numero astronomico di operazioni.
+
+La sicurezza di ECC dipende quindi dalla scelta di parametri tali che:
+
+\begin{itemize}
+    \item il punto base \(G\) abbia ordine grande;
+    \item il sottogruppo generato da \(G\) non presenti strutture deboli;
+    \item non siano noti algoritmi efficienti per risolvere l'ECDLP su quella curva.
+\end{itemize}
+
+In questo senso, ECC non si basa sul fatto che l'inversione sia logicamente impossibile, ma sul fatto che essa sia computazionalmente impraticabile con le risorse disponibili.
+
+\section{Esempio su una curva piccola}
+
+Per comprendere il problema, consideriamo ancora la curva
+
+\[
+E: y^2 \equiv x^3 + 2x + 2 \pmod{17}
+\]
+
+e il punto
+
+\[
+G=(0,6).
+\]
+
+Nel capitolo precedente abbiamo calcolato:
+
+\[
+2G = (9,1),
+\]
+
+e
+
+\[
+3G = (6,3).
+\]
+
+Supponiamo ora che un osservatore conosca \(G\) e il punto
+
+\[
+Q=(6,3).
+\]
+
+Su questa curva piccola, può provare i multipli di \(G\):
+
+\[
+G=(0,6),
+\]
+
+\[
+2G=(9,1),
+\]
+
+\[
+3G=(6,3).
+\]
+
+A questo punto conclude che
+
+\[
+Q=3G,
+\]
+
+quindi il logaritmo discreto di \(Q\) in base \(G\) è
+
+\[
+d=3.
+\]
+
+Questo esempio mostra la natura del problema, ma non la sua difficoltà reale. Con parametri piccoli, l'ECDLP è facilmente risolvibile per tentativi. La sicurezza nasce quando il sottogruppo generato dal punto base ha ordine enorme.
+
+\section{Ordine del punto e dimensione del sottogruppo}
+
+L'ordine del punto base \(G\) è un parametro cruciale. Per definizione, l'ordine di \(G\) è il più piccolo intero positivo \(n\) tale che
+
+\begin{equation}
+    nG = \mathcal{O}.
+\end{equation}
+
+Il sottogruppo generato da \(G\) contiene quindi esattamente \(n\) elementi:
+
+\[
+\langle G \rangle = \{ \mathcal{O}, G, 2G, \ldots, (n-1)G \}.
+\]
+
+Se \(n\) è piccolo, l'avversario può enumerare tutti i multipli di \(G\) e risolvere il problema. Se invece \(n\) è molto grande, l'enumerazione diventa impraticabile.
+
+Per questa ragione, nei protocolli ECC il punto base viene scelto con ordine grande, spesso un numero primo o con un grande fattore primo. Questo riduce la possibilità di attacchi basati sulla decomposizione del gruppo in sottogruppi più piccoli.
+
+\section{Forza bruta e attacchi generici}
+
+L'attacco più semplice contro ECDLP è la ricerca esaustiva. L'avversario calcola successivamente i multipli di \(G\) fino a raggiungere \(Q\). Il costo di questo metodo è lineare nell'ordine del sottogruppo, quindi dell'ordine di \(n\).
+
+Esistono però attacchi generici migliori della forza bruta semplice, come il metodo baby-step giant-step e il metodo rho di Pollard. Questi algoritmi non sfruttano debolezze specifiche della curva, ma lavorano in modo generale sui gruppi.
+
+In particolare, molti attacchi generici hanno complessità dell'ordine di circa
+
+\begin{equation}
+    O(\sqrt{n}).
+\end{equation}
+
+Questo significa che, per ottenere un livello di sicurezza di circa \(2^{128}\) operazioni contro attacchi generici, si scelgono sottogruppi di ordine approssimativamente \(2^{256}\). Questa è una delle ragioni per cui molte curve moderne usano parametri intorno ai 256 bit.
+
+Questa osservazione collega direttamente la dimensione del gruppo alla sicurezza: non basta scegliere una curva qualsiasi; bisogna scegliere una curva e un punto base con parametri adeguati.
+
+\section{ECDLP come funzione one-way}
+
+La funzione
+
+\begin{equation}
+    d \longmapsto Q=dG
+\end{equation}
+
+può essere vista come una funzione one-way nel contesto del gruppo dei punti della curva. Essa è facile da calcolare: dato \(d\), si ottiene \(Q\) in modo efficiente tramite moltiplicazione scalare. Tuttavia, è difficile da invertire: dato \(Q\), recuperare \(d\) richiede risolvere l'ECDLP.
+
+Questa funzione non è una funzione one-way con trap-door nello stesso senso di RSA. In RSA, esiste una informazione segreta, collegata alla fattorizzazione del modulo, che permette di invertire efficientemente la funzione. Nel caso tipico di ECC, invece, la sicurezza dei protocolli deriva dal fatto che solo il proprietario conosce lo scalare privato \(d\); non esiste una scorciatoia pubblica per recuperarlo da \(Q=dG\).
+
+Questa distinzione è importante. ECC non richiede di nascondere la curva, il campo o il punto base. Al contrario, questi parametri sono normalmente pubblici. Ciò che deve rimanere segreto è lo scalare \(d\).
+
+\section{Ruolo di ECDLP nella crittografia a chiave pubblica}
+
+L'ECDLP permette di costruire coppie di chiavi asimmetriche. Il procedimento generale è il seguente:
+
+\begin{enumerate}
+    \item si scelgono pubblicamente una curva \(E\), un campo finito \(\mathbb{F}_p\), un punto base \(G\) e l'ordine \(n\) di \(G\);
+    \item l'utente sceglie casualmente uno scalare privato \(d\), con \(1 \leq d < n\);
+    \item calcola la chiave pubblica
+    \[
+    Q=dG;
+    \]
+    \item pubblica \(Q\), mantenendo segreto \(d\).
+\end{enumerate}
+
+Un avversario può conoscere \(E\), \(\mathbb{F}_p\), \(G\), \(n\) e \(Q\). Tuttavia, per ricavare \(d\), dovrebbe risolvere il logaritmo discreto di \(Q\) in base \(G\). La sicurezza della chiave privata dipende quindi direttamente dalla difficoltà dell'ECDLP.
+
+Questa struttura verrà usata nei capitoli successivi per descrivere protocolli come ECDH ed ECDSA. In entrambi i casi, la chiave privata è uno scalare, mentre la chiave pubblica è un punto della curva.
+
+\section{Confronto concettuale con RSA}
+
+È utile confrontare ECC con RSA, perché entrambi sono sistemi a chiave pubblica, ma si basano su problemi matematici diversi.
+
+In RSA, la sicurezza è legata alla difficoltà di fattorizzare un grande intero \(n=pq\), prodotto di due primi segreti. Conoscendo la fattorizzazione, è possibile calcolare la chiave privata; senza di essa, l'inversione è ritenuta difficile.
+
+In ECC, invece, la sicurezza è legata alla difficoltà di recuperare lo scalare \(d\) da
+
+\[
+Q=dG.
+\]
+
+Quindi:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Sistema} & \textbf{Operazione facile} & \textbf{Problema difficile} \\
+\midrule
+RSA & moltiplicare \(p\) e \(q\) & fattorizzare \(n=pq\) \\
+Diffie--Hellman classico & calcolare \(g^x \bmod p\) & logaritmo discreto modulo \(p\) \\
+ECC & calcolare \(dG\) & logaritmo discreto su curve ellittiche \\
+\bottomrule
+\end{tabular}
+\caption{Problemi computazionali alla base di diversi sistemi a chiave pubblica.}
+\label{tab:public-key-hardness}
+\end{table}
+
+Questa differenza spiega perché la sicurezza dei vari sistemi deve essere valutata rispetto al problema matematico specifico su cui si fondano.
+
+\section{Limite quantistico}
+
+La difficoltà dell'ECDLP è una difficoltà classica: riguarda gli algoritmi noti su calcolatori tradizionali. Il quadro cambia se si considerano computer quantistici sufficientemente potenti.
+
+L'algoritmo di Shor mostra che, su un computer quantistico fault-tolerant sufficientemente grande, problemi come la fattorizzazione di interi, il logaritmo discreto nei gruppi finiti e il logaritmo discreto su curve ellittiche possono essere risolti in tempo polinomiale.
+
+Questo significa che ECC, come RSA e Diffie--Hellman classico, non è considerata sicura in uno scenario post-quantistico. Tale limite non invalida l'importanza attuale di ECC, ma spiega perché la ricerca crittografica moderna stia sviluppando schemi alternativi resistenti ad attacchi quantistici.
+
+Questo tema verrà ripreso nel capitolo dedicato ai limiti e alla prospettiva post-quantistica.
+
+\section{Sintesi del capitolo}
+
+In questo capitolo abbiamo introdotto il problema del logaritmo discreto su curve ellittiche. Fissato un punto base \(G\), è efficiente calcolare
+
+\[
+Q=dG
+\]
+
+a partire dallo scalare \(d\). Il problema inverso, cioè recuperare \(d\) conoscendo \(G\) e \(Q\), è l'ECDLP.
+
+La sicurezza di ECC dipende dal fatto che questo problema sia computazionalmente difficile su curve e sottogruppi scelti correttamente. Abbiamo visto il ruolo dell'ordine del punto base, la differenza tra calcolo diretto e inversione, il rapporto con la crittografia a chiave pubblica e il limite rappresentato dall'algoritmo di Shor.
+
+Il prossimo capitolo userà questa struttura per costruire protocolli concreti basati su ECC, in particolare lo scambio di chiavi ECDH e le firme digitali ECDSA.
 
 % ==========================================================
 % Chapter 7
