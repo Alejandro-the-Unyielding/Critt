@@ -2831,9 +2831,284 @@ Queste applicazioni mostrano il ruolo pratico di ECC nella sicurezza digitale mo
 % ==========================================================
 % Chapter 9
 % ==========================================================
-\chapter{Conclusioni}
+\chapter{Confronto, limiti e prospettiva post-quantistica}
 
-La crittografia su curve ellittiche mostra come strutture matematiche apparentemente astratte possano diventare strumenti centrali per la sicurezza delle comunicazioni digitali. La legge di gruppo sui punti di una curva, combinata con l'aritmetica dei campi finiti, permette di costruire problemi computazionalmente asimmetrici: facili da calcolare in una direzione, ma difficili da invertire senza informazione segreta.
+\section{Introduzione}
+
+Nei capitoli precedenti abbiamo analizzato le basi matematiche di ECC, il problema del logaritmo discreto su curve ellittiche, i principali protocolli basati su curve ellittiche e alcune applicazioni moderne. A questo punto è utile valutare ECC in modo più critico, confrontandola con altri sistemi a chiave pubblica e discutendone i limiti.
+
+La crittografia su curve ellittiche è oggi considerata una delle tecniche più importanti della crittografia a chiave pubblica. Il suo successo dipende soprattutto dal fatto che permette di ottenere livelli di sicurezza elevati con chiavi più brevi rispetto a sistemi come RSA. Tuttavia, questa efficienza non elimina tutti i rischi: ECC rimane vulnerabile a errori implementativi, cattiva generazione dei numeri casuali, scelta inadeguata dei parametri e, in prospettiva futura, ad attacchi quantistici.
+
+Questo capitolo discute quindi tre aspetti principali:
+
+\begin{enumerate}
+    \item il confronto tra ECC e RSA;
+    \item i limiti pratici e teorici della crittografia su curve ellittiche;
+    \item la minaccia dei computer quantistici e la transizione verso la crittografia post-quantistica.
+\end{enumerate}
+
+\section{ECC e RSA: due approcci alla crittografia a chiave pubblica}
+
+RSA ed ECC sono entrambi sistemi a chiave pubblica, ma si basano su problemi matematici differenti.
+
+RSA si fonda sulla difficoltà di fattorizzare un grande intero \(n\), prodotto di due numeri primi segreti:
+
+\begin{equation}
+    n = pq.
+\end{equation}
+
+Moltiplicare \(p\) e \(q\) è computazionalmente facile, mentre recuperare \(p\) e \(q\) conoscendo soltanto \(n\) è ritenuto difficile per numeri sufficientemente grandi.
+
+ECC, invece, si basa sulla difficoltà del problema del logaritmo discreto su curve ellittiche. Dato un punto base \(G\) e uno scalare segreto \(d\), è efficiente calcolare
+
+\begin{equation}
+    Q=dG.
+\end{equation}
+
+Il problema difficile consiste nel recuperare \(d\) conoscendo soltanto \(G\) e \(Q\).
+
+La differenza può essere riassunta nella seguente tabella:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Sistema} & \textbf{Operazione facile} & \textbf{Problema difficile} \\
+\midrule
+RSA & Calcolare \(n=pq\) & Fattorizzare \(n\) \\
+Diffie--Hellman classico & Calcolare \(g^x \bmod p\) & Logaritmo discreto modulo \(p\) \\
+ECC & Calcolare \(Q=dG\) & Logaritmo discreto su curve ellittiche \\
+\bottomrule
+\end{tabular}
+\caption{Confronto tra problemi computazionali usati in crittografia a chiave pubblica.}
+\label{tab:rsa-dh-ecc}
+\end{table}
+
+Il principio comune è l'asimmetria computazionale: l'utente legittimo deve poter eseguire facilmente l'operazione diretta, mentre l'avversario deve trovarsi di fronte a un problema inverso impraticabile.
+
+\section{Efficienza e dimensione delle chiavi}
+
+Uno dei principali vantaggi pratici di ECC è la ridotta dimensione delle chiavi. A parità di livello di sicurezza stimato, ECC richiede chiavi molto più brevi rispetto a RSA. Questo ha conseguenze importanti in termini di memoria, larghezza di banda e costo computazionale.
+
+In modo qualitativo, la situazione è la seguente:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc}
+\toprule
+\textbf{Sicurezza stimata} & \textbf{RSA} & \textbf{ECC} \\
+\midrule
+Circa 112 bit & 2048 bit & 224 bit \\
+Circa 128 bit & 3072 bit & 256 bit \\
+Circa 192 bit & 7680 bit & 384 bit \\
+Circa 256 bit & 15360 bit & 512 bit \\
+\bottomrule
+\end{tabular}
+\caption{Confronto indicativo tra dimensioni delle chiavi RSA ed ECC per livelli di sicurezza simili.}
+\label{tab:key-size-comparison}
+\end{table}
+
+Questa differenza rende ECC particolarmente adatta a contesti nei quali le risorse sono limitate, come dispositivi mobili, smart card, sistemi embedded e reti con vincoli di banda. Chiavi più brevi significano anche certificati più piccoli, handshake più leggeri e minore quantità di dati da trasmettere.
+
+Tuttavia, chiavi più brevi non significano sicurezza ``più semplice''. La sicurezza dipende dalla qualità dei parametri, dalla corretta implementazione degli algoritmi e dalla robustezza delle assunzioni matematiche.
+
+\section{Vantaggi pratici di ECC}
+
+I principali vantaggi di ECC possono essere riassunti in quattro punti.
+
+\subsection{Chiavi più brevi}
+
+Il vantaggio più noto è la possibilità di usare chiavi più brevi rispetto a RSA per ottenere livelli di sicurezza comparabili. Questo riduce il costo di archiviazione e trasmissione delle chiavi pubbliche, delle firme e dei certificati.
+
+\subsection{Efficienza nei protocolli}
+
+ECC è particolarmente efficiente nei protocolli che richiedono frequenti operazioni di scambio di chiavi o firma digitale. Nei protocolli di rete, una riduzione della dimensione dei dati scambiati durante l'handshake può migliorare le prestazioni complessive.
+
+\subsection{Adattabilità a dispositivi limitati}
+
+Poiché richiede chiavi più piccole, ECC è adatta a dispositivi con memoria, potenza di calcolo o batteria limitate. Questo è rilevante per smart card, dispositivi IoT, telefoni, sensori e sistemi embedded.
+
+\subsection{Ampio uso in sistemi moderni}
+
+ECC è usata in molti contesti reali: protocolli TLS, firme digitali, autenticazione, blockchain, wallet crittografici e infrastrutture a chiave pubblica. Questo ampio uso ha favorito lo sviluppo di librerie, standard e implementazioni mature.
+
+\section{Limiti teorici}
+
+ECC non offre sicurezza assoluta. Come gran parte della crittografia moderna, si basa su un'assunzione computazionale: l'ECDLP è ritenuto difficile per curve e parametri scelti correttamente. Tuttavia, non esiste una dimostrazione matematica definitiva che l'ECDLP non possa essere risolto efficientemente da un algoritmo classico ancora sconosciuto.
+
+Questo non rende ECC insicura; descrive semplicemente la natura della sicurezza computazionale. In crittografia, molti sistemi sono considerati sicuri perché resistono ai migliori attacchi noti e perché il problema matematico sottostante è stato studiato a lungo senza che sia stato trovato un algoritmo efficiente.
+
+Il limite teorico può essere espresso così:
+
+\begin{quote}
+ECC è sicura finché il problema del logaritmo discreto su curve ellittiche rimane computazionalmente impraticabile per i parametri utilizzati.
+\end{quote}
+
+Questa formulazione è più corretta di dire che ECC è ``impossibile da rompere''. La sicurezza è relativa a un modello di attacco, a una classe di algoritmi e a una quantità realistica di risorse.
+
+\section{Limiti implementativi}
+
+Molti attacchi contro sistemi crittografici non rompono direttamente il problema matematico sottostante. Più spesso sfruttano errori di implementazione o cattive pratiche operative. ECC non fa eccezione.
+
+\subsection{Generazione debole delle chiavi}
+
+La chiave privata \(d\) deve essere generata in modo casuale e uniforme nell'intervallo corretto. Se il generatore di numeri casuali è prevedibile, l'avversario può restringere lo spazio delle possibili chiavi e tentare un attacco.
+
+\subsection{Nonce debole o riutilizzato nelle firme}
+
+Negli schemi di firma come ECDSA, il nonce temporaneo \(k\) deve essere segreto, casuale e usato una sola volta. Se due firme vengono prodotte usando lo stesso \(k\), la chiave privata può essere recuperata algebricamente.
+
+Questo è uno dei rischi più gravi nelle implementazioni di firme digitali basate su curve ellittiche. In questo caso, l'ECDLP non viene risolto: la chiave privata viene esposta a causa di un errore nell'uso del protocollo.
+
+\subsection{Validazione insufficiente delle chiavi pubbliche}
+
+Quando un sistema riceve una chiave pubblica, dovrebbe verificare che il punto appartenga effettivamente alla curva corretta e al sottogruppo previsto. Se questa validazione manca, possono comparire attacchi basati su punti non validi o su sottogruppi piccoli.
+
+\subsection{Side-channel attacks}
+
+Un'implementazione può rivelare informazione attraverso canali laterali, come tempo di esecuzione, consumo energetico, emissioni elettromagnetiche o comportamento della cache. Un algoritmo matematicamente sicuro può quindi diventare vulnerabile se l'implementazione rivela gradualmente bit della chiave privata.
+
+Per ridurre questi rischi, le implementazioni crittografiche devono usare tecniche constant-time, evitare ramificazioni dipendenti da dati segreti e proteggere le operazioni sensibili.
+
+\section{Scelta delle curve e fiducia nei parametri}
+
+Un altro aspetto delicato riguarda la scelta della curva. Non tutte le curve ellittiche sono adatte alla crittografia. Una curva deve evitare strutture deboli e deve essere scelta in modo da resistere agli attacchi noti.
+
+In pratica, si usano curve standardizzate, cioè curve i cui parametri sono stati pubblicati e analizzati dalla comunità crittografica. Tuttavia, la standardizzazione non elimina completamente il problema della fiducia. In alcuni casi, la comunità ha discusso la trasparenza con cui certi parametri sono stati generati.
+
+Per questa ragione, in anni recenti si è posta molta attenzione alla scelta di curve con parametri generati in modo trasparente e con implementazioni più semplici e meno soggette a errori. La sicurezza pratica non dipende soltanto dalla difficoltà dell'ECDLP, ma anche dalla fiducia nei parametri e nella qualità dell'implementazione.
+
+\section{Il problema quantistico}
+
+Il limite più importante di ECC in prospettiva futura è rappresentato dai computer quantistici. Gli algoritmi crittografici a chiave pubblica oggi più diffusi si basano su problemi matematici difficili per computer classici, come fattorizzazione e logaritmo discreto. Tuttavia, questi problemi possono diventare efficientemente risolvibili su un computer quantistico sufficientemente potente.
+
+Il risultato centrale è l'algoritmo di Shor, pubblicato nel 1994. Esso mostra che un computer quantistico può risolvere in tempo polinomiale:
+
+\begin{itemize}
+    \item la fattorizzazione di interi;
+    \item il logaritmo discreto nei gruppi finiti;
+    \item il logaritmo discreto su curve ellittiche.
+\end{itemize}
+
+Questo significa che RSA, Diffie--Hellman classico ed ECC sarebbero vulnerabili se esistesse un computer quantistico fault-tolerant sufficientemente grande.
+
+\section{Computer quantistici e qubit}
+
+Un computer quantistico utilizza qubit invece di bit classici. Mentre un bit classico può assumere valore \(0\) oppure \(1\), un qubit può trovarsi in una sovrapposizione di stati. Inoltre, fenomeni come interferenza ed entanglement permettono di progettare algoritmi con comportamenti molto diversi da quelli classici.
+
+È importante evitare una semplificazione eccessiva: un computer quantistico non prova semplicemente tutte le possibilità in parallelo e poi restituisce automaticamente la risposta corretta. La potenza degli algoritmi quantistici deriva dalla capacità di usare interferenza per amplificare la probabilità delle risposte corrette e ridurre quella delle risposte errate.
+
+Nel caso dell'algoritmo di Shor, la struttura quantistica viene usata per risolvere efficientemente problemi collegati alla periodicità, da cui derivano algoritmi efficienti per fattorizzazione e logaritmo discreto.
+
+\section{Perché ECC è vulnerabile a Shor}
+
+La sicurezza di ECC si basa sul fatto che, dato
+
+\[
+Q=dG,
+\]
+
+sia difficile recuperare \(d\). L'algoritmo di Shor rompe questa assunzione nel modello quantistico: dato un computer quantistico sufficientemente grande e corretto dagli errori, il logaritmo discreto su curve ellittiche può essere risolto in tempo polinomiale.
+
+Questo non significa che ECC sia già inutilizzabile oggi. I computer quantistici attuali non sono ancora in grado di eseguire attacchi di scala crittografica contro ECC. Il problema è prospettico: dati cifrati o firme prodotte oggi potrebbero essere esposti in futuro se un avversario conserva informazioni e attende la disponibilità di computer quantistici sufficientemente potenti.
+
+\section{Harvest Now, Decrypt Later}
+
+Un rischio particolarmente rilevante è chiamato \textit{Harvest Now, Decrypt Later}. L'idea è semplice: un avversario registra oggi grandi quantità di traffico cifrato, anche se non può decifrarlo immediatamente. In futuro, se disporrà di un computer quantistico sufficientemente potente, potrà tentare di decifrare quelle comunicazioni.
+
+Questo rischio è particolarmente grave per dati che devono rimanere segreti per molti anni, come informazioni sanitarie, segreti industriali, comunicazioni governative, dati finanziari o documenti strategici.
+
+Nel caso di protocolli che usano ECDH o ECDHE, un computer quantistico futuro potrebbe recuperare le chiavi private effimere dai punti pubblici scambiati e ricostruire il segreto di sessione, se tutti i dati necessari sono stati registrati.
+
+\section{Crittografia post-quantistica}
+
+La crittografia post-quantistica studia algoritmi crittografici progettati per resistere sia ad attacchi classici sia ad attacchi quantistici. L'obiettivo non è usare computer quantistici per proteggere le comunicazioni, ma costruire schemi eseguibili su computer classici che rimangano sicuri anche contro avversari dotati di computer quantistici.
+
+I principali candidati post-quantistici si basano su problemi diversi da fattorizzazione e logaritmo discreto, per esempio:
+
+\begin{itemize}
+    \item problemi su reticoli;
+    \item codici correttori di errore;
+    \item funzioni hash;
+    \item sistemi multivariati;
+    \item isogenie tra curve ellittiche, anche se alcune proposte di questo tipo hanno subito attacchi significativi.
+\end{itemize}
+
+Tra questi, gli schemi basati su reticoli hanno avuto particolare successo nella standardizzazione recente.
+
+\section{Standardizzazione NIST}
+
+Il NIST ha avviato un processo di standardizzazione per selezionare algoritmi post-quantistici adatti all'uso pratico. Gli standard pubblicati includono meccanismi di incapsulamento di chiavi e schemi di firma digitale.
+
+In particolare:
+
+\begin{itemize}
+    \item ML-KEM, derivato da Kyber, è pensato per lo scambio o incapsulamento di chiavi;
+    \item ML-DSA, derivato da Dilithium, è uno schema di firma digitale basato su reticoli;
+    \item SLH-DSA, derivato da SPHINCS+, è uno schema di firma basato su hash.
+\end{itemize}
+
+Questi algoritmi sono progettati per sostituire gradualmente RSA, Diffie--Hellman ed ECC nei contesti in cui è richiesta resistenza ad attacchi quantistici.
+
+\section{Transizione e sistemi ibridi}
+
+La transizione alla crittografia post-quantistica non può avvenire istantaneamente. I protocolli, i certificati, le librerie, l'hardware e le infrastrutture esistenti sono profondamente basati su RSA ed ECC. Inoltre, gli algoritmi post-quantistici hanno caratteristiche diverse: chiavi e firme possono essere più grandi, e le prestazioni variano a seconda dello schema.
+
+Per questo motivo, una strategia pratica è l'uso di sistemi ibridi. Un protocollo ibrido combina un algoritmo classico, come ECDHE, con un algoritmo post-quantistico, come ML-KEM. Il segreto finale dipende da entrambi. L'idea è che la comunicazione rimanga sicura se almeno uno dei due componenti rimane sicuro.
+
+In forma semplificata:
+
+\begin{equation}
+    K = \mathrm{KDF}(K_{\mathrm{ECC}} \parallel K_{\mathrm{PQC}}).
+\end{equation}
+
+Se in futuro ECC venisse compromessa da un computer quantistico, la componente post-quantistica potrebbe ancora proteggere la comunicazione. Se invece un nuovo attacco colpisse lo schema post-quantistico, la componente classica offrirebbe comunque una protezione contro avversari classici.
+
+\section{ECC nel periodo di transizione}
+
+ECC continuerà probabilmente ad avere un ruolo importante durante il periodo di transizione. Ci sono diverse ragioni.
+
+Primo, ECC è efficiente, standardizzata e ampiamente implementata. Sostituirla richiede tempo, test e compatibilità con sistemi esistenti.
+
+Secondo, la minaccia quantistica non è uniforme per tutte le applicazioni. Alcuni dati devono rimanere segreti per decenni, mentre altri perdono valore dopo pochi minuti o giorni. La priorità della migrazione dipende quindi dalla durata di confidenzialità richiesta.
+
+Terzo, gli schemi post-quantistici sono più recenti e richiedono ulteriore esperienza operativa. Anche se standardizzati, devono essere integrati con attenzione nei protocolli reali.
+
+Per questi motivi, la fase più probabile è una convivenza tra ECC e crittografia post-quantistica, almeno per un periodo significativo.
+
+\section{Confronto finale}
+
+Possiamo riassumere il confronto tra RSA, ECC e crittografia post-quantistica nella tabella seguente:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Famiglia} & \textbf{Problema base} & \textbf{Vantaggio} & \textbf{Limite principale} \\
+\midrule
+RSA & Fattorizzazione & Semplicità concettuale & Chiavi grandi, vulnerabile a Shor \\
+ECC & ECDLP & Chiavi brevi, efficienza & Vulnerabile a Shor \\
+PQC & Reticoli, hash, codici, ecc. & Resistenza quantistica & Chiavi/firme spesso più grandi \\
+\bottomrule
+\end{tabular}
+\caption{Confronto qualitativo tra RSA, ECC e crittografia post-quantistica.}
+\label{tab:rsa-ecc-pqc}
+\end{table}
+
+ECC rappresenta quindi una soluzione molto efficace nel paradigma classico, ma non definitiva nel paradigma quantistico. La sua importanza rimane comunque notevole: ha reso più efficiente la crittografia a chiave pubblica e costituisce ancora oggi una componente centrale di molti sistemi reali.
+
+\section{Sintesi del capitolo}
+
+In questo capitolo abbiamo confrontato ECC con altri sistemi a chiave pubblica, in particolare RSA. RSA si basa sulla difficoltà della fattorizzazione, mentre ECC si basa sulla difficoltà del logaritmo discreto su curve ellittiche. Il vantaggio principale di ECC è l'efficienza: a livelli di sicurezza comparabili, richiede chiavi più brevi.
+
+Abbiamo poi discusso i limiti di ECC. Alcuni sono pratici, come errori nella generazione delle chiavi, riuso del nonce, mancata validazione dei punti e side-channel attacks. Altri sono teorici, legati al fatto che la sicurezza dipende dall'assenza di algoritmi efficienti per l'ECDLP.
+
+Infine, abbiamo analizzato la minaccia quantistica. L'algoritmo di Shor renderebbe vulnerabili RSA, Diffie--Hellman ed ECC su un computer quantistico sufficientemente potente. Questo motiva la transizione verso la crittografia post-quantistica e l'uso di strategie ibride durante il periodo di migrazione.
+
+Il capitolo conclusivo riassumerà il percorso della relazione, mettendo in evidenza il ruolo di ECC come ponte tra algebra astratta e sicurezza digitale moderna.
+% ==========================================================
+% Chapter 10
+% ==========================================================
 
 \appendix
 \chapter{Appendice: richiami di algebra modulare}
