@@ -2539,12 +2539,294 @@ Il prossimo capitolo collegherà questi protocolli agli standard e alle applicaz
 % ==========================================================
 % Chapter 8
 % ==========================================================
-\chapter{Confronto, limiti e prospettiva post-quantistica}
-\section{ECC vs RSA}
-\section{Efficienza e dimensione delle chiavi}
-\section{Limiti di sicurezza}
-\section{Algoritmo di Shor}
-\section{Transizione post-quantistica}
+\chapter{Applicazioni moderne di ECC}
+
+\section{Introduzione}
+
+La crittografia su curve ellittiche non è soltanto una costruzione matematica elegante. Essa è utilizzata in protocolli e sistemi reali, dove consente di ottenere sicurezza a chiave pubblica con chiavi relativamente brevi e operazioni efficienti. Le applicazioni più importanti includono lo scambio di chiavi nei protocolli di comunicazione sicura, le firme digitali, le infrastrutture a chiave pubblica e i sistemi blockchain.
+
+In questo capitolo analizziamo alcune applicazioni moderne di ECC. La prima riguarda i protocolli di rete, nei quali ECDHE viene usato per stabilire chiavi di sessione sicure. La seconda riguarda Bitcoin, dove le curve ellittiche sono utilizzate per generare chiavi pubbliche, costruire indirizzi e firmare transazioni. Questi esempi mostrano come la teoria sviluppata nei capitoli precedenti venga tradotta in sistemi concreti.
+
+\section{ECC nei protocolli di comunicazione sicura}
+
+Quando un utente accede a un servizio online, come un sito di e-commerce, una banca o una piattaforma cloud, il browser e il server devono stabilire un canale sicuro. Tale canale deve garantire almeno tre proprietà:
+
+\begin{enumerate}
+    \item \textbf{confidenzialità}: un osservatore esterno non deve poter leggere i dati scambiati;
+    \item \textbf{integrità}: un avversario non deve poter modificare i dati senza essere rilevato;
+    \item \textbf{autenticazione}: l'utente deve poter verificare l'identità del server con cui comunica.
+\end{enumerate}
+
+Un protocollo di comunicazione sicura non usa un solo algoritmo crittografico. Al contrario, combina più strumenti: crittografia asimmetrica, scambio di chiavi, cifratura simmetrica, funzioni hash, codici di autenticazione dei messaggi e certificati digitali.
+
+ECC entra in questo contesto soprattutto attraverso due meccanismi:
+
+\begin{itemize}
+    \item scambio di chiavi tramite ECDHE;
+    \item firme digitali o certificati basati su chiavi ellittiche.
+\end{itemize}
+
+\section{Scambio di chiavi con ECDHE}
+
+ECDHE, cioè \textit{Elliptic Curve Diffie--Hellman Ephemeral}, viene usato per costruire una chiave di sessione condivisa tra client e server. Il termine \textit{ephemeral} indica che le chiavi usate nello scambio sono temporanee: vengono generate per una singola sessione e poi eliminate.
+
+In forma semplificata, il procedimento è il seguente:
+
+\begin{enumerate}
+    \item client e server concordano una curva ellittica e un punto base \(G\);
+    \item il client genera uno scalare temporaneo \(a\) e invia il punto
+    \[
+    A=aG;
+    \]
+    \item il server genera uno scalare temporaneo \(b\) e invia il punto
+    \[
+    B=bG;
+    \]
+    \item il client calcola
+    \[
+    S_C=aB=a(bG)=abG;
+    \]
+    \item il server calcola
+    \[
+    S_S=bA=b(aG)=abG.
+    \]
+\end{enumerate}
+
+Entrambe le parti ottengono quindi lo stesso punto segreto
+
+\[
+S=abG.
+\]
+
+Da tale punto non si usa direttamente una coordinata come chiave finale. Normalmente si applica una funzione di derivazione della chiave, indicata come KDF (\textit{Key Derivation Function}):
+
+\begin{equation}
+    K = \mathrm{KDF}(x_S),
+\end{equation}
+
+dove \(x_S\) è una coordinata del punto condiviso. La chiave \(K\) viene poi usata per cifrare e autenticare i dati della sessione tramite algoritmi simmetrici.
+
+\section{Forward secrecy}
+
+Uno dei vantaggi principali di ECDHE è la \textit{forward secrecy}. Questa proprietà significa che la compromissione futura di una chiave privata a lungo termine non permette automaticamente di decifrare comunicazioni passate.
+
+Supponiamo che un avversario registri oggi tutto il traffico cifrato tra un client e un server. Se il protocollo usa chiavi effimere correttamente generate e poi eliminate, la compromissione futura della chiave privata permanente del server non basta per ricostruire le chiavi di sessione passate.
+
+Questo è importante contro attacchi di tipo ``registra ora, decifra dopo''. Anche se l'avversario non può decifrare subito il traffico, potrebbe conservarlo e tentare di decifrarlo in futuro. L'uso di chiavi effimere riduce questo rischio, perché ogni sessione dipende da segreti temporanei indipendenti.
+
+\section{Autenticazione del server e certificati}
+
+ECDHE da solo permette a due parti di costruire un segreto condiviso, ma non dimostra l'identità delle parti. Senza autenticazione, il protocollo sarebbe vulnerabile a un attacco man-in-the-middle: un avversario potrebbe interporsi tra client e server, stabilendo due chiavi distinte e leggendo o modificando il traffico.
+
+Per evitare questo problema, nei protocolli reali lo scambio di chiavi viene autenticato. Tipicamente, il server presenta un certificato digitale contenente la sua chiave pubblica. Il client verifica che il certificato sia stato emesso da una Certification Authority fidata, che sia valido temporalmente e che corrisponda al dominio richiesto.
+
+La firma digitale sul certificato lega la chiave pubblica del server alla sua identità. In questo modo, il client può distinguere il server legittimo da un attaccante che tenta di sostituirsi ad esso.
+
+ECC può essere usata anche in questa fase: il certificato può contenere una chiave pubblica ellittica, e la firma può essere prodotta con un algoritmo basato su curve ellittiche. Quindi ECC può comparire sia nello scambio di chiavi sia nell'autenticazione.
+
+\section{Uso ibrido della crittografia}
+
+Un aspetto importante dei protocolli moderni è che la crittografia a chiave pubblica non viene usata per cifrare direttamente grandi quantità di dati. Le operazioni asimmetriche sono più costose delle operazioni simmetriche. Per questo motivo, si usa una struttura ibrida.
+
+Il flusso generale è:
+
+\begin{enumerate}
+    \item un protocollo asimmetrico, come ECDHE, stabilisce una chiave segreta condivisa;
+    \item da tale segreto si derivano chiavi simmetriche;
+    \item i dati applicativi vengono cifrati con algoritmi simmetrici efficienti;
+    \item l'integrità dei messaggi viene protetta con MAC o modalità autenticate.
+\end{enumerate}
+
+ECC risolve quindi il problema dello scambio sicuro della chiave, mentre la cifratura simmetrica protegge il traffico vero e proprio.
+
+\section{ECC in Bitcoin}
+
+Un'altra applicazione importante di ECC è Bitcoin. In Bitcoin, la crittografia su curve ellittiche serve principalmente per controllare la proprietà dei fondi. Un utente non ``possiede'' fisicamente bitcoin nel proprio wallet; possiede invece chiavi private che permettono di firmare transazioni e quindi spendere determinati output.
+
+Il meccanismo fondamentale è:
+
+\[
+\text{chiave privata} \longrightarrow \text{chiave pubblica} \longrightarrow \text{indirizzo}.
+\]
+
+La chiave privata consente di generare firme digitali. La chiave pubblica consente alla rete di verificare tali firme. L'indirizzo è una rappresentazione derivata dalla chiave pubblica, usata per ricevere pagamenti.
+
+\section{La curva secp256k1}
+
+Bitcoin utilizza una curva ellittica chiamata secp256k1. Essa è definita su un campo primo \(\mathbb{F}_p\), dove
+
+\begin{equation}
+    p = 2^{256} - 2^{32} - 977.
+\end{equation}
+
+L'equazione della curva è particolarmente semplice:
+
+\begin{equation}
+    y^2 \equiv x^3 + 7 \pmod p.
+\end{equation}
+
+In questa forma, i coefficienti della curva sono
+
+\[
+a=0, \qquad b=7.
+\]
+
+Una chiave privata Bitcoin è uno scalare \(d\), scelto in un intervallo determinato dall'ordine del punto base \(G\). La corrispondente chiave pubblica è
+
+\begin{equation}
+    Q=dG.
+\end{equation}
+
+Come in tutti i sistemi ECC, il calcolo di \(Q\) a partire da \(d\) è efficiente, mentre recuperare \(d\) conoscendo \(G\) e \(Q\) richiederebbe la risoluzione dell'ECDLP sulla curva secp256k1.
+
+\section{Wallet e chiavi}
+
+Un wallet Bitcoin non conserva materialmente monete digitali. Piuttosto, gestisce chiavi private e informazioni necessarie per costruire, firmare e trasmettere transazioni.
+
+In forma semplificata, il processo è:
+
+\begin{equation}
+    \text{seed phrase}
+    \longrightarrow
+    \text{seed binaria}
+    \longrightarrow
+    \text{chiavi private}
+    \longrightarrow
+    \text{chiavi pubbliche}
+    \longrightarrow
+    \text{indirizzi}.
+\end{equation}
+
+La seed phrase è quindi un elemento critico. Chiunque la conosca può ricostruire le chiavi private associate al wallet e, di conseguenza, spendere i fondi. Per questo motivo, la seed phrase deve essere protetta con estrema attenzione.
+
+Dal punto di vista ECC, ogni chiave privata è uno scalare. La chiave pubblica corrispondente è ottenuta tramite moltiplicazione scalare del punto base:
+
+\begin{equation}
+    Q=dG.
+\end{equation}
+
+Questa è la stessa struttura studiata nei capitoli precedenti.
+
+\section{Dalla chiave pubblica all'indirizzo}
+
+Un indirizzo Bitcoin è una rappresentazione usata per ricevere pagamenti. Esso non coincide direttamente con la chiave pubblica, ma è derivato da essa mediante funzioni hash e codifiche.
+
+In forma semplificata, il processo tradizionale è:
+
+\begin{equation}
+    Q
+    \longrightarrow
+    \mathrm{SHA\mbox{-}256}(Q)
+    \longrightarrow
+    \mathrm{RIPEMD\mbox{-}160}(\mathrm{SHA\mbox{-}256}(Q))
+    \longrightarrow
+    \text{indirizzo}.
+\end{equation}
+
+L'uso di funzioni hash serve a ottenere una rappresentazione più breve e a introdurre un ulteriore livello di trasformazione tra chiave pubblica e indirizzo. La codifica finale rende l'indirizzo più adatto all'uso umano, riducendo il rischio di errori di trascrizione.
+
+Un indirizzo può essere condiviso pubblicamente per ricevere pagamenti. Tuttavia, la chiave privata corrispondente deve rimanere segreta: chi la possiede può generare firme valide per spendere gli output associati.
+
+\section{Transazioni e modello UTXO}
+
+Bitcoin utilizza un modello basato su UTXO, cioè \textit{Unspent Transaction Output}. Un UTXO è un output di una transazione precedente che non è ancora stato speso. Quando un utente vuole effettuare un pagamento, il wallet seleziona uno o più UTXO disponibili e li usa come input di una nuova transazione.
+
+Una transazione contiene quindi:
+
+\begin{itemize}
+    \item riferimenti agli UTXO da spendere;
+    \item nuovi output, che assegnano valore a uno o più destinatari;
+    \item eventuale resto verso un indirizzo controllato dal mittente;
+    \item firme che autorizzano la spesa degli input.
+\end{itemize}
+
+L'analogia con il contante è utile: se si possiede una banconota da 100 euro e si vuole pagare 40 euro, si consegna l'intera banconota e si riceve il resto. In Bitcoin, un UTXO viene consumato interamente e sostituito da nuovi UTXO.
+
+\section{Firma di una transazione}
+
+Per spendere un UTXO, il wallet deve dimostrare di conoscere la chiave privata associata alla condizione di spesa. Questa dimostrazione avviene tramite una firma digitale.
+
+In forma semplificata:
+
+\begin{enumerate}
+    \item il wallet costruisce la transazione;
+    \item calcola un hash dei dati da firmare;
+    \item firma tale hash con la chiave privata \(d\);
+    \item inserisce nella transazione la firma e le informazioni necessarie alla verifica.
+\end{enumerate}
+
+La firma non rivela la chiave privata. Essa dimostra soltanto che chi ha costruito la transazione conosce la chiave privata corrispondente alla chiave pubblica autorizzata a spendere quell'output.
+
+\section{Verifica da parte dei nodi}
+
+Quando un nodo Bitcoin riceve una transazione, deve verificare che essa sia valida prima di accettarla nella propria mempool o propagarla agli altri nodi.
+
+Tra i controlli principali vi sono:
+
+\begin{enumerate}
+    \item gli input devono riferirsi a UTXO esistenti e non ancora spesi;
+    \item la somma degli input deve essere almeno pari alla somma degli output;
+    \item le firme devono essere valide rispetto alle chiavi pubbliche o alle condizioni di spesa previste;
+    \item la transazione deve rispettare le regole di consenso e le policy locali del nodo.
+\end{enumerate}
+
+La verifica della firma usa la chiave pubblica fornita nella transazione o collegata alla condizione di spesa. Se la firma è valida, il nodo conclude che la spesa è stata autorizzata dal possessore della chiave privata corrispondente.
+
+Questo meccanismo permette alla rete di validare transazioni senza conoscere l'identità reale degli utenti e senza affidarsi a un'autorità centrale.
+
+\section{Broadcast, mempool e conferme}
+
+Dopo essere stata firmata, una transazione viene trasmessa alla rete tramite broadcast. I nodi che la ricevono eseguono i controlli di validità e, se la transazione è accettabile, la inseriscono nella propria mempool.
+
+La mempool è l'insieme delle transazioni valide ma non ancora confermate in un blocco. I miner scelgono transazioni dalla mempool e le includono in un blocco candidato. Quando un blocco valido viene trovato e accettato dalla rete, le transazioni contenute in esso ricevono una prima conferma.
+
+I blocchi successivi aumentano il numero di conferme, rendendo sempre più difficile riorganizzare la catena e annullare quella transazione. In questo modo, la validità crittografica della firma si combina con il meccanismo di consenso della blockchain.
+
+\section{ECC e decentralizzazione}
+
+Il ruolo di ECC in Bitcoin è strettamente legato alla decentralizzazione. In un sistema bancario tradizionale, l'autorizzazione di un pagamento dipende da un intermediario centrale. In Bitcoin, invece, l'autorizzazione è verificabile crittograficamente.
+
+Chi possiede la chiave privata può produrre una firma valida. Chiunque conosca la chiave pubblica o la condizione di spesa può verificare tale firma. Questo permette ai nodi della rete di controllare autonomamente se una transazione è autorizzata.
+
+La crittografia su curve ellittiche fornisce quindi uno dei mattoni fondamentali del sistema: consente di legare il diritto di spendere un output alla conoscenza di una chiave privata, senza rivelare tale chiave e senza richiedere un'autorità centrale.
+
+\section{Vantaggi pratici di ECC}
+
+Le applicazioni descritte mostrano alcuni vantaggi pratici di ECC.
+
+In primo luogo, ECC permette chiavi relativamente brevi rispetto ad altri sistemi a chiave pubblica con sicurezza comparabile. Questo riduce la quantità di dati da trasmettere e memorizzare.
+
+In secondo luogo, le operazioni ECC possono essere efficienti anche in ambienti con risorse limitate, come dispositivi mobili, smart card o sistemi embedded.
+
+In terzo luogo, ECC si integra bene in protocolli ibridi: può essere usata per stabilire chiavi o firmare messaggi, mentre la cifratura simmetrica protegge grandi quantità di dati.
+
+Infine, ECC è sufficientemente flessibile da essere usata in contesti molto diversi: comunicazioni web, firme digitali, autenticazione, wallet crittografici e blockchain.
+
+\section{Limiti pratici}
+
+Nonostante i vantaggi, l'uso di ECC richiede attenzione. La sicurezza non dipende solo dalla teoria matematica, ma anche dalla corretta implementazione.
+
+Alcuni rischi pratici includono:
+
+\begin{itemize}
+    \item generazione debole delle chiavi private;
+    \item riuso o prevedibilità del nonce nelle firme digitali;
+    \item mancata validazione delle chiavi pubbliche ricevute;
+    \item scelta di curve o parametri non adeguati;
+    \item vulnerabilità side-channel, cioè attacchi che sfruttano tempi di esecuzione, consumo energetico o altri segnali fisici.
+\end{itemize}
+
+Questi rischi mostrano una distinzione importante: una costruzione matematica può essere sicura nel modello teorico, ma diventare vulnerabile se implementata male. Per questo motivo, nei sistemi reali si usano librerie crittografiche mature, standard riconosciuti e procedure rigorose di validazione.
+
+\section{Sintesi del capitolo}
+
+In questo capitolo abbiamo analizzato alcune applicazioni moderne della crittografia su curve ellittiche.
+
+Nei protocolli di comunicazione sicura, ECC viene usata soprattutto tramite ECDHE per stabilire chiavi di sessione con forward secrecy. Lo scambio di chiavi deve essere autenticato tramite certificati o firme digitali per evitare attacchi man-in-the-middle. La crittografia risultante è ibrida: ECC stabilisce il segreto, mentre algoritmi simmetrici cifrano i dati.
+
+In Bitcoin, ECC è usata per generare chiavi pubbliche, derivare indirizzi e firmare transazioni. La curva secp256k1 permette di costruire chiavi pubbliche della forma \(Q=dG\), mentre la firma digitale dimostra il diritto di spendere determinati UTXO senza rivelare la chiave privata.
+
+Queste applicazioni mostrano il ruolo pratico di ECC nella sicurezza digitale moderna. Il capitolo successivo discuterà però anche i limiti di questa tecnologia, con particolare attenzione al confronto con RSA e alla minaccia rappresentata dai computer quantistici.
 
 % ==========================================================
 % Chapter 9
