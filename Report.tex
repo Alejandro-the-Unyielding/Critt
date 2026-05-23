@@ -492,9 +492,199 @@ In questo capitolo sono stati introdotti gli strumenti matematici essenziali per
 
 Nei prossimi capitoli questi concetti verranno applicati alle curve ellittiche. Prima si userà la geometria sui numeri reali per costruire l'intuizione della somma di punti; poi si passerà ai campi finiti, dove la stessa struttura diventa utilizzabile in protocolli crittografici concreti.
 % ==========================================================
-% Remaining chapter placeholders
+% Chapter 3
 % ==========================================================
 \chapter{Curve ellittiche sui numeri reali}
+
+\section{Introduzione}
+
+Prima di studiare le curve ellittiche usate in crittografia, è utile considerarle sui numeri reali. Questa scelta non corrisponde all'ambiente effettivamente utilizzato nei protocolli crittografici, ma permette di visualizzare geometricamente la struttura della curva e di comprendere in modo intuitivo l'operazione di somma tra punti.
+
+In crittografia, infatti, le curve ellittiche vengono definite su campi finiti, dove non esiste una rappresentazione continua nel piano cartesiano. Tuttavia, molte idee fondamentali, come il punto all'infinito, la simmetria rispetto all'asse delle ascisse e la regola geometrica ``retta e riflessione'', sono più semplici da introdurre sui reali. Una volta compresa questa intuizione geometrica, sarà più naturale passare alla formulazione algebrica su campi finiti.
+
+\section{Definizione generale di curva ellittica}
+
+Una curva ellittica è un insieme di punti che soddisfano una particolare equazione algebrica. Nella forma più generale, una curva ellittica \(E\) definita su un campo \(K\) può essere descritta da un'equazione cubica del tipo
+
+\begin{equation}
+    y^2 + axy + by = x^3 + cx^2 + dx + e,
+\end{equation}
+
+dove \(a,b,c,d,e \in K\).
+
+Questa forma generale è utile dal punto di vista teorico, ma nella maggior parte delle applicazioni crittografiche e nella trattazione introduttiva si utilizza una forma più semplice, detta forma normale di Weierstrass. Tale forma può essere ottenuta, sotto opportune condizioni sul campo, mediante cambiamenti di variabile.
+
+\section{Forma normale di Weierstrass}
+
+Se il campo su cui è definita la curva ha caratteristica diversa da \(2\) e da \(3\), l'equazione di una curva ellittica può essere scritta nella forma normale di Weierstrass:
+
+\begin{equation}
+    y^2 = x^3 + ax + b,
+    \label{eq:weierstrass}
+\end{equation}
+
+dove \(a,b \in K\).
+
+Nel caso dei numeri reali, cioè \(K=\mathbb{R}\), la curva è l'insieme dei punti \((x,y) \in \mathbb{R}^2\) che soddisfano l'equazione
+
+\begin{equation}
+    E(\mathbb{R}) = \{(x,y) \in \mathbb{R}^2 : y^2 = x^3 + ax + b\}.
+\end{equation}
+
+A questo insieme viene aggiunto un punto speciale, chiamato punto all'infinito e indicato con \(\mathcal{O}\). La curva ellittica completa sui reali viene quindi considerata come
+
+\begin{equation}
+    E(\mathbb{R}) = \{(x,y) \in \mathbb{R}^2 : y^2 = x^3 + ax + b\} \cup \{\mathcal{O}\}.
+\end{equation}
+
+Il punto \(\mathcal{O}\) non è un punto ordinario del piano cartesiano. Esso viene introdotto per rendere ben definita la struttura di gruppo che sarà studiata nel capitolo successivo.
+
+\section{Condizione di non singolarità}
+
+Non ogni equazione della forma \(y^2 = x^3 + ax + b\) definisce una curva ellittica valida. È necessario escludere i casi in cui la curva presenta punti singolari, come cuspidi o nodi. In tali punti, la tangente non è definita in modo univoco e la legge di somma tra punti diventerebbe problematica.
+
+Per evitare questi casi, si richiede la condizione di non singolarità:
+
+\begin{equation}
+    4a^3 + 27b^2 \neq 0.
+    \label{eq:nonsingular}
+\end{equation}
+
+Questa condizione garantisce che il polinomio cubico
+
+\begin{equation}
+    f(x) = x^3 + ax + b
+\end{equation}
+
+non abbia radici multiple. Dal punto di vista geometrico, ciò significa che la curva non presenta autointersezioni o cuspidi.
+
+\begin{example}
+Consideriamo la curva
+
+\[
+E: y^2 = x^3 - x + 1.
+\]
+
+Qui \(a=-1\) e \(b=1\). Calcoliamo
+
+\[
+4a^3 + 27b^2 = 4(-1)^3 + 27(1)^2 = -4 + 27 = 23.
+\]
+
+Poiché \(23 \neq 0\), la curva è non singolare e quindi può essere considerata una curva ellittica.
+\end{example}
+
+\begin{example}
+Consideriamo invece
+
+\[
+E: y^2 = x^3.
+\]
+
+In questo caso \(a=0\) e \(b=0\), dunque
+
+\[
+4a^3 + 27b^2 = 0.
+\]
+
+La condizione di non singolarità non è soddisfatta. Infatti, la curva presenta una cuspide nell'origine e non è una curva ellittica valida per la struttura di gruppo che ci interessa.
+\end{example}
+
+\section{Interpretazione geometrica}
+
+Sui numeri reali, una curva ellittica può essere rappresentata graficamente nel piano cartesiano. L'equazione
+
+\[
+y^2 = x^3 + ax + b
+\]
+
+implica che, per ogni valore di \(x\), i possibili valori di \(y\) sono
+
+\[
+y = \pm \sqrt{x^3 + ax + b},
+\]
+
+quando il termine sotto radice è non negativo. Questo mostra una proprietà importante: se \((x,y)\) è un punto della curva, allora anche \((x,-y)\) appartiene alla curva. La curva è quindi simmetrica rispetto all'asse delle ascisse.
+
+\begin{equation}
+    (x,y) \in E \quad \Longrightarrow \quad (x,-y) \in E.
+\end{equation}
+
+Questa simmetria sarà fondamentale per definire l'inverso di un punto. Se \(P=(x,y)\), il suo inverso sarà
+
+\begin{equation}
+    -P = (x,-y).
+\end{equation}
+
+Dal punto di vista geometrico, le curve ellittiche sui reali possono presentare forme diverse a seconda dei coefficienti \(a\) e \(b\). In particolare, il grafico può avere una sola componente connessa oppure due componenti. Questa differenza dipende dal numero di radici reali del polinomio cubico \(x^3+ax+b\).
+
+\section{Intersezione con le rette}
+
+Una proprietà geometrica centrale delle curve ellittiche è che una retta interseca una curva cubica in al più tre punti, contando anche molteplicità e punti all'infinito. Nel caso delle curve ellittiche, questa proprietà permette di definire una legge di composizione tra punti.
+
+Supponiamo che \(P\) e \(Q\) siano due punti distinti della curva. La retta passante per \(P\) e \(Q\) interseca la curva in un terzo punto, che indichiamo con \(R\). La somma \(P+Q\) sarà poi definita come il punto simmetrico di \(R\) rispetto all'asse delle ascisse.
+
+In forma intuitiva:
+
+\begin{enumerate}
+    \item si prende la retta passante per \(P\) e \(Q\);
+    \item si trova il terzo punto di intersezione \(R\) con la curva;
+    \item si riflette \(R\) rispetto all'asse \(x\);
+    \item il punto ottenuto è \(P+Q\).
+\end{enumerate}
+
+Questa costruzione sarà formalizzata nel Capitolo 4. Per ora è sufficiente osservare che la geometria della curva suggerisce naturalmente un'operazione binaria sui suoi punti.
+
+\section{Il punto all'infinito}
+
+Per definire una struttura di gruppo sui punti della curva, è necessario introdurre un elemento neutro. Questo elemento è il punto all'infinito, indicato con \(\mathcal{O}\).
+
+Intuitivamente, \(\mathcal{O}\) può essere pensato come il punto in cui si incontrano le rette verticali. Se \(P=(x,y)\) è un punto della curva, il suo opposto è \(-P=(x,-y)\). I due punti \(P\) e \(-P\) sono allineati verticalmente. La retta verticale che passa per essi non incontra la curva in un terzo punto ordinario del piano reale; per completare la regola di intersezione, si introduce quindi il punto all'infinito.
+
+In questo modo si può scrivere
+
+\begin{equation}
+    P + (-P) = \mathcal{O}.
+\end{equation}
+
+Il punto \(\mathcal{O}\) agisce come elemento neutro della somma:
+
+\begin{equation}
+    P + \mathcal{O} = \mathcal{O} + P = P.
+\end{equation}
+
+Questa proprietà rende il punto all'infinito essenziale. Senza di esso, l'insieme dei punti ordinari della curva non sarebbe chiuso rispetto all'operazione di somma.
+
+\section{Perché partire dai numeri reali}
+
+Le curve ellittiche sui numeri reali non sono usate direttamente nei protocolli crittografici, perché richiederebbero calcoli con numeri reali e quindi introdurrebbero problemi di approssimazione. La crittografia richiede invece operazioni esatte, riproducibili e implementabili in modo efficiente. Per questo motivo, nei sistemi reali si lavora su campi finiti.
+
+Tuttavia, il caso reale rimane utile per tre ragioni.
+
+Primo, permette di visualizzare la curva. Concetti come simmetria, tangente, retta secante e punto all'infinito sono più comprensibili se introdotti geometricamente.
+
+Secondo, permette di comprendere l'origine della legge di gruppo. La somma di punti non viene definita arbitrariamente: nasce dalla geometria delle intersezioni tra rette e curve cubiche.
+
+Terzo, prepara il passaggio ai campi finiti. Quando lavoreremo su \(\mathbb{F}_p\), non potremo più disegnare una curva continua, ma useremo formule algebriche che derivano esattamente dalla costruzione geometrica vista sui reali.
+
+\section{Sintesi del capitolo}
+
+In questo capitolo sono state introdotte le curve ellittiche sui numeri reali. Una curva ellittica in forma normale di Weierstrass è descritta dall'equazione
+
+\[
+y^2 = x^3 + ax + b,
+\]
+
+con la condizione di non singolarità
+
+\[
+4a^3 + 27b^2 \neq 0.
+\]
+
+È stata evidenziata la simmetria rispetto all'asse delle ascisse, il ruolo del punto all'infinito e l'importanza dell'intersezione tra rette e curve cubiche. Questi elementi permettono di introdurre, nel capitolo successivo, la legge di gruppo sui punti della curva.
+
+La trattazione sui reali ha quindi una funzione preparatoria: fornisce l'intuizione geometrica che verrà poi tradotta in formule algebriche e, infine, adattata ai campi finiti utilizzati nella crittografia.
+
 \section{Definizione di curva ellittica}
 \section{Forma normale di Weierstrass}
 \section{Condizione di non singolarità}
