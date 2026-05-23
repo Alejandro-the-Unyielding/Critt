@@ -1,0 +1,558 @@
+% ==========================================================
+% Relazione di Crittografia
+% Titolo: Elliptic Curve Cryptography: Mathematical Foundations and Modern Applications
+% ==========================================================
+
+\documentclass[12pt,a4paper,oneside]{report}
+
+% -------------------- Packages --------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{tikz}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+
+\geometry{margin=2.8cm}
+\addbibresource{bibliografia.bib}
+
+% -------------------- Hyperref setup --------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue,
+    pdftitle={Elliptic Curve Cryptography: Mathematical Foundations and Modern Applications},
+    pdfauthor={Nome Studente}
+}
+
+% -------------------- Header/Footer --------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Crittografia su Curve Ellittiche}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% -------------------- Theorem environments --------------------
+\newtheorem{definition}{Definizione}[chapter]
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{proposition}{Proposizione}[chapter]
+\newtheorem{example}{Esempio}[chapter]
+\newtheorem{remark}{Osservazione}[chapter]
+
+% -------------------- Custom commands --------------------
+\newcommand{\Zp}{\mathbb{Z}_p}
+\newcommand{\Fp}{\mathbb{F}_p}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\ECDLP}{\mathrm{ECDLP}}
+\newcommand{\ord}{\mathrm{ord}}
+
+\begin{document}
+
+% ==========================================================
+% Title page
+% ==========================================================
+\begin{titlepage}
+    \centering
+    {\Large Alma Mater Studiorum -- Università di Bologna\\}
+    \vspace{0.4cm}
+    {\large Corso di Crittografia\\}
+    \vspace{2.5cm}
+    {\Huge \textbf{Elliptic Curve Cryptography}\\}
+    \vspace{0.4cm}
+    {\Large \textbf{Mathematical Foundations and Modern Applications}\\}
+    \vspace{2.5cm}
+    \begin{flushleft}
+        \large
+        Studente: \textbf{Nome Cognome}\\
+        Matricola: \textbf{000000}\\
+        Docente: \textbf{Prof. Nome Cognome}\\
+        Anno accademico: \textbf{2025--2026}
+    \end{flushleft}
+    \vfill
+    {\large Campus di Cesena\\}
+\end{titlepage}
+
+\pagenumbering{roman}
+
+% ==========================================================
+% Abstract
+% ==========================================================
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+La crittografia a curve ellittiche rappresenta una delle applicazioni più importanti dell'algebra moderna alla sicurezza informatica. A differenza dei sistemi a chiave pubblica basati sulla fattorizzazione di interi, come RSA, gli schemi basati su curve ellittiche fondano la propria sicurezza sulla difficoltà computazionale del problema del logaritmo discreto su curve ellittiche. Questa caratteristica permette di ottenere livelli di sicurezza elevati con chiavi più corte, rendendo ECC particolarmente adatta a protocolli di rete, dispositivi mobili, sistemi embedded e applicazioni blockchain.
+
+Questa relazione presenta le basi matematiche della crittografia su curve ellittiche, partendo dall'aritmetica modulare, dai gruppi e dai campi finiti, per poi introdurre la definizione di curva ellittica, la legge di gruppo sui punti e la scalar multiplication. Successivamente viene analizzato il problema del logaritmo discreto su curve ellittiche, con particolare attenzione al suo ruolo come assunzione di sicurezza. La parte finale discute alcune applicazioni moderne, tra cui ECDH, ECDSA e Bitcoin, e conclude con una riflessione sui limiti futuri di ECC nel contesto della crittografia post-quantistica.
+
+% ==========================================================
+% Tables
+% ==========================================================
+\tableofcontents
+\listoffigures
+\listoftables
+
+% ==========================================================
+% Notation
+% ==========================================================
+\chapter*{Notazione}
+\addcontentsline{toc}{chapter}{Notazione}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Simbolo} & \textbf{Significato} \\
+\midrule
+$\mathbb{Z}_p$ & Insieme degli interi modulo un primo $p$ \\
+$\mathbb{F}_p$ & Campo finito con $p$ elementi \\
+$E$ & Curva ellittica \\
+$E(\mathbb{F}_p)$ & Insieme dei punti della curva su $\mathbb{F}_p$ \\
+$\OO$ & Punto all'infinito, elemento neutro del gruppo \\
+$P+Q$ & Somma di due punti sulla curva \\
+$kP$ & Moltiplicazione scalare del punto $P$ \\
+$\ord(P)$ & Ordine del punto $P$ \\
+$\ECDLP$ & Elliptic Curve Discrete Logarithm Problem \\
+\bottomrule
+\end{tabular}
+\caption{Principali simboli utilizzati nella relazione.}
+\end{table}
+
+\clearpage
+\pagenumbering{arabic}
+
+% ==========================================================
+% Chapter 1
+% ==========================================================
+\chapter{Introduzione}
+
+\section{Motivazione}
+
+La crittografia moderna nasce dall'esigenza di proteggere informazioni trasmesse o conservate in ambienti nei quali non è realistico assumere la presenza di un canale completamente sicuro. In uno scenario elementare, un mittente vuole comunicare con un destinatario attraverso un mezzo di trasmissione potenzialmente osservabile o manipolabile da un avversario. Il problema crittografico non consiste soltanto nel rendere incomprensibile un messaggio, ma nel garantire proprietà più ampie: confidenzialità, integrità, autenticazione e, in alcuni casi, non ripudio.
+
+Nei sistemi a chiave simmetrica, mittente e destinatario utilizzano una stessa informazione segreta per cifrare e decifrare. Questa impostazione è efficiente e rimane fondamentale nella pratica, ma presenta un limite strutturale: la chiave deve essere condivisa prima della comunicazione attraverso un canale sicuro o mediante un protocollo affidabile di scambio. La crittografia a chiave pubblica nasce proprio per superare questa difficoltà, introducendo una separazione tra chiave pubblica e chiave privata. La chiave pubblica può essere distribuita liberamente, mentre la chiave privata rimane nota solo al suo proprietario.
+
+Dal punto di vista matematico, questa separazione richiede funzioni facili da calcolare in una direzione ma difficili da invertire senza un'informazione segreta. La sicurezza non deriva dalla segretezza dell'algoritmo, ma dalla difficoltà computazionale di risolvere determinati problemi matematici. In questo senso, la crittografia moderna non promette normalmente un'impossibilità assoluta di attacco, ma un'impraticabilità computazionale: un attacco può esistere in teoria, ma richiedere tempo, memoria o risorse tali da non essere eseguibile da un avversario realistico.
+
+Questa idea è centrale per comprendere la crittografia su curve ellittiche. ECC non è un cifrario specifico, ma una famiglia di costruzioni crittografiche basate sulla struttura algebrica dei punti di una curva ellittica definita su un campo finito. Il principio di sicurezza fondamentale è il seguente: dato un punto $P$ sulla curva e un intero segreto $k$, è efficiente calcolare il punto $Q = kP$; al contrario, dato soltanto $P$ e $Q$, risulta computazionalmente difficile recuperare $k$. Questa asimmetria costituisce il nucleo del problema del logaritmo discreto su curve ellittiche.
+
+\section{Perché le curve ellittiche}
+
+Le curve ellittiche sono oggetti matematici definiti mediante equazioni algebriche. Nella forma di Weierstrass, una curva ellittica su un campo di caratteristica diversa da $2$ e $3$ può essere espressa come
+\begin{equation}
+    y^2 = x^3 + ax + b.
+\end{equation}
+A prima vista questa equazione sembra appartenere alla geometria algebrica più che alla sicurezza informatica. Tuttavia, la proprietà decisiva è che i punti della curva possono essere dotati di una legge di composizione che li trasforma in un gruppo abeliano. Questa legge permette di sommare punti e, ripetendo la somma di uno stesso punto, di definire la moltiplicazione scalare $kP$.
+
+Nel passaggio dalla geometria sui numeri reali alla crittografia, il ruolo centrale è assunto dai campi finiti. Le curve ellittiche usate nei sistemi crittografici non sono curve continue disegnate sul piano reale, ma insiemi finiti di punti con coordinate in un campo come $\mathbb{F}_p$. Questo consente di evitare problemi di approssimazione numerica e di lavorare con operazioni esatte, efficienti e implementabili in software e hardware.
+
+L'interesse pratico di ECC deriva da un fatto rilevante: rispetto ad altri sistemi a chiave pubblica, come RSA, le curve ellittiche permettono di ottenere livelli di sicurezza comparabili con chiavi significativamente più brevi. Chiavi più brevi implicano minore occupazione di memoria, minore larghezza di banda e operazioni spesso più efficienti. Queste caratteristiche rendono ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e applicazioni distribuite.
+
+L'importanza di ECC non è soltanto teorica. Schemi basati su curve ellittiche sono impiegati in protocolli di scambio di chiavi, firme digitali e sistemi blockchain. In Bitcoin, ad esempio, le chiavi private e pubbliche sono costruite mediante crittografia asimmetrica su curve ellittiche, e la curva utilizzata è secp256k1, definita dall'equazione
+\begin{equation}
+    y^2 = x^3 + 7
+\end{equation}
+su un grande campo primo. Questo mostra come una costruzione matematica astratta possa diventare parte essenziale di un sistema economico decentralizzato.
+
+\section{Obiettivi della relazione}
+
+L'obiettivo di questa relazione è presentare la crittografia su curve ellittiche in modo progressivo, collegando le basi matematiche alle applicazioni crittografiche. La relazione non si limita a descrivere l'uso pratico di ECC, ma cerca di chiarire perché questa famiglia di protocolli sia sicura, quali assunzioni matematiche utilizzi e quali siano i suoi limiti.
+
+In particolare, il lavoro si propone di:
+\begin{enumerate}
+    \item introdurre i concetti algebrici necessari, tra cui aritmetica modulare, gruppi, campi finiti e logaritmo discreto;
+    \item definire le curve ellittiche prima sui numeri reali, per comprenderne l'intuizione geometrica, e poi sui campi finiti, che costituiscono l'ambiente effettivo della crittografia;
+    \item spiegare la legge di gruppo sui punti della curva, inclusi somma di punti, raddoppio e punto all'infinito;
+    \item analizzare la moltiplicazione scalare e il problema del logaritmo discreto su curve ellittiche;
+    \item descrivere protocolli basati su ECC, in particolare lo scambio di chiavi in stile Diffie--Hellman e le firme digitali;
+    \item discutere applicazioni reali, con attenzione a Bitcoin e alla curva secp256k1;
+    \item valutare i limiti di ECC, inclusa la vulnerabilità teorica rispetto ad algoritmi quantistici come quello di Shor.
+\end{enumerate}
+
+La relazione adotta quindi una prospettiva duplice: da un lato matematica, perché la sicurezza dipende dalla struttura algebrica; dall'altro applicativa, perché tali strutture sono oggi integrate in protocolli e sistemi concreti.
+
+\section{Struttura della relazione}
+
+Il Capitolo 2 introduce i fondamenti matematici necessari per il resto della trattazione. Vengono richiamati l'aritmetica modulare, la nozione di gruppo, i gruppi abeliani, i generatori, i campi finiti e il problema del logaritmo discreto. Questi strumenti permettono di costruire il linguaggio formale con cui descrivere ECC.
+
+Il Capitolo 3 presenta le curve ellittiche sui numeri reali. Questa scelta ha una funzione principalmente intuitiva: sui reali è possibile visualizzare la curva, comprendere la simmetria rispetto all'asse delle ascisse e interpretare geometricamente la somma di punti. Viene inoltre introdotto il punto all'infinito, che svolge il ruolo di elemento neutro.
+
+Il Capitolo 4 formalizza la legge di gruppo sulle curve ellittiche. Si descrivono la somma di due punti distinti, il raddoppio di un punto, il ruolo degli inversi e le proprietà che rendono l'insieme dei punti un gruppo abeliano. Questa parte costituisce il ponte tra la geometria della curva e il suo uso crittografico.
+
+Il Capitolo 5 trasferisce la costruzione ai campi finiti. Qui la curva non è più un oggetto continuo, ma un insieme finito di punti. Tutte le operazioni vengono eseguite modulo un primo $p$, e la somma geometrica viene sostituita dalla sua formulazione algebrica modulare. Questo capitolo prepara direttamente la descrizione degli algoritmi crittografici.
+
+Il Capitolo 6 analizza il problema del logaritmo discreto su curve ellittiche. Si mostra perché la moltiplicazione scalare $Q = kP$ sia efficiente, mentre l'operazione inversa, cioè il recupero di $k$ da $P$ e $Q$, sia considerata computazionalmente difficile. Questo problema è la principale assunzione di sicurezza su cui si basano molti schemi ECC.
+
+Il Capitolo 7 presenta i protocolli crittografici basati su ECC. In particolare, vengono discussi la generazione delle chiavi, lo scambio di chiavi ECDH e le firme digitali ECDSA, evidenziando il ruolo della chiave privata come scalare e della chiave pubblica come punto della curva.
+
+Il Capitolo 8 considera alcune applicazioni moderne. Viene discusso l'uso di ECC nei protocolli di rete e nei sistemi blockchain, con particolare attenzione a Bitcoin, alla curva secp256k1 e al legame tra chiavi private, chiavi pubbliche, indirizzi e firme delle transazioni.
+
+Il Capitolo 9 affronta limiti e prospettive future. Da un lato vengono richiamati rischi classici, come errori implementativi e gestione inadeguata delle chiavi; dall'altro viene discussa la minaccia post-quantistica. L'algoritmo di Shor mostra infatti che un computer quantistico sufficientemente potente potrebbe risolvere in tempo polinomiale i problemi matematici su cui si basano RSA, Diffie--Hellman ed ECC. Questo giustifica l'attuale ricerca verso schemi post-quantistici.
+
+Infine, il Capitolo 10 riassume i risultati principali e mette in evidenza il significato generale della crittografia su curve ellittiche: un esempio particolarmente efficace di come strutture algebriche profonde possano essere trasformate in strumenti pratici per la sicurezza digitale.
+
+% ==========================================================
+% Chapter 2
+% ==========================================================
+\chapter{Fondamenti matematici}
+
+\section{Perché servono i fondamenti matematici}
+
+La crittografia su curve ellittiche utilizza concetti matematici che, a prima vista, possono sembrare lontani dall'informatica applicata: aritmetica modulare, gruppi, campi finiti e logaritmi discreti. Tuttavia, questi strumenti non sono elementi accessori. Essi permettono di costruire operazioni che sono efficienti da calcolare in una direzione, ma difficili da invertire senza conoscere un'informazione segreta.
+
+Questa asimmetria computazionale è alla base della crittografia a chiave pubblica. In un protocollo crittografico moderno, non basta che una funzione sia complicata: deve essere facile da usare per gli utenti legittimi e impraticabile da invertire per un avversario. Per questo motivo, prima di introdurre formalmente le curve ellittiche, è necessario richiamare alcune strutture algebriche fondamentali.
+
+Lo scopo di questo capitolo non è fornire una trattazione completa di algebra astratta, ma introdurre gli strumenti necessari per comprendere i capitoli successivi. In particolare, verranno presentati l'aritmetica modulare, la nozione di gruppo, i gruppi abeliani e ciclici, i campi finiti, gli inversi modulari e il problema del logaritmo discreto.
+
+\section{Aritmetica modulare}
+
+L'aritmetica modulare studia gli interi considerando equivalenti due numeri che hanno lo stesso resto nella divisione per un intero positivo fissato. Se \(n\) è un intero positivo, si scrive
+
+\begin{equation}
+    a \equiv b \pmod n
+\end{equation}
+
+quando \(a\) e \(b\) hanno lo stesso resto nella divisione per \(n\). Equivalentemente, \(a \equiv b \pmod n\) se e solo se \(n\) divide \(a-b\).
+
+\begin{example}
+Si ha
+\[
+20 \equiv 6 \pmod 7,
+\]
+perché \(20-6=14\) è divisibile per \(7\). Infatti, sia \(20\) sia \(6\) hanno resto \(6\) nella divisione per \(7\).
+\end{example}
+
+Modulo \(n\), ogni intero è equivalente a uno degli elementi
+
+\[
+\mathbb{Z}_n = \{0,1,2,\ldots,n-1\}.
+\]
+
+Per esempio, modulo \(7\), tutti gli interi possono essere rappresentati mediante l'insieme
+
+\[
+\mathbb{Z}_7 = \{0,1,2,3,4,5,6\}.
+\]
+
+Questa riduzione è importante perché permette di lavorare con insiemi finiti. In crittografia, gli algoritmi devono operare su dati rappresentabili in memoria e manipolabili in tempo finito; l'aritmetica modulare consente di mantenere i risultati all'interno di un dominio controllato.
+
+Le operazioni di somma e prodotto modulo \(n\) si comportano in modo compatibile con le operazioni ordinarie:
+
+\begin{align}
+    (a+b) \bmod n &= ((a \bmod n)+(b \bmod n)) \bmod n, \\
+    (ab) \bmod n &= ((a \bmod n)(b \bmod n)) \bmod n.
+\end{align}
+
+Questo permette di ridurre continuamente i risultati intermedi senza modificare il risultato finale modulo \(n\).
+
+\section{Gruppi}
+
+Un gruppo è una struttura algebrica composta da un insieme non vuoto e da un'operazione interna. L'idea fondamentale è che l'operazione rimanga sempre dentro l'insieme e che sia possibile definire un elemento neutro e un inverso per ogni elemento.
+
+\begin{definition}[Gruppo]
+Una coppia \((G,\ast)\) è un gruppo se valgono le seguenti proprietà:
+\begin{enumerate}
+    \item \textbf{Chiusura}: per ogni \(a,b \in G\), anche \(a \ast b \in G\);
+    \item \textbf{Associatività}: per ogni \(a,b,c \in G\), vale
+    \[
+    (a \ast b) \ast c = a \ast (b \ast c);
+    \]
+    \item \textbf{Elemento neutro}: esiste \(e \in G\) tale che
+    \[
+    a \ast e = e \ast a = a
+    \]
+    per ogni \(a \in G\);
+    \item \textbf{Inverso}: per ogni \(a \in G\), esiste \(a^{-1} \in G\) tale che
+    \[
+    a \ast a^{-1} = a^{-1} \ast a = e.
+    \]
+\end{enumerate}
+\end{definition}
+
+\begin{example}
+L'insieme \(\mathbb{Z}_n\) con l'operazione di somma modulo \(n\) è un gruppo. L'elemento neutro è \(0\), e l'inverso additivo di un elemento \(a\) è l'elemento che sommato ad \(a\) dà \(0\) modulo \(n\).
+
+Per esempio, in \(\mathbb{Z}_7\), l'inverso additivo di \(3\) è \(4\), perché
+\[
+3+4 \equiv 0 \pmod 7.
+\]
+\end{example}
+
+Nei capitoli successivi non useremo soltanto gruppi numerici. Il punto essenziale è che anche l'insieme dei punti di una curva ellittica, con una particolare operazione di somma, può essere organizzato come un gruppo.
+
+\section{Gruppi abeliani}
+
+Un gruppo è detto abeliano se l'operazione è commutativa. Questo significa che per ogni \(a,b \in G\) vale
+
+\begin{equation}
+    a \ast b = b \ast a.
+\end{equation}
+
+La commutatività non è richiesta nella definizione generale di gruppo, ma sarà importante nel nostro caso: i punti di una curva ellittica, con l'operazione di somma, formano un gruppo abeliano.
+
+\begin{example}
+Il gruppo \((\mathbb{Z}_n,+)\) è abeliano, perché
+\[
+a+b \equiv b+a \pmod n.
+\]
+\end{example}
+
+L'aggettivo ``abeliano'' indica quindi che l'ordine con cui vengono combinati due elementi non cambia il risultato. Questa proprietà renderà più naturale interpretare la somma di punti su una curva ellittica.
+
+\section{Gruppi ciclici e generatori}
+
+Un gruppo \(G\) è ciclico se esiste un elemento \(g \in G\) tale che tutti gli elementi del gruppo possono essere ottenuti applicando ripetutamente l'operazione del gruppo a \(g\). In notazione moltiplicativa, si scrive
+
+\begin{equation}
+    G = \langle g \rangle = \{g^i : i \in \mathbb{Z}\}.
+\end{equation}
+
+L'elemento \(g\) prende il nome di generatore.
+
+Nel caso additivo, che sarà quello usato per le curve ellittiche, la stessa idea viene scritta come
+
+\begin{equation}
+    \langle P \rangle = \{P,2P,3P,\ldots\},
+\end{equation}
+
+dove
+
+\[
+2P = P+P, \qquad 3P = P+P+P,
+\]
+
+e così via. In questo contesto, \(P\) è un generatore del sottogruppo formato dai suoi multipli.
+
+Questa notazione è importante perché molti protocolli basati su curve ellittiche non utilizzano necessariamente tutti i punti della curva, ma un sottogruppo ciclico generato da un punto base pubblico.
+
+\section{Campi finiti}
+
+Un campo è una struttura algebrica nella quale sono definite due operazioni, somma e prodotto, con proprietà analoghe a quelle note per i numeri razionali o reali. In un campo è possibile sommare, sottrarre, moltiplicare e dividere per ogni elemento non nullo.
+
+\begin{definition}[Campo]
+Un insieme \(K\), dotato di due operazioni \(+\) e \(\cdot\), è un campo se:
+\begin{enumerate}
+    \item \((K,+)\) è un gruppo abeliano con elemento neutro \(0\);
+    \item \((K \setminus \{0\},\cdot)\) è un gruppo abeliano con elemento neutro \(1\);
+    \item vale la proprietà distributiva:
+    \[
+    a(b+c)=ab+ac
+    \]
+    per ogni \(a,b,c \in K\).
+\end{enumerate}
+\end{definition}
+
+Un campo è finito se contiene un numero finito di elementi. Se \(p\) è un numero primo, l'insieme
+
+\begin{equation}
+    \mathbb{Z}_p = \{0,1,2,\ldots,p-1\}
+\end{equation}
+
+con somma e prodotto modulo \(p\) è un campo finito. In letteratura, lo stesso campo viene spesso indicato anche con \(\mathbb{F}_p\). In questa relazione useremo entrambe le notazioni: \(\mathbb{Z}_p\) per sottolineare la rappresentazione tramite classi di resto modulo \(p\), e \(\mathbb{F}_p\) quando vorremo evidenziare la struttura di campo.
+
+La primalità di \(p\) è essenziale. Se \(p\) è primo, ogni elemento non nullo di \(\mathbb{Z}_p\) possiede un inverso moltiplicativo. Se invece il modulo non è primo, possono esistere elementi non nulli privi di inverso.
+
+\begin{example}
+In \(\mathbb{Z}_5 = \{0,1,2,3,4\}\), l'elemento \(2\) ha inverso \(3\), perché
+\[
+2 \cdot 3 = 6 \equiv 1 \pmod 5.
+\]
+Tutti gli elementi non nulli di \(\mathbb{Z}_5\) hanno un inverso moltiplicativo.
+\end{example}
+
+Le curve ellittiche usate in crittografia sono definite su campi finiti. In questa relazione ci concentreremo soprattutto sul caso dei campi primi \(\mathbb{F}_p\), perché esso è sufficiente per comprendere molte costruzioni moderne, inclusa la curva secp256k1 usata in Bitcoin.
+
+\section{Inversi modulari}
+
+L'inverso modulare è lo strumento che permette di effettuare divisioni in aritmetica modulare. Dato un intero \(a\) e un modulo primo \(p\), l'inverso di \(a\) modulo \(p\) è un elemento \(a^{-1}\) tale che
+
+\begin{equation}
+    aa^{-1} \equiv 1 \pmod p.
+\end{equation}
+
+Quando \(p\) è primo e \(a \not\equiv 0 \pmod p\), tale inverso esiste sempre.
+
+\begin{example}
+In \(\mathbb{Z}_{17}\), l'inverso di \(5\) è \(7\), perché
+\[
+5 \cdot 7 = 35 \equiv 1 \pmod{17}.
+\]
+Quindi dividere per \(5\) modulo \(17\) equivale a moltiplicare per \(7\) modulo \(17\).
+\end{example}
+
+Questo concetto sarà usato direttamente nella somma di punti su curve ellittiche. Per esempio, la formula del coefficiente angolare tra due punti contiene una divisione:
+
+\begin{equation}
+    \lambda = \frac{y_Q-y_P}{x_Q-x_P}.
+\end{equation}
+
+Su un campo finito, questa divisione viene interpretata come moltiplicazione per l'inverso modulare:
+
+\begin{equation}
+    \lambda \equiv (y_Q-y_P)(x_Q-x_P)^{-1} \pmod p.
+\end{equation}
+
+\section{Facile e difficile in senso computazionale}
+
+In crittografia, dire che un problema è facile o difficile non significa riferirsi all'intuizione umana. Il significato è computazionale. Un problema è considerato facile se esiste un algoritmo efficiente per risolverlo, tipicamente in tempo polinomiale rispetto alla dimensione dell'input. Un problema è considerato difficile se i migliori algoritmi noti richiedono un tempo che cresce troppo rapidamente per essere praticabile su input di dimensione crittografica.
+
+Questa distinzione è alla base della crittografia a chiave pubblica. Si cercano operazioni che siano facili nella direzione legittima, ma difficili nella direzione dell'attacco. Per esempio, moltiplicare due grandi numeri primi è facile, mentre fattorizzare il loro prodotto è ritenuto difficile. Analogamente, calcolare una potenza modulare è facile, mentre risolvere il logaritmo discreto può essere difficile in gruppi opportunamente scelti.
+
+La nozione di difficoltà non implica che l'attacco sia logicamente impossibile. Significa piuttosto che il costo dell'attacco supera le risorse realisticamente disponibili. Per questo motivo, la sicurezza crittografica è normalmente una sicurezza pratica, fondata sul costo computazionale.
+
+\section{Il problema del logaritmo discreto}
+
+Consideriamo un numero primo \(p\) e il gruppo moltiplicativo degli elementi non nulli modulo \(p\):
+
+\begin{equation}
+    \mathbb{Z}_p^\ast = \{1,2,\ldots,p-1\}.
+\end{equation}
+
+Dato un elemento \(g \in \mathbb{Z}_p^\ast\) e un intero \(x\), è efficiente calcolare
+
+\begin{equation}
+    y = g^x \bmod p.
+\end{equation}
+
+Il problema inverso consiste nel determinare \(x\) conoscendo \(g\), \(y\) e \(p\). Questo problema prende il nome di logaritmo discreto.
+
+\begin{definition}[Logaritmo discreto]
+Dato un gruppo finito \(G\), un elemento \(g \in G\) e un elemento \(y \in \langle g \rangle\), il logaritmo discreto di \(y\) in base \(g\) è un intero \(x\) tale che
+\[
+y = g^x.
+\]
+Nel caso modulare, l'equazione diventa
+\[
+y \equiv g^x \pmod p.
+\]
+\end{definition}
+
+\begin{example}
+Sia \(p=17\). Nel gruppo \(\mathbb{Z}_{17}^\ast\), si ha
+\[
+3^4 = 81 \equiv 13 \pmod{17}.
+\]
+La direzione facile è calcolare \(13\) a partire da \(3\) e \(4\). La direzione inversa è: dati \(3\) e \(13\), trovare l'esponente \(4\). Su numeri piccoli si può procedere per tentativi, ma su parametri crittografici il problema diventa computazionalmente difficile.
+\end{example}
+
+Il problema del logaritmo discreto è centrale in diversi protocolli crittografici, tra cui Diffie--Hellman ed ElGamal. La crittografia su curve ellittiche ne utilizza una variante più sofisticata, definita non su un gruppo moltiplicativo modulo \(p\), ma sul gruppo dei punti di una curva ellittica.
+
+\section{Dal logaritmo discreto classico al caso ellittico}
+
+La crittografia su curve ellittiche utilizza un'idea analoga al logaritmo discreto classico, ma sostituisce il gruppo moltiplicativo modulo \(p\) con il gruppo additivo dei punti di una curva ellittica su un campo finito.
+
+Nel caso classico, l'operazione facile è
+
+\begin{equation}
+    y = g^x \bmod p.
+\end{equation}
+
+Nel caso ellittico, l'operazione corrispondente è
+
+\begin{equation}
+    Q = kP,
+\end{equation}
+
+dove \(P\) è un punto della curva, \(k\) è uno scalare intero e \(kP\) significa sommare \(P\) con se stesso \(k\) volte.
+
+L'analogia può essere riassunta nella seguente tabella:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Contesto} & \textbf{Operazione facile} & \textbf{Problema inverso difficile} \\
+\midrule
+Logaritmo discreto classico & \(g^x \bmod p\) & trovare \(x\) da \(g\) e \(g^x\) \\
+Curve ellittiche & \(kP\) & trovare \(k\) da \(P\) e \(kP\) \\
+\bottomrule
+\end{tabular}
+\caption{Analogia tra logaritmo discreto classico e logaritmo discreto su curve ellittiche.}
+\label{tab:dlp-ecdlp}
+\end{table}
+
+Il secondo problema è chiamato \textit{Elliptic Curve Discrete Logarithm Problem}, abbreviato in ECDLP. Esso sarà analizzato in dettaglio nel Capitolo 6, ma è utile introdurlo già qui perché spiega perché gruppi, campi finiti e aritmetica modulare sono necessari per costruire ECC.
+
+\section{Sintesi del capitolo}
+
+In questo capitolo sono stati introdotti gli strumenti matematici essenziali per la crittografia su curve ellittiche. L'aritmetica modulare permette di lavorare in insiemi finiti; i gruppi forniscono il linguaggio per descrivere operazioni chiuse e invertibili; i campi finiti consentono di effettuare somma, prodotto e divisione in modo esatto; il logaritmo discreto introduce l'idea di una funzione facile da calcolare ma difficile da invertire.
+
+Nei prossimi capitoli questi concetti verranno applicati alle curve ellittiche. Prima si userà la geometria sui numeri reali per costruire l'intuizione della somma di punti; poi si passerà ai campi finiti, dove la stessa struttura diventa utilizzabile in protocolli crittografici concreti.
+% ==========================================================
+% Remaining chapter placeholders
+% ==========================================================
+\chapter{Curve ellittiche sui numeri reali}
+\section{Definizione di curva ellittica}
+\section{Forma normale di Weierstrass}
+\section{Condizione di non singolarità}
+\section{Interpretazione geometrica}
+\section{Punto all'infinito}
+
+\chapter{Legge di gruppo sulle curve ellittiche}
+\section{Somma geometrica di punti}
+\section{Somma algebrica di punti distinti}
+\section{Raddoppio di un punto}
+\section{Punti inversi ed elemento neutro}
+\section{Perché i punti formano un gruppo}
+\section{Esempio numerico}
+
+\chapter{Curve ellittiche su campi finiti}
+\section{Perché non si usano i reali in crittografia}
+\section{Curve su $\mathbb{F}_p$}
+\section{Enumerazione dei punti}
+\section{Somma modulo $p$}
+\section{Moltiplicazione scalare}
+\section{Sottogruppi ciclici}
+\section{Esempio su $\mathbb{F}_{17}$}
+
+\chapter{Il problema del logaritmo discreto su curve ellittiche}
+\section{Definizione di ECDLP}
+\section{Facilità della moltiplicazione scalare}
+\section{Difficoltà dell'inversione}
+\section{Confronto con il logaritmo discreto classico}
+\section{Implicazioni per la sicurezza}
+
+\chapter{Protocolli crittografici basati su ECC}
+\section{ECDH}
+\section{ECDSA}
+\section{Generazione delle chiavi}
+\section{Scelta dei parametri}
+\section{Errori implementativi comuni}
+
+\chapter{Applicazioni moderne}
+\section{TLS e protocolli di rete}
+\section{Bitcoin e secp256k1}
+\section{Wallet, chiavi e indirizzi}
+\section{Firma delle transazioni}
+
+\chapter{Confronto, limiti e prospettiva post-quantistica}
+\section{ECC vs RSA}
+\section{Efficienza e dimensione delle chiavi}
+\section{Limiti di sicurezza}
+\section{Algoritmo di Shor}
+\section{Transizione post-quantistica}
+
+\chapter{Conclusioni}
+
+La crittografia su curve ellittiche mostra come strutture matematiche apparentemente astratte possano diventare strumenti centrali per la sicurezza delle comunicazioni digitali. La legge di gruppo sui punti di una curva, combinata con l'aritmetica dei campi finiti, permette di costruire problemi computazionalmente asimmetrici: facili da calcolare in una direzione, ma difficili da invertire senza informazione segreta.
+
+\appendix
+\chapter{Appendice: richiami di algebra modulare}
+\chapter{Appendice: esempi di calcolo su curve ellittiche}
+
+\printbibliography
+
+\end{document}
