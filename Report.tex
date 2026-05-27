@@ -486,11 +486,6 @@ Curve ellittiche & \(kP\) & trovare \(k\) da \(P\) e \(kP\) \\
 
 Il secondo problema è chiamato \textit{Elliptic Curve Discrete Logarithm Problem}, abbreviato in ECDLP. Esso sarà analizzato in dettaglio nel Capitolo 6, ma è utile introdurlo già qui perché spiega perché gruppi, campi finiti e aritmetica modulare sono necessari per costruire ECC.
 
-\section{Sintesi del capitolo}
-
-In questo capitolo sono stati introdotti gli strumenti matematici essenziali per la crittografia su curve ellittiche. L'aritmetica modulare permette di lavorare in insiemi finiti; i gruppi forniscono il linguaggio per descrivere operazioni chiuse e invertibili; i campi finiti consentono di effettuare somma, prodotto e divisione in modo esatto; il logaritmo discreto introduce l'idea di una funzione facile da calcolare ma difficile da invertire.
-
-Nei prossimi capitoli questi concetti verranno applicati alle curve ellittiche. Prima si userà la geometria sui numeri reali per costruire l'intuizione della somma di punti; poi si passerà ai campi finiti, dove la stessa struttura diventa utilizzabile in protocolli crittografici concreti.
 % ==========================================================
 % Chapter 3
 % ==========================================================
@@ -667,23 +662,6 @@ Secondo, permette di comprendere l'origine della legge di gruppo. La somma di pu
 
 Terzo, prepara il passaggio ai campi finiti. Quando lavoreremo su \(\mathbb{F}_p\), non potremo più disegnare una curva continua, ma useremo formule algebriche che derivano esattamente dalla costruzione geometrica vista sui reali.
 
-\section{Sintesi del capitolo}
-
-In questo capitolo sono state introdotte le curve ellittiche sui numeri reali. Una curva ellittica in forma normale di Weierstrass è descritta dall'equazione
-
-\[
-y^2 = x^3 + ax + b,
-\]
-
-con la condizione di non singolarità
-
-\[
-4a^3 + 27b^2 \neq 0.
-\]
-
-È stata evidenziata la simmetria rispetto all'asse delle ascisse, il ruolo del punto all'infinito e l'importanza dell'intersezione tra rette e curve cubiche. Questi elementi permettono di introdurre, nel capitolo successivo, la legge di gruppo sui punti della curva.
-
-La trattazione sui reali ha quindi una funzione preparatoria: fornisce l'intuizione geometrica che verrà poi tradotta in formule algebriche e, infine, adattata ai campi finiti utilizzati nella crittografia.
 % ==========================================================
 % Chapter 4
 % ==========================================================
@@ -1094,14 +1072,6 @@ Il passaggio concettuale è il seguente:
 \end{enumerate}
 
 Questa struttura permette di costruire protocolli di scambio di chiavi e firme digitali. Nei prossimi capitoli vedremo come la stessa legge di gruppo viene trasferita dai numeri reali ai campi finiti, dove diventa adatta all'implementazione crittografica.
-
-\section{Sintesi del capitolo}
-
-In questo capitolo è stata definita la legge di somma sui punti di una curva ellittica. La somma di due punti distinti si ottiene tracciando la retta che li unisce, individuando il terzo punto di intersezione con la curva e riflettendolo rispetto all'asse delle ascisse. Il raddoppio di un punto si ottiene invece usando la tangente alla curva.
-
-Sono stati introdotti i casi speciali della retta verticale, del punto all'infinito e dell'inverso di un punto. Questi elementi permettono ai punti della curva di formare un gruppo abeliano. Infine, è stata introdotta la moltiplicazione scalare \(kP\), operazione centrale nella crittografia su curve ellittiche.
-
-Il prossimo passo consiste nel trasferire questa struttura dai numeri reali ai campi finiti. In quel contesto, le stesse formule verranno interpretate modulo un primo \(p\), rendendo la costruzione adatta all'uso crittografico.
 
 % ==========================================================
 % Chapter 5
@@ -1630,24 +1600,6 @@ Il calcolo di \(Q\) a partire da \(d\) e \(G\) è efficiente, mentre il recupero
 
 Questa combinazione di esattezza, finitezza ed asimmetria computazionale rende le curve ellittiche su campi finiti uno strumento particolarmente efficace per la crittografia a chiave pubblica.
 
-\section{Sintesi del capitolo}
-
-In questo capitolo abbiamo trasferito la teoria delle curve ellittiche dai numeri reali ai campi finiti. Una curva ellittica su \(\mathbb{F}_p\) è definita da una congruenza della forma
-
-\[
-y^2 \equiv x^3+ax+b \pmod p,
-\]
-
-con la condizione di non singolarità
-
-\[
-4a^3+27b^2 \not\equiv 0 \pmod p.
-\]
-
-Abbiamo visto che i punti della curva formano ancora un gruppo abeliano, ma le operazioni vengono eseguite modulo \(p\). La somma di punti e il raddoppio utilizzano le stesse formule del caso reale, sostituendo la divisione con la moltiplicazione per l'inverso modulare.
-
-Infine, abbiamo introdotto la moltiplicazione scalare e i sottogruppi ciclici generati da un punto base. Questi concetti preparano direttamente il capitolo successivo, dedicato al problema del logaritmo discreto su curve ellittiche, che costituisce il fondamento della sicurezza di ECC.
-
 % ==========================================================
 % Chapter 6
 % ==========================================================
@@ -1997,20 +1949,6 @@ L'algoritmo di Shor mostra che, su un computer quantistico fault-tolerant suffic
 Questo significa che ECC, come RSA e Diffie--Hellman classico, non è considerata sicura in uno scenario post-quantistico. Tale limite non invalida l'importanza attuale di ECC, ma spiega perché la ricerca crittografica moderna stia sviluppando schemi alternativi resistenti ad attacchi quantistici.
 
 Questo tema verrà ripreso nel capitolo dedicato ai limiti e alla prospettiva post-quantistica.
-
-\section{Sintesi del capitolo}
-
-In questo capitolo abbiamo introdotto il problema del logaritmo discreto su curve ellittiche. Fissato un punto base \(G\), è efficiente calcolare
-
-\[
-Q=dG
-\]
-
-a partire dallo scalare \(d\). Il problema inverso, cioè recuperare \(d\) conoscendo \(G\) e \(Q\), è l'ECDLP.
-
-La sicurezza di ECC dipende dal fatto che questo problema sia computazionalmente difficile su curve e sottogruppi scelti correttamente. Abbiamo visto il ruolo dell'ordine del punto base, la differenza tra calcolo diretto e inversione, il rapporto con la crittografia a chiave pubblica e il limite rappresentato dall'algoritmo di Shor.
-
-Il prossimo capitolo userà questa struttura per costruire protocolli concreti basati su ECC, in particolare lo scambio di chiavi ECDH e le firme digitali ECDSA.
 
 % ==========================================================
 % Chapter 7
@@ -2526,16 +2464,6 @@ In Bitcoin, ad esempio, la chiave privata permette di firmare una transazione, m
 
 Questi esempi mostrano che ECC non è soltanto un oggetto matematico elegante, ma una tecnologia concreta usata per proteggere comunicazioni e transazioni digitali.
 
-\section{Sintesi del capitolo}
-
-In questo capitolo abbiamo visto come la moltiplicazione scalare su curve ellittiche venga usata per costruire protocolli crittografici concreti.
-
-La generazione delle chiavi ECC consiste nello scegliere uno scalare privato \(d\) e calcolare il punto pubblico \(Q=dG\). Il protocollo ECDH permette a due parti di costruire un segreto condiviso \(S=d_A d_B G\) senza trasmetterlo direttamente. La variante ECDHE usa chiavi temporanee per garantire forward secrecy.
-
-Abbiamo poi introdotto ECDSA, uno schema di firma digitale basato su curve ellittiche. La firma \((r,s)\) permette di verificare che un messaggio sia stato autorizzato dal possessore della chiave privata. È stato inoltre evidenziato il ruolo critico del nonce \(k\): se viene riutilizzato o generato male, la chiave privata può essere recuperata.
-
-Il prossimo capitolo collegherà questi protocolli agli standard e alle applicazioni moderne, con particolare attenzione a TLS, Bitcoin, secp256k1 e al confronto pratico tra ECC e RSA.
-
 % ==========================================================
 % Chapter 8
 % ==========================================================
@@ -2735,14 +2663,6 @@ Tra i principali rischi pratici vi sono:
 
 Questi rischi mostrano che una costruzione matematica sicura può diventare vulnerabile se implementata male. Per questo motivo, nei sistemi reali si usano librerie crittografiche mature, standard riconosciuti e procedure rigorose di validazione.
 
-\section{Sintesi del capitolo}
-
-In questo capitolo abbiamo analizzato due applicazioni moderne di ECC. Nei protocolli di comunicazione sicura, ECC viene usata soprattutto tramite ECDHE per stabilire chiavi di sessione con forward secrecy. Lo scambio di chiavi deve però essere autenticato, altrimenti rimane vulnerabile ad attacchi man-in-the-middle.
-
-In Bitcoin, ECC viene usata per generare chiavi pubbliche, derivare indirizzi e firmare transazioni. La curva secp256k1 permette di costruire chiavi pubbliche della forma \(Q=dG\), mentre le firme digitali dimostrano il diritto di spendere determinati UTXO senza rivelare la chiave privata.
-
-Queste applicazioni mostrano il ruolo pratico di ECC nella sicurezza digitale moderna. Il capitolo successivo discuterà i limiti più generali di questa tecnologia, con particolare attenzione al confronto con RSA e alla minaccia rappresentata dai computer quantistici.
-
 % ==========================================================
 % Chapter 9
 % ==========================================================
@@ -2921,30 +2841,10 @@ PQC & Reticoli, hash, codici & Resistenza quantistica & Chiavi/firme spesso più
 
 ECC rappresenta quindi una soluzione molto efficace nel paradigma classico, ma non definitiva nel paradigma quantistico. La sua importanza rimane comunque notevole: ha reso più efficiente la crittografia a chiave pubblica e costituisce ancora oggi una componente centrale di molti sistemi reali.
 
-\section{Sintesi del capitolo}
-
-In questo capitolo abbiamo confrontato ECC con RSA e con la crittografia post-quantistica. RSA si basa sulla difficoltà della fattorizzazione, mentre ECC si basa sulla difficoltà del logaritmo discreto su curve ellittiche. Il vantaggio principale di ECC è l'efficienza: a livelli di sicurezza comparabili, richiede chiavi più brevi.
-
-Abbiamo poi discusso i limiti di ECC. Alcuni sono pratici, come errori nella generazione delle chiavi, riuso del nonce, mancata validazione dei punti e attacchi side-channel. Altri sono teorici, perché la sicurezza dipende dall'assenza di algoritmi efficienti per l'ECDLP.
-
-Infine, abbiamo analizzato la minaccia quantistica. L'algoritmo di Shor renderebbe vulnerabili RSA, Diffie--Hellman ed ECC su un computer quantistico sufficientemente potente. Questo motiva la transizione verso la crittografia post-quantistica e l'uso di strategie ibride durante il periodo di migrazione.
-
 % ==========================================================
 % Chapter 10
 % ==========================================================
 \chapter{Conclusioni}
-
-\section{Sintesi del percorso}
-
-Questa relazione ha analizzato la crittografia su curve ellittiche partendo dalle basi matematiche fino ad arrivare alle applicazioni moderne e ai limiti futuri. L'obiettivo principale era mostrare come una struttura algebrica apparentemente astratta possa diventare uno strumento concreto per la sicurezza digitale.
-
-Il punto di partenza è stato il problema generale della crittografia a chiave pubblica: costruire operazioni facili da eseguire per gli utenti legittimi, ma difficili da invertire per un avversario. Nel caso di ECC, questa asimmetria è realizzata tramite la moltiplicazione scalare sui punti di una curva ellittica. Dato un punto base \(G\) e uno scalare segreto \(d\), è efficiente calcolare
-
-\[
-Q=dG.
-\]
-
-Il problema inverso, cioè recuperare \(d\) conoscendo \(G\) e \(Q\), è invece il problema del logaritmo discreto su curve ellittiche. La difficoltà computazionale di questo problema costituisce il fondamento della sicurezza di molti protocolli ECC.
 
 \section{Risultati principali}
 
