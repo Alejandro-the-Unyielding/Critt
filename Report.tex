@@ -143,28 +143,38 @@ $\ECDLP$ & Elliptic Curve Discrete Logarithm Problem \\
 
 La crittografia moderna nasce dall'esigenza di proteggere informazioni trasmesse o conservate in ambienti nei quali non è realistico assumere la presenza di un canale completamente sicuro. In uno scenario elementare, un mittente vuole comunicare con un destinatario attraverso un mezzo di trasmissione potenzialmente osservabile o manipolabile da un avversario. Il problema crittografico non consiste soltanto nel rendere incomprensibile un messaggio, ma nel garantire proprietà più ampie: confidenzialità, integrità, autenticazione e, in alcuni casi, non ripudio.
 
-Nei sistemi a chiave simmetrica, mittente e destinatario utilizzano una stessa informazione segreta per cifrare e decifrare. Questa impostazione è efficiente e rimane fondamentale nella pratica, ma presenta un limite strutturale: la chiave deve essere condivisa prima della comunicazione attraverso un canale sicuro o mediante un protocollo affidabile di scambio. La crittografia a chiave pubblica nasce proprio per superare questa difficoltà, introducendo una separazione tra chiave pubblica e chiave privata. La chiave pubblica può essere distribuita liberamente, mentre la chiave privata rimane nota solo al suo proprietario.
+Nei sistemi a chiave simmetrica, mittente e destinatario utilizzano una stessa informazione segreta per cifrare e decifrare. Questa impostazione è efficiente, ma presenta un limite strutturale: la chiave deve essere condivisa prima della comunicazione attraverso un canale sicuro o mediante un protocollo affidabile di scambio. La crittografia a chiave pubblica nasce per superare questa difficoltà, separando la chiave pubblica, distribuibile liberamente, dalla chiave privata, che deve rimanere segreta.
 
-Dal punto di vista matematico, questa separazione richiede funzioni facili da calcolare in una direzione ma difficili da invertire senza un'informazione segreta. La sicurezza non deriva dalla segretezza dell'algoritmo, ma dalla difficoltà computazionale di risolvere determinati problemi matematici. In questo senso, la crittografia moderna non promette normalmente un'impossibilità assoluta di attacco, ma un'impraticabilità computazionale: un attacco può esistere in teoria, ma richiedere tempo, memoria o risorse tali da non essere eseguibile da un avversario realistico.
+Dal punto di vista matematico, questa separazione richiede funzioni facili da calcolare in una direzione ma difficili da invertire senza un'informazione segreta. La sicurezza non deriva dalla segretezza dell'algoritmo, ma dalla difficoltà computazionale di risolvere determinati problemi matematici. In questo senso, la crittografia moderna offre sicurezza computazionale: un attacco può esistere in teoria, ma richiedere risorse tali da non essere praticabile.
 
-Questa idea è centrale per comprendere la crittografia su curve ellittiche. ECC non è un cifrario specifico, ma una famiglia di costruzioni crittografiche basate sulla struttura algebrica dei punti di una curva ellittica definita su un campo finito. Il principio di sicurezza fondamentale è il seguente: dato un punto $P$ sulla curva e un intero segreto $k$, è efficiente calcolare il punto $Q = kP$; al contrario, dato soltanto $P$ e $Q$, risulta computazionalmente difficile recuperare $k$. Questa asimmetria costituisce il nucleo del problema del logaritmo discreto su curve ellittiche.
+Questa idea è centrale per comprendere la crittografia su curve ellittiche. ECC non è un singolo cifrario, ma una famiglia di costruzioni basate sulla struttura algebrica dei punti di una curva ellittica definita su un campo finito. Il principio fondamentale è il seguente: dato un punto \(P\) sulla curva e uno scalare segreto \(k\), è efficiente calcolare
+
+\[
+Q=kP.
+\]
+
+Al contrario, dato soltanto \(P\) e \(Q\), risulta computazionalmente difficile recuperare \(k\). Questa asimmetria costituisce il nucleo del problema del logaritmo discreto su curve ellittiche.
 
 \section{Perché le curve ellittiche}
 
-Le curve ellittiche sono oggetti matematici definiti mediante equazioni algebriche. Nella forma di Weierstrass, una curva ellittica su un campo di caratteristica diversa da $2$ e $3$ può essere espressa come
+Le curve ellittiche sono oggetti matematici definiti mediante equazioni algebriche. Nella forma di Weierstrass, una curva ellittica su un campo di caratteristica diversa da \(2\) e da \(3\) può essere espressa come
+
 \begin{equation}
     y^2 = x^3 + ax + b.
 \end{equation}
-A prima vista questa equazione sembra appartenere alla geometria algebrica più che alla sicurezza informatica. Tuttavia, la proprietà decisiva è che i punti della curva possono essere dotati di una legge di composizione che li trasforma in un gruppo abeliano. Questa legge permette di sommare punti e, ripetendo la somma di uno stesso punto, di definire la moltiplicazione scalare $kP$.
 
-Nel passaggio dalla geometria sui numeri reali alla crittografia, il ruolo centrale è assunto dai campi finiti. Le curve ellittiche usate nei sistemi crittografici non sono curve continue disegnate sul piano reale, ma insiemi finiti di punti con coordinate in un campo come $\mathbb{F}_p$. Questo consente di evitare problemi di approssimazione numerica e di lavorare con operazioni esatte, efficienti e implementabili in software e hardware.
+La proprietà decisiva è che i punti della curva possono essere dotati di una legge di composizione che li trasforma in un gruppo abeliano. Questa legge permette di sommare punti e, ripetendo la somma di uno stesso punto, di definire la moltiplicazione scalare \(kP\).
 
-L'interesse pratico di ECC deriva da un fatto rilevante: rispetto ad altri sistemi a chiave pubblica, come RSA, le curve ellittiche permettono di ottenere livelli di sicurezza comparabili con chiavi significativamente più brevi. Chiavi più brevi implicano minore occupazione di memoria, minore larghezza di banda e operazioni spesso più efficienti. Queste caratteristiche rendono ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e applicazioni distribuite.
+Nel passaggio dalla geometria alla crittografia, il ruolo centrale è assunto dai campi finiti. Le curve ellittiche usate nei sistemi crittografici non sono curve continue disegnate sul piano reale, ma insiemi finiti di punti con coordinate in un campo come \(\mathbb{F}_p\). Questo consente di evitare problemi di approssimazione numerica e di lavorare con operazioni esatte, efficienti e implementabili in software e hardware.
 
-L'importanza di ECC non è soltanto teorica. Schemi basati su curve ellittiche sono impiegati in protocolli di scambio di chiavi, firme digitali e sistemi blockchain. In Bitcoin, ad esempio, le chiavi private e pubbliche sono costruite mediante crittografia asimmetrica su curve ellittiche, e la curva utilizzata è secp256k1, definita dall'equazione
+L'interesse pratico di ECC deriva dal fatto che, rispetto ad altri sistemi a chiave pubblica come RSA, permette di ottenere livelli di sicurezza comparabili con chiavi significativamente più brevi. Questo riduce memoria, larghezza di banda e costo computazionale, rendendo ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e applicazioni distribuite.
+
+L'importanza di ECC è evidente anche in sistemi reali. In Bitcoin, ad esempio, le chiavi private e pubbliche sono costruite mediante crittografia asimmetrica su curve ellittiche, e la curva utilizzata è secp256k1, definita dall'equazione
+
 \begin{equation}
     y^2 = x^3 + 7
 \end{equation}
+
 su un grande campo primo. Questo mostra come una costruzione matematica astratta possa diventare parte essenziale di un sistema economico decentralizzato.
 
 \section{Obiettivi della relazione}
@@ -172,37 +182,22 @@ su un grande campo primo. Questo mostra come una costruzione matematica astratta
 L'obiettivo di questa relazione è presentare la crittografia su curve ellittiche in modo progressivo, collegando le basi matematiche alle applicazioni crittografiche. La relazione non si limita a descrivere l'uso pratico di ECC, ma cerca di chiarire perché questa famiglia di protocolli sia sicura, quali assunzioni matematiche utilizzi e quali siano i suoi limiti.
 
 In particolare, il lavoro si propone di:
+
 \begin{enumerate}
     \item introdurre i concetti algebrici necessari, tra cui aritmetica modulare, gruppi, campi finiti e logaritmo discreto;
-    \item definire le curve ellittiche prima sui numeri reali, per comprenderne l'intuizione geometrica, e poi sui campi finiti, che costituiscono l'ambiente effettivo della crittografia;
-    \item spiegare la legge di gruppo sui punti della curva, inclusi somma di punti, raddoppio e punto all'infinito;
+    \item definire le curve ellittiche sui numeri reali e sui campi finiti;
+    \item spiegare la legge di gruppo sui punti della curva;
     \item analizzare la moltiplicazione scalare e il problema del logaritmo discreto su curve ellittiche;
-    \item descrivere protocolli basati su ECC, in particolare lo scambio di chiavi in stile Diffie--Hellman e le firme digitali;
-    \item discutere applicazioni reali, con attenzione a Bitcoin e alla curva secp256k1;
-    \item valutare i limiti di ECC, inclusa la vulnerabilità teorica rispetto ad algoritmi quantistici come quello di Shor.
+    \item descrivere protocolli basati su ECC, in particolare ECDH ed ECDSA;
+    \item discutere applicazioni reali, con attenzione a Bitcoin;
+    \item valutare i limiti di ECC, inclusa la vulnerabilità teorica rispetto agli algoritmi quantistici.
 \end{enumerate}
 
-La relazione adotta quindi una prospettiva duplice: da un lato matematica, perché la sicurezza dipende dalla struttura algebrica; dall'altro applicativa, perché tali strutture sono oggi integrate in protocolli e sistemi concreti.
+La relazione adotta quindi una prospettiva duplice: matematica, perché la sicurezza dipende dalla struttura algebrica; applicativa, perché tali strutture sono oggi integrate in protocolli e sistemi concreti.
 
 \section{Struttura della relazione}
 
-Il Capitolo 2 introduce i fondamenti matematici necessari per il resto della trattazione. Vengono richiamati l'aritmetica modulare, la nozione di gruppo, i gruppi abeliani, i generatori, i campi finiti e il problema del logaritmo discreto. Questi strumenti permettono di costruire il linguaggio formale con cui descrivere ECC.
-
-Il Capitolo 3 presenta le curve ellittiche sui numeri reali. Questa scelta ha una funzione principalmente intuitiva: sui reali è possibile visualizzare la curva, comprendere la simmetria rispetto all'asse delle ascisse e interpretare geometricamente la somma di punti. Viene inoltre introdotto il punto all'infinito, che svolge il ruolo di elemento neutro.
-
-Il Capitolo 4 formalizza la legge di gruppo sulle curve ellittiche. Si descrivono la somma di due punti distinti, il raddoppio di un punto, il ruolo degli inversi e le proprietà che rendono l'insieme dei punti un gruppo abeliano. Questa parte costituisce il ponte tra la geometria della curva e il suo uso crittografico.
-
-Il Capitolo 5 trasferisce la costruzione ai campi finiti. Qui la curva non è più un oggetto continuo, ma un insieme finito di punti. Tutte le operazioni vengono eseguite modulo un primo $p$, e la somma geometrica viene sostituita dalla sua formulazione algebrica modulare. Questo capitolo prepara direttamente la descrizione degli algoritmi crittografici.
-
-Il Capitolo 6 analizza il problema del logaritmo discreto su curve ellittiche. Si mostra perché la moltiplicazione scalare $Q = kP$ sia efficiente, mentre l'operazione inversa, cioè il recupero di $k$ da $P$ e $Q$, sia considerata computazionalmente difficile. Questo problema è la principale assunzione di sicurezza su cui si basano molti schemi ECC.
-
-Il Capitolo 7 presenta i protocolli crittografici basati su ECC. In particolare, vengono discussi la generazione delle chiavi, lo scambio di chiavi ECDH e le firme digitali ECDSA, evidenziando il ruolo della chiave privata come scalare e della chiave pubblica come punto della curva.
-
-Il Capitolo 8 considera alcune applicazioni moderne. Viene discusso l'uso di ECC nei protocolli di rete e nei sistemi blockchain, con particolare attenzione a Bitcoin, alla curva secp256k1 e al legame tra chiavi private, chiavi pubbliche, indirizzi e firme delle transazioni.
-
-Il Capitolo 9 affronta limiti e prospettive future. Da un lato vengono richiamati rischi classici, come errori implementativi e gestione inadeguata delle chiavi; dall'altro viene discussa la minaccia post-quantistica. L'algoritmo di Shor mostra infatti che un computer quantistico sufficientemente potente potrebbe risolvere in tempo polinomiale i problemi matematici su cui si basano RSA, Diffie--Hellman ed ECC. Questo giustifica l'attuale ricerca verso schemi post-quantistici.
-
-Infine, il Capitolo 10 riassume i risultati principali e mette in evidenza il significato generale della crittografia su curve ellittiche: un esempio particolarmente efficace di come strutture algebriche profonde possano essere trasformate in strumenti pratici per la sicurezza digitale.
+La relazione è organizzata in tre parti principali. La prima parte introduce i fondamenti matematici: aritmetica modulare, gruppi, campi finiti, curve ellittiche sui reali e legge di gruppo. La seconda parte trasferisce questi concetti ai campi finiti e analizza il problema del logaritmo discreto su curve ellittiche, che costituisce la base della sicurezza di ECC. La terza parte descrive protocolli e applicazioni, in particolare ECDH, ECDSA e Bitcoin, per poi concludere con un confronto con RSA e una discussione sulla prospettiva post-quantistica.
 
 % ==========================================================
 % Chapter 2
