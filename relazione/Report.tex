@@ -490,7 +490,7 @@ Il secondo problema è chiamato \textit{Elliptic Curve Discrete Logarithm Proble
 
 Prima di studiare le curve ellittiche usate in crittografia, è utile considerarle sui numeri reali. Questa scelta non corrisponde all'ambiente effettivamente utilizzato nei protocolli crittografici, ma permette di visualizzare geometricamente la struttura della curva e di comprendere in modo intuitivo l'operazione di somma tra punti.
 
-In crittografia, infatti, le curve ellittiche vengono definite su campi finiti, dove non esiste una rappresentazione continua nel piano cartesiano. Tuttavia, molte idee fondamentali, come il punto all'infinito, la simmetria rispetto all'asse delle ascisse e la regola geometrica ``retta e riflessione'', sono più semplici da introdurre sui reali. Una volta compresa questa intuizione geometrica, sarà più naturale passare alla formulazione algebrica su campi finiti.
+In crittografia, infatti, le curve ellittiche vengono definite su campi finiti, dove non esiste una rappresentazione continua nel piano cartesiano. Tuttavia, molte idee fondamentali, come il punto all'infinito, la simmetria rispetto all'asse delle ascisse e la regola geometrica ``retta e riflessione'', sono più semplici da introdurre sui reali. Una volta compresa questa intuizione geometrica, sarà più naturale passare alla formulazione algebrica su campi finiti~\cite{margara_ec}.
 
 \section{Definizione generale di curva ellittica}
 
@@ -500,13 +500,13 @@ Una curva ellittica è un insieme di punti che soddisfano una particolare equazi
     y^2 + axy + by = x^3 + cx^2 + dx + e,
 \end{equation}
 
-dove \(a,b,c,d,e \in K\).
+dove \(a,b,c,d,e \in K\)~\cite{margara_ec}.
 
 Questa forma generale è utile dal punto di vista teorico, ma nella maggior parte delle applicazioni crittografiche e nella trattazione introduttiva si utilizza una forma più semplice, detta forma normale di Weierstrass. Tale forma può essere ottenuta, sotto opportune condizioni sul campo, mediante cambiamenti di variabile.
 
 \section{Forma normale di Weierstrass}
 
-Se il campo su cui è definita la curva ha caratteristica diversa da \(2\) e da \(3\), l'equazione di una curva ellittica può essere scritta nella forma normale di Weierstrass:
+Se il campo su cui è definita la curva ha caratteristica diversa da \(2\) e da \(3\), l'equazione di una curva ellittica può essere scritta nella forma normale di Weierstrass~\cite{margara_ec,sec1}:
 
 \begin{equation}
     y^2 = x^3 + ax + b,
@@ -521,7 +521,7 @@ Nel caso dei numeri reali, cioè \(K=\mathbb{R}\), la curva è l'insieme dei pun
     E(\mathbb{R}) = \{(x,y) \in \mathbb{R}^2 : y^2 = x^3 + ax + b\}.
 \end{equation}
 
-A questo insieme viene aggiunto un punto speciale, chiamato punto all'infinito e indicato con \(\mathcal{O}\). La curva ellittica completa sui reali viene quindi considerata come
+A questo insieme viene aggiunto un punto speciale, chiamato punto all'infinito e indicato con \(\mathcal{O}\)~\cite{margara_ec}. La curva ellittica completa sui reali viene quindi considerata come
 
 \begin{equation}
     E(\mathbb{R}) = \{(x,y) \in \mathbb{R}^2 : y^2 = x^3 + ax + b\} \cup \{\mathcal{O}\}.
@@ -546,7 +546,7 @@ Questa condizione garantisce che il polinomio cubico
     f(x) = x^3 + ax + b
 \end{equation}
 
-non abbia radici multiple. Dal punto di vista geometrico, ciò significa che la curva non presenta autointersezioni o cuspidi.
+non abbia radici multiple. Dal punto di vista geometrico, ciò significa che la curva non presenta autointersezioni o cuspidi~\cite{margara_ec}.
 
 \begin{example}
 Consideriamo la curva
@@ -594,7 +594,7 @@ implica che, per ogni valore di \(x\), i possibili valori di \(y\) sono
 y = \pm \sqrt{x^3 + ax + b},
 \]
 
-quando il termine sotto radice è non negativo. Questo mostra una proprietà importante: se \((x,y)\) è un punto della curva, allora anche \((x,-y)\) appartiene alla curva. La curva è quindi simmetrica rispetto all'asse delle ascisse.
+quando il termine sotto radice è non negativo. Questo mostra una proprietà importante: se \((x,y)\) è un punto della curva, allora anche \((x,-y)\) appartiene alla curva. La curva è quindi simmetrica rispetto all'asse delle ascisse~\cite{margara_ec}.
 
 \begin{equation}
     (x,y) \in E \quad \Longrightarrow \quad (x,-y) \in E.
@@ -606,11 +606,11 @@ Questa simmetria sarà fondamentale per definire l'inverso di un punto. Se \(P=(
     -P = (x,-y).
 \end{equation}
 
-Dal punto di vista geometrico, le curve ellittiche sui reali possono presentare forme diverse a seconda dei coefficienti \(a\) e \(b\). In particolare, il grafico può avere una sola componente connessa oppure due componenti. Questa differenza dipende dal numero di radici reali del polinomio cubico \(x^3+ax+b\).
+Dal punto di vista geometrico, le curve ellittiche sui reali possono presentare forme diverse a seconda dei coefficienti \(a\) e \(b\). In particolare, il grafico può avere una sola componente connessa oppure due componenti. Questa differenza dipende dal numero di radici reali del polinomio cubico \(x^3+ax+b\)~\cite{margara_ec}.
 
 \section{Intersezione con le rette}
 
-Una proprietà geometrica centrale delle curve ellittiche è che una retta interseca una curva cubica in al più tre punti, contando anche molteplicità e punti all'infinito. Nel caso delle curve ellittiche, questa proprietà permette di definire una legge di composizione tra punti.
+Una proprietà geometrica centrale delle curve ellittiche è che una retta interseca una curva cubica in al più tre punti, contando anche molteplicità e punti all'infinito~\cite{margara_ec}. Nel caso delle curve ellittiche, questa proprietà permette di definire una legge di composizione tra punti.
 
 Supponiamo che \(P\) e \(Q\) siano due punti distinti della curva. La retta passante per \(P\) e \(Q\) interseca la curva in un terzo punto, che indichiamo con \(R\). La somma \(P+Q\) sarà poi definita come il punto simmetrico di \(R\) rispetto all'asse delle ascisse.
 
@@ -627,7 +627,7 @@ Questa costruzione sarà formalizzata nel Capitolo 4. Per ora è sufficiente oss
 
 \section{Il punto all'infinito}
 
-Per definire una struttura di gruppo sui punti della curva, è necessario introdurre un elemento neutro. Questo elemento è il punto all'infinito, indicato con \(\mathcal{O}\).
+Per definire una struttura di gruppo sui punti della curva, è necessario introdurre un elemento neutro. Questo elemento è il punto all'infinito, indicato con \(\mathcal{O}\)~\cite{margara_ec}.
 
 Intuitivamente, \(\mathcal{O}\) può essere pensato come il punto in cui si incontrano le rette verticali. Se \(P=(x,y)\) è un punto della curva, il suo opposto è \(-P=(x,-y)\). I due punti \(P\) e \(-P\) sono allineati verticalmente. La retta verticale che passa per essi non incontra la curva in un terzo punto ordinario del piano reale; per completare la regola di intersezione, si introduce quindi il punto all'infinito.
 
@@ -647,7 +647,7 @@ Questa proprietà rende il punto all'infinito essenziale. Senza di esso, l'insie
 
 \section{Perché partire dai numeri reali}
 
-Le curve ellittiche sui numeri reali non sono usate direttamente nei protocolli crittografici, perché richiederebbero calcoli con numeri reali e quindi introdurrebbero problemi di approssimazione. La crittografia richiede invece operazioni esatte, riproducibili e implementabili in modo efficiente. Per questo motivo, nei sistemi reali si lavora su campi finiti.
+Le curve ellittiche sui numeri reali non sono usate direttamente nei protocolli crittografici, perché richiederebbero calcoli con numeri reali e quindi introdurrebbero problemi di approssimazione. La crittografia richiede invece operazioni esatte, riproducibili e implementabili in modo efficiente. Per questo motivo, nei sistemi reali si lavora su campi finiti~\cite{margara_ec}.
 
 Tuttavia, il caso reale rimane utile per tre ragioni.
 
