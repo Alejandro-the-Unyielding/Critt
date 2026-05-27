@@ -1957,486 +1957,266 @@ Questo tema verrà ripreso nel capitolo dedicato ai limiti e alla prospettiva po
 
 \section{Introduzione}
 
-Nei capitoli precedenti abbiamo costruito la struttura matematica della crittografia su curve ellittiche. Abbiamo definito le curve ellittiche su campi finiti, la legge di gruppo sui punti, la moltiplicazione scalare e il problema del logaritmo discreto su curve ellittiche. Questo capitolo utilizza tali strumenti per descrivere protocolli crittografici concreti.
+Nei capitoli precedenti abbiamo definito la struttura matematica di ECC: curve ellittiche su campi finiti, legge di gruppo, moltiplicazione scalare e problema del logaritmo discreto su curve ellittiche. Questo capitolo mostra come tali strumenti vengano usati in protocolli crittografici concreti.
 
-L'idea centrale è che la moltiplicazione scalare
+L'idea centrale è la seguente: dato un punto base pubblico \(G\), uno scalare segreto \(d\) permette di calcolare efficientemente
 
 \[
-Q=dG
+Q=dG.
 \]
 
-permette di costruire coppie di chiavi asimmetriche. Lo scalare \(d\) è mantenuto segreto e costituisce la chiave privata, mentre il punto \(Q\) viene reso pubblico e costituisce la chiave pubblica. La sicurezza deriva dal fatto che, conoscendo \(G\) e \(Q\), un avversario non dovrebbe riuscire a recuperare \(d\) in tempo praticabile.
+Lo scalare \(d\) costituisce la chiave privata, mentre il punto \(Q\) costituisce la chiave pubblica. La sicurezza dipende dal fatto che, conoscendo \(G\) e \(Q\), un avversario non riesca a recuperare \(d\) in tempo praticabile.
 
-In questo capitolo verranno presentati tre usi fondamentali di ECC:
+I tre usi principali trattati in questo capitolo sono:
 
 \begin{enumerate}
-    \item generazione delle chiavi;
-    \item scambio di chiavi tramite Elliptic Curve Diffie--Hellman;
-    \item firme digitali tramite Elliptic Curve Digital Signature Algorithm.
+    \item generazione delle chiavi ECC;
+    \item scambio di chiavi tramite ECDH/ECDHE;
+    \item firme digitali tramite ECDSA.
 \end{enumerate}
 
-Questi protocolli mostrano come la stessa operazione matematica, la moltiplicazione scalare su una curva ellittica, possa essere usata per obiettivi diversi: stabilire un segreto condiviso, autenticare un messaggio e verificare l'identità crittografica di un mittente.
+\section{Parametri pubblici e generazione delle chiavi}
 
-\section{Parametri pubblici di un sistema ECC}
+Un sistema ECC su un campo primo è descritto da parametri pubblici:
 
-Prima di generare chiavi o eseguire un protocollo, le parti devono concordare alcuni parametri pubblici. In un sistema ECC su un campo primo, tali parametri includono tipicamente:
+\[
+(E,\mathbb{F}_p,G,n),
+\]
 
-\begin{itemize}
-    \item un numero primo \(p\), che definisce il campo finito \(\mathbb{F}_p\);
-    \item i coefficienti \(a\) e \(b\) della curva
+dove \(E\) è la curva ellittica, \(\mathbb{F}_p\) è il campo finito, \(G\) è il punto base e \(n\) è l'ordine di \(G\), cioè il più piccolo intero positivo tale che
+
+\[
+nG=\mathcal{O}.
+\]
+
+Questi parametri non devono essere segreti. Nei sistemi reali sono normalmente standardizzati e pubblici. Ciò che deve rimanere segreto è lo scalare privato dell'utente.
+
+La generazione di una coppia di chiavi ECC avviene in due passi:
+
+\begin{enumerate}
+    \item si sceglie casualmente una chiave privata
     \[
-    E: y^2 \equiv x^3+ax+b \pmod p;
+    d \in \{1,\ldots,n-1\};
     \]
-    \item un punto base \(G \in E(\mathbb{F}_p)\);
-    \item l'ordine \(n\) del punto \(G\), cioè il più piccolo intero positivo tale che
+    \item si calcola la chiave pubblica
     \[
-    nG=\mathcal{O};
-    \]
-    \item eventualmente un cofattore \(h\), legato al rapporto tra il numero totale di punti della curva e l'ordine del sottogruppo generato da \(G\).
-\end{itemize}
-
-Questi parametri non devono essere segreti. Al contrario, nei sistemi reali sono normalmente standardizzati e pubblici. Ciò che deve rimanere segreto è lo scalare privato scelto dall'utente.
-
-Il punto base \(G\) genera il sottogruppo nel quale avvengono le operazioni crittografiche. In pratica, quando un utente calcola una chiave pubblica \(Q=dG\), il punto \(Q\) appartiene al sottogruppo generato da \(G\).
-
-\section{Generazione delle chiavi ECC}
-
-La generazione delle chiavi è il procedimento più semplice e più importante di ECC. Dati i parametri pubblici della curva, un utente sceglie una chiave privata e calcola la corrispondente chiave pubblica.
-
-\subsection{Chiave privata}
-
-La chiave privata è uno scalare casuale
-
-\begin{equation}
-    d \in \{1,2,\ldots,n-1\},
-\end{equation}
-
-dove \(n\) è l'ordine del punto base \(G\). Il valore \(d\) deve essere scelto in modo uniformemente casuale e deve rimanere segreto.
-
-Se la generazione casuale è debole o prevedibile, l'intero sistema può essere compromesso. In ECC, infatti, la sicurezza non dipende solo dalla difficoltà matematica dell'ECDLP, ma anche dalla corretta generazione dei segreti.
-
-\subsection{Chiave pubblica}
-
-La chiave pubblica è il punto
-
-\begin{equation}
     Q=dG.
-\end{equation}
+    \]
+\end{enumerate}
 
-Il calcolo di \(Q\) è efficiente, perché si esegue tramite moltiplicazione scalare. Tuttavia, dato \(G\) e \(Q\), recuperare \(d\) richiederebbe la risoluzione dell'ECDLP.
-
-La coppia di chiavi è quindi:
-
-\begin{equation}
-    \text{chiave privata: } d,
-\end{equation}
-
-\begin{equation}
-    \text{chiave pubblica: } Q=dG.
-\end{equation}
-
-\begin{algorithm}[h]
-\caption{Generazione di una coppia di chiavi ECC}
-\begin{algorithmic}[1]
-\REQUIRE Parametri pubblici \((E,\mathbb{F}_p,G,n)\)
-\ENSURE Chiave privata \(d\), chiave pubblica \(Q\)
-\STATE Scegli casualmente \(d \in \{1,\ldots,n-1\}\)
-\STATE Calcola \(Q \leftarrow dG\)
-\RETURN \((d,Q)\)
-\end{algorithmic}
-\end{algorithm}
+La scelta di \(d\) deve essere casuale e uniforme. Se la generazione casuale è debole o prevedibile, la sicurezza può essere compromessa indipendentemente dalla difficoltà matematica dell'ECDLP.
 
 \section{Elliptic Curve Diffie--Hellman}
 
-Elliptic Curve Diffie--Hellman, abbreviato ECDH, è la versione su curve ellittiche del protocollo Diffie--Hellman. Il suo obiettivo è permettere a due parti, tradizionalmente chiamate Alice e Bob, di generare una chiave segreta condivisa comunicando su un canale insicuro.
+Elliptic Curve Diffie--Hellman, abbreviato ECDH, è la versione su curve ellittiche del protocollo Diffie--Hellman. Il suo obiettivo è permettere a due parti, Alice e Bob, di ottenere una chiave segreta condivisa comunicando su un canale insicuro.
 
-La chiave non viene trasmessa direttamente. Viene invece calcolata indipendentemente dalle due parti, combinando la propria chiave privata con la chiave pubblica dell'altra parte.
-
-\section{Protocollo ECDH}
-
-Supponiamo che Alice e Bob abbiano concordato i parametri pubblici
-
-\[
-(E,\mathbb{F}_p,G,n).
-\]
-
-Alice sceglie una chiave privata
-
-\[
-d_A \in \{1,\ldots,n-1\}
-\]
-
-e calcola la chiave pubblica
+Alice sceglie una chiave privata \(d_A\) e calcola
 
 \[
 Q_A=d_A G.
 \]
 
-Bob sceglie una chiave privata
-
-\[
-d_B \in \{1,\ldots,n-1\}
-\]
-
-e calcola la chiave pubblica
+Bob sceglie una chiave privata \(d_B\) e calcola
 
 \[
 Q_B=d_B G.
 \]
 
-Alice e Bob si scambiano \(Q_A\) e \(Q_B\) sul canale pubblico. A questo punto Alice calcola
+Le chiavi pubbliche \(Q_A\) e \(Q_B\) vengono scambiate sul canale pubblico. Alice calcola
 
-\begin{equation}
-    S_A=d_A Q_B.
-\end{equation}
+\[
+S_A=d_A Q_B=d_A(d_B G)=d_A d_B G,
+\]
 
-Poiché \(Q_B=d_B G\), si ha
+mentre Bob calcola
 
-\begin{equation}
-    S_A=d_A(d_B G)=d_A d_B G.
-\end{equation}
+\[
+S_B=d_B Q_A=d_B(d_A G)=d_B d_A G.
+\]
 
-Bob calcola invece
+Poiché la moltiplicazione tra interi è commutativa, si ha
 
-\begin{equation}
-    S_B=d_B Q_A.
-\end{equation}
+\[
+S_A=S_B=S.
+\]
 
-Poiché \(Q_A=d_A G\), si ha
+Alice e Bob ottengono quindi lo stesso punto segreto \(S\), senza trasmetterlo direttamente.
 
-\begin{equation}
-    S_B=d_B(d_A G)=d_B d_A G.
-\end{equation}
-
-Dato che la moltiplicazione tra interi è commutativa,
-
-\begin{equation}
-    d_A d_B G = d_B d_A G.
-\end{equation}
-
-Quindi
-
-\begin{equation}
-    S_A=S_B=S.
-\end{equation}
-
-Alice e Bob hanno così ottenuto lo stesso punto segreto \(S\) sulla curva, senza trasmetterlo direttamente.
-
-\section{Derivazione della chiave condivisa}
-
-Il punto condiviso \(S\) non viene normalmente usato direttamente come chiave simmetrica. Se
+Il punto \(S\) non viene usato direttamente come chiave simmetrica. Se
 
 \[
 S=(x_S,y_S),
 \]
 
-si estrae una stringa di bit da una sua coordinata, tipicamente \(x_S\), e la si passa a una funzione di derivazione della chiave, chiamata KDF (\textit{Key Derivation Function}). In forma semplificata:
+normalmente si applica una funzione di derivazione della chiave:
 
-\begin{equation}
-    K = \mathrm{KDF}(x_S).
-\end{equation}
+\[
+K=\mathrm{KDF}(x_S).
+\]
 
-La chiave \(K\) così ottenuta può poi essere usata con un cifrario simmetrico, per esempio AES o ChaCha20, oppure per costruire chiavi distinte per cifratura e autenticazione.
+La chiave \(K\) può poi essere usata con un cifrario simmetrico o con una modalità autenticata.
 
-Questa separazione è importante: ECDH non è un cifrario per messaggi, ma un protocollo di accordo su chiave. Il suo scopo non è cifrare direttamente i dati, ma permettere a due parti di ottenere un segreto comune.
+\section{Sicurezza e autenticazione in ECDH}
 
-\section{Sicurezza di ECDH}
-
-Un avversario che osserva il canale pubblico conosce:
+Un avversario passivo che osserva il canale pubblico conosce
 
 \[
 E,\mathbb{F}_p,G,n,Q_A,Q_B.
 \]
 
-Per calcolare il segreto condiviso
+Per ricavare il segreto condiviso dovrebbe recuperare \(d_A\) da \(Q_A=d_A G\), oppure \(d_B\) da \(Q_B=d_B G\). Questo richiede la risoluzione dell'ECDLP.
 
-\[
-S=d_A d_B G,
-\]
+ECDH, però, nella sua forma base non autentica le parti. Se le chiavi pubbliche scambiate non vengono verificate, il protocollo è vulnerabile a un attacco man-in-the-middle. Un avversario può sostituire \(Q_A\) e \(Q_B\) con proprie chiavi pubbliche, stabilendo due segreti distinti: uno con Alice e uno con Bob.
 
-dovrebbe recuperare \(d_A\) da \(Q_A=d_A G\), oppure \(d_B\) da \(Q_B=d_B G\). Questo richiede la risoluzione dell'ECDLP.
-
-La sicurezza di ECDH dipende quindi dalla difficoltà di recuperare uno scalare privato a partire dalla corrispondente chiave pubblica. Se l'ECDLP è impraticabile sui parametri scelti, un avversario passivo non riesce a derivare la chiave condivisa osservando soltanto i messaggi scambiati.
-
-\section{Attacco man-in-the-middle}
-
-ECDH, nella sua forma base, protegge dallo spionaggio passivo ma non autentica le parti. Questo significa che è vulnerabile a un attacco man-in-the-middle se le chiavi pubbliche non vengono verificate.
-
-Supponiamo che Eve si interponga tra Alice e Bob. Quando Alice invia \(Q_A\) a Bob, Eve lo blocca e invia a Bob una propria chiave pubblica \(Q_E\). Quando Bob invia \(Q_B\) ad Alice, Eve lo blocca e invia ad Alice ancora una propria chiave pubblica.
-
-Il risultato è che Alice crede di condividere una chiave con Bob, ma in realtà la condivide con Eve. Bob crede di condividere una chiave con Alice, ma in realtà la condivide con Eve. Eve può quindi decifrare, leggere, modificare e ricifrare i messaggi.
-
-Per questo motivo, nella pratica ECDH deve essere combinato con meccanismi di autenticazione, come certificati digitali o firme digitali. Nei protocolli moderni, lo scambio di chiavi non deve solo produrre un segreto condiviso, ma anche garantire l'identità delle parti coinvolte.
+Per questo motivo, nei protocolli reali ECDH viene combinato con meccanismi di autenticazione, come certificati digitali o firme digitali. Il problema non è solo ottenere un segreto condiviso, ma sapere con chi lo si sta condividendo.
 
 \section{ECDHE e forward secrecy}
 
-Una variante molto importante è ECDHE, cioè \textit{Elliptic Curve Diffie--Hellman Ephemeral}. Il termine \textit{ephemeral} indica che le chiavi usate per lo scambio sono temporanee e vengono generate per una singola sessione.
+Una variante importante è ECDHE, cioè \textit{Elliptic Curve Diffie--Hellman Ephemeral}. In questo caso le chiavi usate per lo scambio sono temporanee e vengono generate per una singola sessione.
 
-L'idea è che Alice e Bob non usano sempre la stessa coppia di chiavi per stabilire il segreto, ma generano nuovi scalari temporanei per ogni connessione. Questo garantisce una proprietà chiamata \textit{forward secrecy}: anche se in futuro una chiave privata a lungo termine viene compromessa, le chiavi di sessione passate non vengono automaticamente compromesse.
-
-In protocolli come TLS moderno, ECDHE è usato proprio per ottenere chiavi di sessione fresche e indipendenti. In questo modo, la violazione di una chiave non permette di decifrare retroattivamente tutte le comunicazioni registrate in passato.
+L'uso di chiavi effimere permette di ottenere \textit{forward secrecy}: se in futuro una chiave privata a lungo termine viene compromessa, le chiavi di sessione passate non vengono automaticamente compromesse. Per questa ragione ECDHE è ampiamente usato nei protocolli moderni di comunicazione sicura.
 
 \section{Firme digitali su curve ellittiche}
 
-Oltre allo scambio di chiavi, le curve ellittiche vengono usate per costruire firme digitali. Una firma digitale serve a garantire tre proprietà principali:
+Oltre allo scambio di chiavi, ECC viene usata per costruire firme digitali. Una firma digitale garantisce autenticità, integrità e non ripudio: il destinatario può verificare che il messaggio provenga dal possessore della chiave privata, che non sia stato modificato e che il firmatario non possa ragionevolmente negare la firma.
 
-\begin{enumerate}
-    \item \textbf{Autenticità}: il destinatario può verificare che il messaggio provenga dal possessore della chiave privata;
-    \item \textbf{Integrità}: il destinatario può verificare che il messaggio non sia stato modificato;
-    \item \textbf{Non ripudio}: il firmatario non può ragionevolmente negare di aver prodotto una firma valida.
-\end{enumerate}
-
-Lo schema di firma più noto basato su curve ellittiche è ECDSA, \textit{Elliptic Curve Digital Signature Algorithm}. Esso è la variante su curve ellittiche del Digital Signature Algorithm.
-
-\section{Idea generale di ECDSA}
-
-In ECDSA, un utente possiede:
+Lo schema più noto basato su curve ellittiche è ECDSA, \textit{Elliptic Curve Digital Signature Algorithm}. Un utente possiede una chiave privata \(d\) e una chiave pubblica
 
 \[
-\text{chiave privata } d,
+Q=dG.
 \]
+
+Per firmare un messaggio \(m\), non si firma direttamente l'intero messaggio, ma il suo hash
 
 \[
-\text{chiave pubblica } Q=dG.
+e=H(m).
 \]
 
-Per firmare un messaggio \(m\), il firmatario non firma direttamente l'intero messaggio, ma una sua immagine hash
-
-\[
-e = H(m),
-\]
-
-dove \(H\) è una funzione hash crittografica. L'uso dell'hash ha due motivi principali: riduce un messaggio arbitrariamente lungo a una stringa di lunghezza fissa e lega la firma al contenuto specifico del messaggio.
-
-La firma prodotta è una coppia di valori
+La firma prodotta è una coppia
 
 \[
 (r,s).
 \]
 
-Il destinatario, conoscendo il messaggio \(m\), la firma \((r,s)\), la chiave pubblica \(Q\) e i parametri della curva, può verificare se la firma è valida. Se la verifica ha successo, il destinatario conclude che la firma è stata generata da chi conosce la chiave privata \(d\).
+Chiunque conosca \(m\), \((r,s)\), \(Q\) e i parametri della curva può verificare la validità della firma.
 
-\section{Generazione di una firma ECDSA}
+\section{Generazione e verifica di una firma ECDSA}
 
-Siano pubblici i parametri \((E,\mathbb{F}_p,G,n)\), dove \(G\) ha ordine \(n\). Sia \(d\) la chiave privata del firmatario e sia \(Q=dG\) la chiave pubblica.
+Siano pubblici i parametri \((E,\mathbb{F}_p,G,n)\), con \(G\) di ordine \(n\). Sia \(d\) la chiave privata del firmatario e \(Q=dG\) la chiave pubblica.
 
-Per firmare un messaggio \(m\), il firmatario esegue i seguenti passi:
+Per firmare un messaggio \(m\):
 
 \begin{enumerate}
-    \item calcola l'hash del messaggio:
+    \item si calcola
     \[
     e=H(m);
     \]
-    \item sceglie casualmente un intero temporaneo \(k\), con
-    \[
-    1 \leq k < n;
-    \]
-    \item calcola il punto
+    \item si sceglie un nonce segreto \(k\), con \(1\leq k<n\);
+    \item si calcola
     \[
     R=kG=(x_R,y_R);
     \]
-    \item calcola
+    \item si pone
     \[
-    r \equiv x_R \pmod n;
+    r\equiv x_R \pmod n;
     \]
-    \item calcola
+    \item si calcola
     \[
-    s \equiv k^{-1}(e+dr) \pmod n.
-    \]
-\end{enumerate}
-
-La firma del messaggio è la coppia
-
-\begin{equation}
-    (r,s).
-\end{equation}
-
-Se \(r=0\) oppure \(s=0\), si sceglie un nuovo valore di \(k\) e si ripete la procedura. Nella pratica questi casi sono estremamente rari se i parametri sono scelti correttamente.
-
-\begin{algorithm}[h]
-\caption{Firma ECDSA}
-\begin{algorithmic}[1]
-\REQUIRE Messaggio \(m\), chiave privata \(d\), parametri \((E,\mathbb{F}_p,G,n)\)
-\ENSURE Firma \((r,s)\)
-\STATE \(e \leftarrow H(m)\)
-\STATE Scegli casualmente \(k \in \{1,\ldots,n-1\}\)
-\STATE \(R \leftarrow kG=(x_R,y_R)\)
-\STATE \(r \leftarrow x_R \bmod n\)
-\STATE \(s \leftarrow k^{-1}(e+dr) \bmod n\)
-\RETURN \((r,s)\)
-\end{algorithmic}
-\end{algorithm}
-
-\section{Verifica di una firma ECDSA}
-
-Per verificare una firma \((r,s)\) su un messaggio \(m\), il verificatore usa la chiave pubblica \(Q\) del firmatario.
-
-La procedura è la seguente:
-
-\begin{enumerate}
-    \item verifica che \(r\) e \(s\) siano interi nell'intervallo \(\{1,\ldots,n-1\}\);
-    \item calcola
-    \[
-    e=H(m);
-    \]
-    \item calcola
-    \[
-    w \equiv s^{-1} \pmod n;
-    \]
-    \item calcola
-    \[
-    u_1 \equiv ew \pmod n;
-    \]
-    \item calcola
-    \[
-    u_2 \equiv rw \pmod n;
-    \]
-    \item calcola il punto
-    \[
-    X=u_1G+u_2Q=(x_X,y_X);
-    \]
-    \item accetta la firma se
-    \[
-    r \equiv x_X \pmod n.
+    s\equiv k^{-1}(e+dr)\pmod n.
     \]
 \end{enumerate}
 
-\begin{algorithm}[h]
-\caption{Verifica ECDSA}
-\begin{algorithmic}[1]
-\REQUIRE Messaggio \(m\), firma \((r,s)\), chiave pubblica \(Q\), parametri \((E,\mathbb{F}_p,G,n)\)
-\ENSURE Accetta o rifiuta
-\STATE Verifica che \(1 \leq r,s < n\)
-\STATE \(e \leftarrow H(m)\)
-\STATE \(w \leftarrow s^{-1} \bmod n\)
-\STATE \(u_1 \leftarrow ew \bmod n\)
-\STATE \(u_2 \leftarrow rw \bmod n\)
-\STATE \(X \leftarrow u_1G+u_2Q=(x_X,y_X)\)
-\IF{\(r \equiv x_X \bmod n\)}
-    \STATE Accetta
-\ELSE
-    \STATE Rifiuta
-\ENDIF
-\end{algorithmic}
-\end{algorithm}
+La firma è la coppia \((r,s)\).
 
-\section{Correttezza della verifica ECDSA}
-
-Vediamo perché la verifica funziona. Durante la firma, il valore \(s\) è definito come
+Per verificare la firma, il verificatore calcola:
 
 \[
-s \equiv k^{-1}(e+dr) \pmod n.
-\]
-
-Moltiplicando entrambi i membri per \(k\), otteniamo
-
-\[
-ks \equiv e+dr \pmod n.
-\]
-
-Poiché \(w=s^{-1}\), si ha
-
-\[
-k \equiv (e+dr)w \pmod n.
-\]
-
-Separando i termini:
-
-\[
-k \equiv ew + drw \pmod n.
-\]
-
-Per definizione,
-
-\[
-u_1 \equiv ew \pmod n,
+w\equiv s^{-1}\pmod n,
 \]
 
 \[
-u_2 \equiv rw \pmod n.
+u_1\equiv ew\pmod n,
+\qquad
+u_2\equiv rw\pmod n,
 \]
 
-Quindi
+e poi il punto
 
 \[
-k \equiv u_1 + d u_2 \pmod n.
+X=u_1G+u_2Q.
 \]
 
-Moltiplicando per il punto base \(G\), si ottiene
+La firma viene accettata se
 
 \[
-kG = u_1G + d u_2G.
+r\equiv x_X \pmod n,
 \]
 
-Poiché la chiave pubblica è
+dove \(x_X\) è la coordinata \(x\) del punto \(X\).
+
+La correttezza deriva dal fatto che, sostituendo \(Q=dG\), si ottiene
 
 \[
-Q=dG,
+u_1G+u_2Q = ewG+rw(dG)=(e+rd)wG.
+\]
+
+Poiché
+
+\[
+s\equiv k^{-1}(e+dr)\pmod n,
 \]
 
 si ha
 
 \[
-d u_2G = u_2Q.
+w=s^{-1}\equiv (e+dr)^{-1}k \pmod n,
 \]
 
-Dunque
-
-\[
-kG = u_1G + u_2Q.
-\]
-
-Il punto calcolato dal verificatore è quindi lo stesso punto \(R=kG\) usato dal firmatario. Per questo motivo, la sua coordinata \(x\), ridotta modulo \(n\), coincide con \(r\). La verifica accetta esattamente quando questa coerenza è rispettata.
+e quindi il punto calcolato dal verificatore coincide con \(kG\), cioè con il punto usato dal firmatario per costruire \(r\).
 
 \section{Importanza del nonce in ECDSA}
 
-Il valore temporaneo \(k\), spesso chiamato \textit{nonce}, è critico per la sicurezza di ECDSA. Deve essere casuale, segreto e usato una sola volta. Se lo stesso \(k\) viene riutilizzato per firmare due messaggi diversi, la chiave privata può essere recuperata.
+Il nonce \(k\) è critico per la sicurezza di ECDSA. Deve essere segreto, imprevedibile e usato una sola volta. Se lo stesso \(k\) viene riutilizzato per firmare due messaggi diversi, la chiave privata può essere recuperata.
 
-Supponiamo che due messaggi diversi abbiano hash \(e_1\) ed \(e_2\), ma siano firmati usando lo stesso nonce \(k\). Le firme saranno
+Infatti, per due hash \(e_1\) ed \(e_2\) firmati con lo stesso nonce, si hanno
 
 \[
-s_1 \equiv k^{-1}(e_1+dr) \pmod n,
+s_1 \equiv k^{-1}(e_1+dr)\pmod n,
 \]
 
 \[
-s_2 \equiv k^{-1}(e_2+dr) \pmod n.
+s_2 \equiv k^{-1}(e_2+dr)\pmod n.
 \]
 
-Sottraendo:
+Sottraendo,
 
 \[
-s_1-s_2 \equiv k^{-1}(e_1-e_2) \pmod n.
+s_1-s_2\equiv k^{-1}(e_1-e_2)\pmod n,
 \]
 
-Da cui si può ricavare
+da cui
 
 \[
-k \equiv (e_1-e_2)(s_1-s_2)^{-1} \pmod n.
+k\equiv (e_1-e_2)(s_1-s_2)^{-1}\pmod n.
 \]
 
-Una volta recuperato \(k\), si può ricavare \(d\) dalla formula della firma:
+Una volta noto \(k\), dalla formula
 
 \[
-s \equiv k^{-1}(e+dr) \pmod n.
+s\equiv k^{-1}(e+dr)\pmod n
 \]
 
-Moltiplicando per \(k\):
+si ricava
 
 \[
-sk \equiv e+dr \pmod n.
+d\equiv (sk-e)r^{-1}\pmod n.
 \]
 
-Quindi
-
-\[
-d \equiv (sk-e)r^{-1} \pmod n.
-\]
-
-Questo mostra che la sicurezza di ECDSA non dipende soltanto dall'ECDLP, ma anche dall'uso corretto di valori casuali temporanei. Un errore implementativo nella generazione del nonce può distruggere completamente la sicurezza della chiave privata.
+Questo mostra che la sicurezza di ECDSA non dipende soltanto dall'ECDLP, ma anche dall'uso corretto dei valori temporanei.
 
 \section{ECDH ed ECDSA a confronto}
 
-ECDH ed ECDSA usano entrambi la stessa struttura matematica, ma risolvono problemi diversi.
+ECDH ed ECDSA usano la stessa struttura matematica, ma con obiettivi diversi.
 
 \begin{table}[h]
 \centering
@@ -2452,17 +2232,7 @@ ECDSA & firmare un messaggio & usata per produrre una firma verificabile \\
 \label{tab:ecdh-ecdsa}
 \end{table}
 
-Nel caso di ECDH, entrambe le parti contribuiscono al segreto finale. Nel caso di ECDSA, invece, una parte produce una firma con la propria chiave privata e chiunque possieda la chiave pubblica può verificarla.
-
-La distinzione è importante: lo scambio di chiavi fornisce confidenzialità tramite una chiave simmetrica successiva, mentre la firma digitale fornisce autenticità, integrità e non ripudio.
-
-\section{Relazione con le applicazioni reali}
-
-I protocolli descritti in questo capitolo sono alla base di numerose applicazioni pratiche. ECDHE viene usato nei protocolli di comunicazione sicura per stabilire chiavi di sessione con forward secrecy. ECDSA è stato usato in molte infrastrutture di firma digitale e nei sistemi blockchain.
-
-In Bitcoin, ad esempio, la chiave privata permette di firmare una transazione, mentre la chiave pubblica permette ai nodi della rete di verificare che la spesa sia stata autorizzata dal possessore della chiave privata corrispondente. In questo modo, la firma digitale sostituisce l'autorizzazione centralizzata: non serve una banca che approvi la transazione, perché la rete può verificare autonomamente la validità crittografica della firma.
-
-Questi esempi mostrano che ECC non è soltanto un oggetto matematico elegante, ma una tecnologia concreta usata per proteggere comunicazioni e transazioni digitali.
+Nel primo caso, due parti contribuiscono alla generazione di un segreto comune. Nel secondo, una parte produce una firma che chiunque può verificare usando la chiave pubblica. In entrambi i casi, la sicurezza dipende dalla difficoltà di ricavare uno scalare privato da un punto pubblico della forma \(Q=dG\).
 
 % ==========================================================
 % Chapter 8
