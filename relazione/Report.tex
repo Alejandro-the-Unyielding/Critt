@@ -670,7 +670,7 @@ Nel capitolo precedente abbiamo introdotto le curve ellittiche sui numeri reali 
     y^2 = x^3 + ax + b.
 \end{equation}
 
-Il passo successivo è mostrare che i punti di una curva ellittica possono essere dotati di una struttura algebrica. Più precisamente, è possibile definire un'operazione di somma tra punti tale che l'insieme dei punti della curva, insieme al punto all'infinito \(\mathcal{O}\), formi un gruppo abeliano.
+Il passo successivo è mostrare che i punti di una curva ellittica possono essere dotati di una struttura algebrica. Più precisamente, è possibile definire un'operazione di somma tra punti tale che l'insieme dei punti della curva, insieme al punto all'infinito \(\mathcal{O}\), formi un gruppo abeliano~\cite{margara_ec,sec1}.
 
 Questa osservazione è fondamentale per la crittografia su curve ellittiche. Infatti, i protocolli ECC non utilizzano la curva solo come figura geometrica, ma come insieme algebrico su cui è possibile calcolare espressioni del tipo
 
@@ -684,7 +684,7 @@ dove \(P\) è un punto della curva e \(k\) è uno scalare intero. Per comprender
 
 Sia \(E\) una curva ellittica sui numeri reali e siano \(P\) e \(Q\) due punti di \(E\). La somma \(P+Q\) viene definita usando una costruzione geometrica basata sulle intersezioni tra rette e curve cubiche.
 
-Se \(P\) e \(Q\) sono distinti, si considera la retta passante per \(P\) e \(Q\). Questa retta interseca la curva in un terzo punto, che indichiamo con \(R\). La somma \(P+Q\) è definita come il punto simmetrico di \(R\) rispetto all'asse delle ascisse.
+Se \(P\) e \(Q\) sono distinti, si considera la retta passante per \(P\) e \(Q\). Questa retta interseca la curva in un terzo punto, che indichiamo con \(R\). La somma \(P+Q\) è definita come il punto simmetrico di \(R\) rispetto all'asse delle ascisse~\cite{margara_ec}.
 
 In simboli, se il terzo punto di intersezione è
 
@@ -715,7 +715,7 @@ con \(P \neq Q\) e \(Q \neq -P\). La retta passante per \(P\) e \(Q\) ha coeffic
     \label{eq:lambda-add-real}
 \end{equation}
 
-La somma \(S=P+Q\), con \(S=(x_S,y_S)\), è data dalle formule
+La somma \(S=P+Q\), con \(S=(x_S,y_S)\), è data dalle formule~\cite{margara_ec,sec1}
 
 \begin{align}
     x_S &= \lambda^2 - x_P - x_Q, \label{eq:add-xs-real} \\
@@ -802,7 +802,7 @@ La retta passante per \(P\) e \(-P\) è verticale. Essa non interseca la curva i
     P + (-P) = \mathcal{O}.
 \end{equation}
 
-Questa proprietà giustifica l'interpretazione di \(-P\) come inverso additivo di \(P\). In particolare, il punto all'infinito svolge il ruolo di elemento neutro rispetto alla somma.
+Questa proprietà giustifica l'interpretazione di \(-P\) come inverso additivo di \(P\). In particolare, il punto all'infinito svolge il ruolo di elemento neutro rispetto alla somma~\cite{margara_ec}.
 
 \section{Raddoppio di un punto}
 
@@ -828,7 +828,7 @@ Il punto \(2P=P+P\) ha coordinate
     y_{2P} &= \lambda(x_P-x_{2P})-y_P. \label{eq:double-y-real}
 \end{align}
 
-Anche qui la logica è la stessa: la tangente interseca la curva in un ulteriore punto \(R\), e il risultato \(2P\) è il simmetrico di \(R\) rispetto all'asse delle ascisse.
+Anche qui la logica è la stessa: la tangente interseca la curva in un ulteriore punto \(R\), e il risultato \(2P\) è il simmetrico di \(R\) rispetto all'asse delle ascisse~\cite{margara_ec,sec1}.
 
 \begin{example}
 Consideriamo ancora la curva
@@ -903,7 +903,7 @@ P+P=P+(-P)=\mathcal{O}.
 
 \section{Elemento neutro}
 
-Il punto all'infinito \(\mathcal{O}\) è l'elemento neutro della somma sui punti della curva. Per ogni punto \(P \in E\), si ha
+Il punto all'infinito \(\mathcal{O}\) è l'elemento neutro della somma sui punti della curva~\cite{margara_ec}. Per ogni punto \(P \in E\), si ha
 
 \begin{equation}
     P+\mathcal{O}=\mathcal{O}+P=P.
@@ -973,7 +973,7 @@ Allora l'operazione di somma appena descritta soddisfa le proprietà di gruppo a
     \]
 \end{enumerate}
 
-La commutatività è intuitiva dal punto di vista geometrico, perché la retta passante per \(P\) e \(Q\) è la stessa retta passante per \(Q\) e \(P\). L'associatività è invece meno evidente geometricamente e richiede una dimostrazione più tecnica. In questa relazione ci limiteremo a usare il risultato: la legge di somma rende i punti di una curva ellittica non singolare un gruppo abeliano.
+La commutatività è intuitiva dal punto di vista geometrico, perché la retta passante per \(P\) e \(Q\) è la stessa retta passante per \(Q\) e \(P\). L'associatività è invece meno evidente geometricamente e richiede una dimostrazione più tecnica. In questa relazione ci limiteremo a usare il risultato: la legge di somma rende i punti di una curva ellittica non singolare un gruppo abeliano~\cite{margara_ec,sec1}.
 
 \section{Moltiplicazione scalare}
 
@@ -997,9 +997,9 @@ Per esempio,
 4P=2P+2P.
 \]
 
-Questa operazione prende il nome di moltiplicazione scalare. Essa è centrale nella crittografia su curve ellittiche. Nei protocolli ECC, uno scalare segreto \(k\) viene usato per calcolare un punto pubblico \(Q=kP\), dove \(P\) è un punto base noto pubblicamente.
+Questa operazione prende il nome di moltiplicazione scalare. Essa è centrale nella crittografia su curve ellittiche. Nei protocolli ECC, uno scalare segreto \(k\) viene usato per calcolare un punto pubblico \(Q=kP\), dove \(P\) è un punto base noto pubblicamente~\cite{margara_ec,sec1}.
 
-La sicurezza si basa sul fatto che il calcolo diretto di \(Q=kP\) è efficiente, mentre il problema inverso, cioè determinare \(k\) conoscendo \(P\) e \(Q\), è computazionalmente difficile su curve e parametri scelti correttamente.
+La sicurezza si basa sul fatto che il calcolo diretto di \(Q=kP\) è efficiente, mentre il problema inverso, cioè determinare \(k\) conoscendo \(P\) e \(Q\), è computazionalmente difficile su curve e parametri scelti correttamente~\cite{margara_ec,sec1}.
 
 \section{Metodo double-and-add}
 
@@ -1051,7 +1051,7 @@ Poi si sommano solo i multipli corrispondenti ai bit uguali a \(1\) nella rappre
 \end{algorithmic}
 \end{algorithm}
 
-Questo algoritmo mostra perché la moltiplicazione scalare è efficiente: il numero di operazioni cresce in modo proporzionale al numero di bit di \(k\), non al valore numerico di \(k\).
+Questo algoritmo mostra perché la moltiplicazione scalare è efficiente: il numero di operazioni cresce in modo proporzionale al numero di bit di \(k\), non al valore numerico di \(k\)~\cite{sec1}.
 
 \section{Importanza crittografica della legge di gruppo}
 
