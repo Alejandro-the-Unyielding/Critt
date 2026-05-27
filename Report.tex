@@ -1075,83 +1075,68 @@ Questa struttura permette di costruire protocolli di scambio di chiavi e firme d
 
 \section{Introduzione}
 
-Nei capitoli precedenti abbiamo studiato le curve ellittiche sui numeri reali per costruire l'intuizione geometrica della somma tra punti. Tuttavia, le curve sui reali non sono adatte all'uso crittografico. I protocolli crittografici richiedono operazioni esatte, riproducibili e implementabili in modo efficiente; i numeri reali, invece, introducono problemi di approssimazione e arrotondamento.
+Nei capitoli precedenti abbiamo studiato le curve ellittiche sui numeri reali per costruire l'intuizione geometrica della somma tra punti. Tuttavia, le curve sui reali non sono adatte all'uso crittografico, perché i protocolli richiedono operazioni esatte, riproducibili e implementabili in modo efficiente. I numeri reali introducono invece problemi di approssimazione e arrotondamento.
 
-Per questo motivo, la crittografia su curve ellittiche lavora su campi finiti. In particolare, una scelta comune è definire la curva su un campo primo \(\mathbb{F}_p\), dove \(p\) è un numero primo grande. In tale contesto, le coordinate dei punti non sono numeri reali, ma elementi dell'insieme
+Per questo motivo, la crittografia su curve ellittiche lavora su campi finiti. Una scelta comune è definire la curva su un campo primo \(\mathbb{F}_p\), dove \(p\) è un numero primo grande. Le coordinate dei punti appartengono quindi all'insieme
 
 \[
-\mathbb{F}_p = \{0,1,2,\ldots,p-1\},
+\mathbb{F}_p=\{0,1,2,\ldots,p-1\},
 \]
 
-e tutte le operazioni sono eseguite modulo \(p\).
-
-Il passaggio ai campi finiti è fondamentale: la curva non appare più come una figura continua, ma come un insieme finito di punti. Nonostante ciò, la stessa struttura algebrica vista sui reali rimane valida. Possiamo ancora sommare punti, raddoppiare punti, definire il punto all'infinito e calcolare multipli scalari \(kP\).
+e tutte le operazioni sono eseguite modulo \(p\). La curva non appare più come una figura continua, ma come un insieme finito di punti. Nonostante ciò, la struttura algebrica rimane la stessa: si possono sommare punti, raddoppiare punti, definire il punto all'infinito e calcolare multipli scalari \(kP\).
 
 \section{Curve ellittiche su \texorpdfstring{\(\mathbb{F}_p\)}{Fp}}
 
-Sia \(p>3\) un numero primo. Una curva ellittica su \(\mathbb{F}_p\) è definita da un'equazione della forma
+Sia \(p>3\) un numero primo. Una curva ellittica su \(\mathbb{F}_p\) è definita da una congruenza della forma
 
 \begin{equation}
-    y^2 \equiv x^3 + ax + b \pmod p,
+    y^2 \equiv x^3+ax+b \pmod p,
     \label{eq:ec-fp}
 \end{equation}
 
-dove \(a,b \in \mathbb{F}_p\). L'insieme dei punti della curva è
+dove \(a,b\in\mathbb{F}_p\). L'insieme dei punti della curva è
 
 \begin{equation}
-    E(\mathbb{F}_p)
-    =
-    \{(x,y)\in \mathbb{F}_p^2 : y^2 \equiv x^3+ax+b \pmod p\}
-    \cup \{\mathcal{O}\}.
+    E(\mathbb{F}_p)=
+    \{(x,y)\in\mathbb{F}_p^2 : y^2\equiv x^3+ax+b \pmod p\}
+    \cup\{\mathcal{O}\}.
 \end{equation}
 
-Come nel caso reale, \(\mathcal{O}\) indica il punto all'infinito, che svolge il ruolo di elemento neutro della somma.
-
-Anche su un campo finito è necessario imporre la condizione di non singolarità:
+Il punto \(\mathcal{O}\) è il punto all'infinito e svolge il ruolo di elemento neutro. Anche nel caso finito è necessario imporre la condizione di non singolarità:
 
 \begin{equation}
-    4a^3 + 27b^2 \not\equiv 0 \pmod p.
+    4a^3+27b^2\not\equiv 0 \pmod p.
     \label{eq:nonsingular-fp}
 \end{equation}
 
-Questa condizione evita che la curva presenti degenerazioni che impedirebbero di definire correttamente la legge di gruppo.
+Questa condizione evita degenerazioni che impedirebbero di definire correttamente la legge di gruppo.
 
 \section{Differenza rispetto al caso reale}
 
-Nel caso reale, una curva ellittica può essere disegnata come una curva continua nel piano cartesiano. Su \(\mathbb{F}_p\), invece, le coordinate possibili sono soltanto \(p\) valori per \(x\) e \(p\) valori per \(y\). Di conseguenza, esistono al massimo \(p^2\) coppie possibili da controllare.
-
-Per esempio, su \(\mathbb{F}_{17}\), le coordinate ammesse sono
+Nel caso reale, una curva ellittica può essere disegnata come una curva continua nel piano cartesiano. Su \(\mathbb{F}_p\), invece, le coordinate possibili sono soltanto \(p\) valori per \(x\) e \(p\) valori per \(y\). Per esempio, su \(\mathbb{F}_{17}\) le coordinate ammesse sono
 
 \[
 0,1,2,\ldots,16.
 \]
 
-Una curva ellittica su \(\mathbb{F}_{17}\) non è quindi una curva continua, ma un insieme discreto di punti. Non ha senso parlare di ``disegno liscio'' della curva; ha invece senso verificare quali coppie \((x,y)\) soddisfano l'equazione modulo \(17\).
+Una curva ellittica su \(\mathbb{F}_{17}\) non è quindi una curva liscia, ma un insieme discreto di punti. La costruzione geometrica tramite rette e riflessioni fornisce l'intuizione, ma nei campi finiti l'operazione viene eseguita mediante formule algebriche modulari.
 
-Questa differenza è importante. La costruzione geometrica tramite rette e riflessioni fornisce l'intuizione, ma nei campi finiti l'operazione viene eseguita mediante formule algebriche modulari.
-
-\section{Esempio di enumerazione dei punti}
+\section{Esempio di curva su \texorpdfstring{\(\mathbb{F}_{17}\)}{F17}}
 
 Consideriamo la curva
 
 \begin{equation}
-    E: y^2 \equiv x^3 + 2x + 2 \pmod{17}.
+    E: y^2 \equiv x^3+2x+2 \pmod{17}.
     \label{eq:example-curve-f17}
 \end{equation}
 
-Per determinare i punti della curva, si possono controllare tutti i valori \(x \in \mathbb{F}_{17}\). Per ogni \(x\), si calcola
+Per determinare i punti della curva, si controllano i valori \(x\in\mathbb{F}_{17}\) e si verifica se
 
 \[
 x^3+2x+2 \pmod{17}
 \]
 
-e si verifica se esiste un \(y\) tale che
-
-\[
-y^2 \equiv x^3+2x+2 \pmod{17}.
-\]
-
-Prima elenchiamo i quadrati modulo \(17\):
+è un quadrato modulo \(17\). I quadrati modulo \(17\) sono:
 
 \[
 \begin{array}{c|ccccccccccccccccc}
@@ -1161,269 +1146,108 @@ y^2 \bmod 17 & 0&1&4&9&16&8&2&15&13&13&15&2&8&16&9&4&1
 \end{array}
 \]
 
-Quindi un valore \(r\in\mathbb{F}_{17}\) è un quadrato modulo \(17\) se appare nella seconda riga della tabella.
-
-Calcoliamo alcuni punti.
-
-Per \(x=0\):
+Per esempio, per \(x=0\) si ottiene
 
 \[
-x^3+2x+2 = 2.
+x^3+2x+2=2,
 \]
 
-Dalla tabella, \(y^2 \equiv 2 \pmod{17}\) per \(y=6\) e \(y=11\). Quindi otteniamo i punti
+e dalla tabella \(y^2\equiv 2\pmod{17}\) per \(y=6\) e \(y=11\). Quindi \((0,6)\) e \((0,11)\) appartengono alla curva. Per \(x=3\),
 
 \[
-(0,6), \qquad (0,11).
+3^3+2\cdot 3+2=35\equiv 1\pmod{17},
 \]
 
-Per \(x=3\):
-
-\[
-3^3+2\cdot 3+2 = 27+6+2=35 \equiv 1 \pmod{17}.
-\]
-
-Poiché \(y^2 \equiv 1 \pmod{17}\) per \(y=1\) e \(y=16\), otteniamo
-
-\[
-(3,1), \qquad (3,16).
-\]
-
-Per \(x=5\):
-
-\[
-5^3+2\cdot 5+2 = 125+10+2=137 \equiv 1 \pmod{17}.
-\]
-
-Anche in questo caso otteniamo
-
-\[
-(5,1), \qquad (5,16).
-\]
-
-Procedendo allo stesso modo per tutti i valori di \(x\), si ottiene l'insieme completo dei punti della curva. L'aspetto importante non è memorizzare l'elenco, ma comprendere che la curva è un insieme finito di coppie che soddisfano una congruenza.
+da cui si ottengono i punti \((3,1)\) e \((3,16)\). Questo esempio mostra che una curva su campo finito è semplicemente l'insieme delle coppie che soddisfano una congruenza.
 
 \section{Somma di punti modulo \texorpdfstring{\(p\)}{p}}
 
-La somma di punti su una curva ellittica su \(\mathbb{F}_p\) usa le stesse formule introdotte nel caso reale, ma ogni operazione viene eseguita modulo \(p\).
-
-Siano
+La somma di punti su una curva ellittica su \(\mathbb{F}_p\) usa le stesse formule del caso reale, ma ogni operazione viene eseguita modulo \(p\). Siano
 
 \[
-P=(x_P,y_P), \qquad Q=(x_Q,y_Q)
+P=(x_P,y_P), \qquad Q=(x_Q,y_Q),
 \]
 
-due punti di \(E(\mathbb{F}_p)\), con \(P\neq Q\) e \(Q\neq -P\). Il coefficiente angolare è
+con \(P\neq Q\) e \(Q\neq -P\). Il coefficiente angolare è
 
 \begin{equation}
-    \lambda \equiv (y_Q-y_P)(x_Q-x_P)^{-1} \pmod p.
+    \lambda \equiv (y_Q-y_P)(x_Q-x_P)^{-1}\pmod p.
     \label{eq:lambda-add-fp}
 \end{equation}
 
-Qui \((x_Q-x_P)^{-1}\) indica l'inverso moltiplicativo modulo \(p\). Le coordinate di
-
-\[
-S=P+Q=(x_S,y_S)
-\]
-
-sono date da
+Le coordinate di \(S=P+Q=(x_S,y_S)\) sono
 
 \begin{align}
-    x_S &\equiv \lambda^2 - x_P - x_Q \pmod p, \label{eq:add-x-fp} \\
+    x_S &\equiv \lambda^2-x_P-x_Q \pmod p, \label{eq:add-x-fp}\\
     y_S &\equiv \lambda(x_P-x_S)-y_P \pmod p. \label{eq:add-y-fp}
 \end{align}
 
-La differenza rispetto al caso reale è nella divisione: su \(\mathbb{F}_p\), dividere per un numero significa moltiplicare per il suo inverso modulo \(p\).
+La divisione del caso reale viene quindi sostituita dalla moltiplicazione per l'inverso modulare.
 
-\section{Esempio di somma modulo \texorpdfstring{\(17\)}{17}}
-
-Consideriamo ancora la curva
+Per esempio, sulla curva precedente con \(P=(0,6)\) e \(Q=(3,1)\),
 
 \[
-E: y^2 \equiv x^3 + 2x + 2 \pmod{17}.
+\lambda \equiv (1-6)(3-0)^{-1}\equiv (-5)\cdot 3^{-1}\pmod{17}.
 \]
 
-Prendiamo i punti
+Poiché \(3^{-1}\equiv 6\pmod{17}\), si ha \(\lambda\equiv 4\pmod{17}\), e quindi
 
 \[
-P=(0,6), \qquad Q=(3,1).
+x_S\equiv 4^2-0-3\equiv 13\pmod{17},\qquad
+y_S\equiv 4(0-13)-6\equiv 10\pmod{17},
 \]
 
-Entrambi appartengono alla curva, come verificato nella sezione precedente. Calcoliamo \(P+Q\).
-
-Il coefficiente angolare è
-
-\[
-\lambda \equiv (1-6)(3-0)^{-1} \pmod{17}.
-\]
-
-Quindi
-
-\[
-\lambda \equiv (-5)\cdot 3^{-1} \pmod{17}.
-\]
-
-L'inverso di \(3\) modulo \(17\) è \(6\), perché
-
-\[
-3\cdot 6=18 \equiv 1 \pmod{17}.
-\]
-
-Pertanto
-
-\[
-\lambda \equiv (-5)\cdot 6 = -30 \equiv 4 \pmod{17}.
-\]
-
-Ora calcoliamo la coordinata \(x\):
-
-\[
-x_S \equiv \lambda^2 - x_P - x_Q
-\equiv 4^2 -0-3
-\equiv 16-3
-\equiv 13 \pmod{17}.
-\]
-
-Poi la coordinata \(y\):
-
-\[
-y_S \equiv \lambda(x_P-x_S)-y_P
-\equiv 4(0-13)-6
-\equiv -52-6
-\equiv -58
-\equiv 10 \pmod{17}.
-\]
-
-Quindi
-
-\begin{equation}
-    P+Q=(13,10).
-\end{equation}
-
-Verifichiamo che il risultato appartiene alla curva:
-
-\[
-10^2 = 100 \equiv 15 \pmod{17},
-\]
-
-mentre
-
-\[
-13^3+2\cdot 13+2
-=2197+26+2
-=2225
-\equiv 15 \pmod{17}.
-\]
-
-Il punto \((13,10)\) appartiene dunque alla curva.
+da cui \(P+Q=(13,10)\), verificabile sostituendo nella congruenza della curva.
 
 \section{Raddoppio di un punto modulo \texorpdfstring{\(p\)}{p}}
 
-Il raddoppio di un punto si ottiene adattando la formula della tangente al caso modulare. Sia
-
-\[
-P=(x_P,y_P)
-\]
-
-un punto della curva, con \(y_P \not\equiv 0 \pmod p\). Allora il coefficiente angolare è
+Il raddoppio di un punto si ottiene adattando la formula della tangente al caso modulare. Se \(P=(x_P,y_P)\) e \(y_P\not\equiv 0\pmod p\), allora
 
 \begin{equation}
-    \lambda \equiv (3x_P^2+a)(2y_P)^{-1} \pmod p.
+    \lambda \equiv (3x_P^2+a)(2y_P)^{-1}\pmod p.
     \label{eq:lambda-double-fp}
 \end{equation}
 
 Le coordinate di \(2P\) sono
 
 \begin{align}
-    x_{2P} &\equiv \lambda^2 - 2x_P \pmod p, \label{eq:double-x-fp} \\
+    x_{2P} &\equiv \lambda^2-2x_P \pmod p, \label{eq:double-x-fp}\\
     y_{2P} &\equiv \lambda(x_P-x_{2P})-y_P \pmod p. \label{eq:double-y-fp}
 \end{align}
 
-Se invece \(y_P \equiv 0 \pmod p\), la tangente è verticale e si pone
-
-\begin{equation}
-    2P=\mathcal{O}.
-\end{equation}
-
-\section{Esempio di raddoppio modulo \texorpdfstring{\(17\)}{17}}
-
-Consideriamo ancora
+Se \(y_P\equiv 0\pmod p\), la tangente è verticale e si pone
 
 \[
-E: y^2 \equiv x^3 + 2x + 2 \pmod{17}
+2P=\mathcal{O}.
 \]
 
-e il punto
+Per esempio, sulla curva precedente e per \(P=(0,6)\), con \(a=2\),
 
 \[
-P=(0,6).
+\lambda \equiv (3\cdot 0^2+2)(2\cdot 6)^{-1}\equiv 2\cdot 12^{-1}\pmod{17}.
 \]
 
-Qui \(a=2\). Calcoliamo \(2P\). Il coefficiente angolare è
+Poiché \(12^{-1}\equiv 10\pmod{17}\), si ha
 
 \[
-\lambda \equiv (3x_P^2+a)(2y_P)^{-1} \pmod{17}.
+\lambda\equiv 20\equiv 3\pmod{17}.
 \]
 
-Sostituendo i valori:
+Da cui
 
 \[
-\lambda \equiv (3\cdot 0^2+2)(2\cdot 6)^{-1}
-\equiv 2\cdot 12^{-1} \pmod{17}.
+x_{2P}\equiv 3^2-0\equiv 9\pmod{17},
 \]
 
-L'inverso di \(12\) modulo \(17\) è \(10\), perché
-
 \[
-12\cdot 10=120 \equiv 1 \pmod{17}.
+y_{2P}\equiv 3(0-9)-6\equiv -33\equiv 1\pmod{17}.
 \]
 
 Quindi
 
 \[
-\lambda \equiv 2\cdot 10 =20 \equiv 3 \pmod{17}.
+2P=(9,1).
 \]
-
-Ora
-
-\[
-x_{2P} \equiv \lambda^2 -2x_P
-\equiv 3^2-0
-\equiv 9 \pmod{17},
-\]
-
-e
-
-\[
-y_{2P} \equiv \lambda(x_P-x_{2P})-y_P
-\equiv 3(0-9)-6
-\equiv -27-6
-\equiv -33
-\equiv 1 \pmod{17}.
-\]
-
-Dunque
-
-\begin{equation}
-    2P=(9,1).
-\end{equation}
-
-Verifica:
-
-\[
-1^2 \equiv 1 \pmod{17},
-\]
-
-mentre
-
-\[
-9^3+2\cdot 9+2
-=729+18+2
-=749
-\equiv 1 \pmod{17}.
-\]
-
-Quindi \((9,1)\) appartiene alla curva.
 
 \section{Opposti e punto all'infinito}
 
@@ -1436,113 +1260,69 @@ P=(x,y)
 è
 
 \begin{equation}
-    -P = (x,-y \bmod p).
+    -P=(x,-y\bmod p).
 \end{equation}
 
-Poiché \(-y \bmod p\) può essere scritto come \(p-y\) quando \(y\neq 0\), l'opposto di \((x,y)\) è spesso indicato come
+Se \(y\neq 0\), questo può essere scritto anche come \((x,p-y)\). Per esempio, in \(\mathbb{F}_{17}\), l'opposto di \((0,6)\) è \((0,11)\), perché
 
 \[
-(x,p-y).
+6+11\equiv 0\pmod{17}.
 \]
 
-Per esempio, in \(\mathbb{F}_{17}\), l'opposto del punto
+Come nel caso reale,
 
 \[
-P=(0,6)
+P+(-P)=\mathcal{O},
 \]
 
-è
+e il punto all'infinito rimane l'elemento neutro:
 
 \[
--P=(0,11),
+P+\mathcal{O}=\mathcal{O}+P=P.
 \]
 
-perché
+\section{Moltiplicazione scalare e sottogruppi ciclici}
 
-\[
-6+11=17 \equiv 0 \pmod{17}.
-\]
-
-Come nel caso reale, vale
+La moltiplicazione scalare su una curva ellittica su \(\mathbb{F}_p\) è definita come
 
 \begin{equation}
-    P+(-P)=\mathcal{O}.
+    kP=\underbrace{P+P+\cdots+P}_{k\text{ volte}}.
 \end{equation}
 
-Il punto all'infinito \(\mathcal{O}\) rimane l'elemento neutro:
+Ogni somma e ogni raddoppio vengono calcolati modulo \(p\). Questa operazione è il nucleo computazionale di ECC.
 
-\begin{equation}
-    P+\mathcal{O}=\mathcal{O}+P=P.
-\end{equation}
-
-\section{Moltiplicazione scalare su campi finiti}
-
-La moltiplicazione scalare su una curva ellittica su \(\mathbb{F}_p\) è definita nello stesso modo del caso reale:
-
-\begin{equation}
-    kP = \underbrace{P+P+\cdots+P}_{k \text{ volte}}.
-\end{equation}
-
-La differenza è che ogni somma e ogni raddoppio vengono calcolati modulo \(p\). Questa operazione è il nucleo computazionale di ECC.
-
-Per esempio, usando la curva
+Usando ancora la curva
 
 \[
-E: y^2 \equiv x^3+2x+2 \pmod{17}
+E: y^2\equiv x^3+2x+2\pmod{17}
 \]
 
-e il punto \(P=(0,6)\), abbiamo già calcolato
+e il punto \(P=(0,6)\), abbiamo già trovato
 
 \[
 2P=(9,1).
 \]
 
-Possiamo calcolare \(3P\) come
+Calcoliamo \(3P=2P+P\). Sommando \((9,1)\) e \((0,6)\),
 
 \[
-3P=2P+P.
+\lambda \equiv (6-1)(0-9)^{-1}\equiv 5\cdot 8^{-1}\pmod{17}.
 \]
 
-Quindi sommiamo
+Poiché \(8^{-1}\equiv 15\pmod{17}\),
 
 \[
-(9,1)+(0,6).
+\lambda\equiv 75\equiv 7\pmod{17}.
 \]
 
-Il coefficiente angolare è
+Si ottiene
 
 \[
-\lambda \equiv (6-1)(0-9)^{-1} \pmod{17}.
+x_{3P}\equiv 7^2-9-0\equiv 6\pmod{17},
 \]
 
-Poiché
-
 \[
-0-9 \equiv -9 \equiv 8 \pmod{17}
-\]
-
-e l'inverso di \(8\) modulo \(17\) è \(15\), otteniamo
-
-\[
-\lambda \equiv 5\cdot 15 =75 \equiv 7 \pmod{17}.
-\]
-
-Allora
-
-\[
-x_{3P} \equiv 7^2-9-0
-\equiv 49-9
-\equiv 40
-\equiv 6 \pmod{17},
-\]
-
-e
-
-\[
-y_{3P} \equiv 7(9-6)-1
-\equiv 21-1
-\equiv 20
-\equiv 3 \pmod{17}.
+y_{3P}\equiv 7(9-6)-1\equiv 3\pmod{17}.
 \]
 
 Quindi
@@ -1551,49 +1331,29 @@ Quindi
 3P=(6,3).
 \]
 
-Questo esempio mostra concretamente come la moltiplicazione scalare sia ottenuta tramite ripetute somme di punti.
-
-\section{Sottogruppi ciclici}
-
-In crittografia non si lavora necessariamente con tutti i punti di \(E(\mathbb{F}_p)\), ma spesso con un sottogruppo ciclico generato da un punto base \(G\). Dato un punto \(G\), il sottogruppo da esso generato è
+In crittografia si lavora spesso con un sottogruppo ciclico generato da un punto base \(G\):
 
 \begin{equation}
-    \langle G \rangle = \{G,2G,3G,\ldots,nG=\mathcal{O}\}.
+    \langle G\rangle=\{G,2G,3G,\ldots,nG=\mathcal{O}\}.
 \end{equation}
 
-Il più piccolo intero positivo \(n\) tale che
+Il più piccolo intero positivo \(n\) tale che \(nG=\mathcal{O}\) è chiamato ordine del punto \(G\). Nei protocolli ECC, \(G\) è pubblico, mentre la chiave privata è uno scalare segreto \(d\). La chiave pubblica è
 
-\begin{equation}
-    nG=\mathcal{O}
-\end{equation}
+\[
+Q=dG.
+\]
 
-è chiamato ordine del punto \(G\).
-
-Nei protocolli ECC, il punto base \(G\) è pubblico, così come i parametri della curva. La chiave privata è invece uno scalare segreto \(d\), e la chiave pubblica è il punto
-
-\begin{equation}
-    Q=dG.
-\end{equation}
-
-Il problema di sicurezza consiste nel fatto che, dati \(G\) e \(Q\), deve essere computazionalmente difficile recuperare \(d\). Questo è il problema del logaritmo discreto su curve ellittiche, che verrà trattato nel capitolo successivo.
+Il problema di sicurezza consiste nel recuperare \(d\) dati \(G\) e \(Q\), cioè nel risolvere il logaritmo discreto su curve ellittiche.
 
 \section{Perché i campi finiti sono adatti alla crittografia}
 
-Le curve ellittiche su campi finiti sono adatte alla crittografia per diverse ragioni.
-
-In primo luogo, tutte le operazioni sono esatte. Non esistono errori di arrotondamento, perché ogni calcolo avviene modulo \(p\).
-
-In secondo luogo, gli elementi del campo hanno rappresentazioni finite. Se \(p\) è un primo di 256 bit, ogni coordinata può essere rappresentata con 256 bit. Questo rende possibile implementare gli algoritmi in software e hardware.
-
-In terzo luogo, la struttura di gruppo consente di definire una funzione computazionalmente asimmetrica:
+Le curve ellittiche su campi finiti sono adatte alla crittografia perché tutte le operazioni sono esatte, gli elementi del campo hanno rappresentazioni finite e la struttura di gruppo consente di definire una funzione computazionalmente asimmetrica:
 
 \[
-d \longmapsto Q=dG.
+d\longmapsto Q=dG.
 \]
 
-Il calcolo di \(Q\) a partire da \(d\) e \(G\) è efficiente, mentre il recupero di \(d\) a partire da \(G\) e \(Q\) è ritenuto difficile per parametri scelti correttamente.
-
-Questa combinazione di esattezza, finitezza ed asimmetria computazionale rende le curve ellittiche su campi finiti uno strumento particolarmente efficace per la crittografia a chiave pubblica.
+Il calcolo di \(Q\) a partire da \(d\) e \(G\) è efficiente, mentre il recupero di \(d\) da \(G\) e \(Q\) è ritenuto difficile per parametri scelti correttamente. Questa combinazione di esattezza, finitezza e asimmetria computazionale rende le curve ellittiche su campi finiti particolarmente efficaci per la crittografia a chiave pubblica.
 
 % ==========================================================
 % Chapter 6
