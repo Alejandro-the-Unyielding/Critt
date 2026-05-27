@@ -141,11 +141,11 @@ $\ECDLP$ & Elliptic Curve Discrete Logarithm Problem \\
 
 \section{Motivazione}
 
-La crittografia moderna nasce dall'esigenza di proteggere informazioni trasmesse o conservate in ambienti nei quali non è realistico assumere la presenza di un canale completamente sicuro. In uno scenario elementare, un mittente vuole comunicare con un destinatario attraverso un mezzo di trasmissione potenzialmente osservabile o manipolabile da un avversario. Il problema crittografico non consiste soltanto nel rendere incomprensibile un messaggio, ma nel garantire proprietà più ampie: confidenzialità, integrità, autenticazione e, in alcuni casi, non ripudio.
+La crittografia moderna nasce dall'esigenza di proteggere informazioni trasmesse o conservate in ambienti nei quali non è realistico assumere la presenza di un canale completamente sicuro. In uno scenario elementare, un mittente vuole comunicare con un destinatario attraverso un mezzo di trasmissione potenzialmente osservabile o manipolabile da un avversario. Il problema crittografico non consiste soltanto nel rendere incomprensibile un messaggio, ma nel garantire proprietà più ampie: confidenzialità, integrità, autenticazione e, in alcuni casi, non ripudio~\cite{margara_intro,margara_firma}.
 
-Nei sistemi a chiave simmetrica, mittente e destinatario utilizzano una stessa informazione segreta per cifrare e decifrare. Questa impostazione è efficiente, ma presenta un limite strutturale: la chiave deve essere condivisa prima della comunicazione attraverso un canale sicuro o mediante un protocollo affidabile di scambio. La crittografia a chiave pubblica nasce per superare questa difficoltà, separando la chiave pubblica, distribuibile liberamente, dalla chiave privata, che deve rimanere segreta.
+Nei sistemi a chiave simmetrica, mittente e destinatario utilizzano una stessa informazione segreta per cifrare e decifrare. Questa impostazione è efficiente, ma presenta un limite strutturale: la chiave deve essere condivisa prima della comunicazione attraverso un canale sicuro o mediante un protocollo affidabile di scambio. La crittografia a chiave pubblica nasce per superare questa difficoltà, separando la chiave pubblica, distribuibile liberamente, dalla chiave privata, che deve rimanere segreta~\cite{margara_intro,margara_publickey}.
 
-Dal punto di vista matematico, questa separazione richiede funzioni facili da calcolare in una direzione ma difficili da invertire senza un'informazione segreta. La sicurezza non deriva dalla segretezza dell'algoritmo, ma dalla difficoltà computazionale di risolvere determinati problemi matematici. In questo senso, la crittografia moderna offre sicurezza computazionale: un attacco può esistere in teoria, ma richiedere risorse tali da non essere praticabile.
+Dal punto di vista matematico, questa separazione richiede funzioni facili da calcolare in una direzione ma difficili da invertire senza un'informazione segreta. La sicurezza non deriva dalla segretezza dell'algoritmo, ma dalla difficoltà computazionale di risolvere determinati problemi matematici. In questo senso, la crittografia moderna offre sicurezza computazionale: un attacco può esistere in teoria, ma richiedere risorse tali da non essere praticabile~\cite{margara_intro,margara_complessita,margara_publickey}.
 
 Questa idea è centrale per comprendere la crittografia su curve ellittiche. ECC non è un singolo cifrario, ma una famiglia di costruzioni basate sulla struttura algebrica dei punti di una curva ellittica definita su un campo finito. Il principio fondamentale è il seguente: dato un punto \(P\) sulla curva e uno scalare segreto \(k\), è efficiente calcolare
 
@@ -153,7 +153,7 @@ Questa idea è centrale per comprendere la crittografia su curve ellittiche. ECC
 Q=kP.
 \]
 
-Al contrario, dato soltanto \(P\) e \(Q\), risulta computazionalmente difficile recuperare \(k\). Questa asimmetria costituisce il nucleo del problema del logaritmo discreto su curve ellittiche.
+Al contrario, dato soltanto \(P\) e \(Q\), risulta computazionalmente difficile recuperare \(k\). Questa asimmetria costituisce il nucleo del problema del logaritmo discreto su curve ellittiche~\cite{margara_ec,sec1}.
 
 \section{Perché le curve ellittiche}
 
@@ -163,11 +163,11 @@ Le curve ellittiche sono oggetti matematici definiti mediante equazioni algebric
     y^2 = x^3 + ax + b.
 \end{equation}
 
-La proprietà decisiva è che i punti della curva possono essere dotati di una legge di composizione che li trasforma in un gruppo abeliano. Questa legge permette di sommare punti e, ripetendo la somma di uno stesso punto, di definire la moltiplicazione scalare \(kP\).
+La proprietà decisiva è che i punti della curva possono essere dotati di una legge di composizione che li trasforma in un gruppo abeliano. Questa legge permette di sommare punti e, ripetendo la somma di uno stesso punto, di definire la moltiplicazione scalare \(kP\)~\cite{margara_ec}.
 
-Nel passaggio dalla geometria alla crittografia, il ruolo centrale è assunto dai campi finiti. Le curve ellittiche usate nei sistemi crittografici non sono curve continue disegnate sul piano reale, ma insiemi finiti di punti con coordinate in un campo come \(\mathbb{F}_p\). Questo consente di evitare problemi di approssimazione numerica e di lavorare con operazioni esatte, efficienti e implementabili in software e hardware.
+Nel passaggio dalla geometria alla crittografia, il ruolo centrale è assunto dai campi finiti. Le curve ellittiche usate nei sistemi crittografici non sono curve continue disegnate sul piano reale, ma insiemi finiti di punti con coordinate in un campo come \(\mathbb{F}_p\). Questo consente di evitare problemi di approssimazione numerica e di lavorare con operazioni esatte, efficienti e implementabili in software e hardware~\cite{margara_ec,sec1}.
 
-L'interesse pratico di ECC deriva dal fatto che, rispetto ad altri sistemi a chiave pubblica come RSA, permette di ottenere livelli di sicurezza comparabili con chiavi significativamente più brevi. Questo riduce memoria, larghezza di banda e costo computazionale, rendendo ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e applicazioni distribuite.
+L'interesse pratico di ECC deriva dal fatto che, rispetto ad altri sistemi a chiave pubblica come RSA, permette di ottenere livelli di sicurezza comparabili con chiavi significativamente più brevi. Questo riduce memoria, larghezza di banda e costo computazionale, rendendo ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e applicazioni distribuite~\cite{nist_sp800_57,sec1}.
 
 L'importanza di ECC è evidente anche in sistemi reali. In Bitcoin, ad esempio, le chiavi private e pubbliche sono costruite mediante crittografia asimmetrica su curve ellittiche, e la curva utilizzata è secp256k1, definita dall'equazione
 
@@ -175,7 +175,7 @@ L'importanza di ECC è evidente anche in sistemi reali. In Bitcoin, ad esempio, 
     y^2 = x^3 + 7
 \end{equation}
 
-su un grande campo primo. Questo mostra come una costruzione matematica astratta possa diventare parte essenziale di un sistema economico decentralizzato.
+su un grande campo primo. Questo mostra come una costruzione matematica astratta possa diventare parte essenziale di un sistema economico decentralizzato~\cite{margara_bitcoin,sec2}.
 
 \section{Obiettivi della relazione}
 
