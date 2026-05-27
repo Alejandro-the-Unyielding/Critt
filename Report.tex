@@ -2373,50 +2373,40 @@ ECC rappresenta quindi una soluzione molto efficace nel paradigma classico, ma n
 
 \section{Risultati principali}
 
-Dal punto di vista matematico, abbiamo visto che una curva ellittica in forma di Weierstrass è descritta da un'equazione del tipo
+Questa relazione ha analizzato la crittografia su curve ellittiche partendo dalle basi matematiche fino alle applicazioni moderne. Il punto centrale emerso è che ECC trasforma una struttura algebrica astratta in uno strumento pratico per la sicurezza digitale.
+
+Dal punto di vista matematico, una curva ellittica in forma di Weierstrass è descritta da un'equazione del tipo
 
 \[
 y^2 = x^3 + ax + b,
 \]
 
-con una condizione di non singolarità che evita cuspidi e nodi. Sui numeri reali, questa equazione permette di interpretare geometricamente la somma tra punti tramite la regola della retta e della riflessione. Tale interpretazione è utile per comprendere l'origine della legge di gruppo.
+con una condizione di non singolarità che evita cuspidi e nodi. Sui numeri reali, questa equazione permette di comprendere geometricamente la somma tra punti tramite la regola della retta e della riflessione. Sui campi finiti, invece, la stessa struttura diventa utilizzabile in crittografia, perché le operazioni sono esatte, finite e implementabili in modo efficiente.
 
-Il passaggio ai campi finiti è ciò che rende le curve ellittiche utilizzabili in crittografia. Su un campo primo \(\mathbb{F}_p\), la curva è definita da una congruenza
+L'operazione centrale è la moltiplicazione scalare
 
 \[
-y^2 \equiv x^3 + ax + b \pmod p,
+Q=dG.
 \]
 
-e tutte le operazioni vengono eseguite modulo \(p\). In questo ambiente, i punti della curva formano ancora un gruppo abeliano, ma l'aritmetica è esatta, finita e implementabile in modo efficiente.
+Essa permette di generare chiavi pubbliche a partire da chiavi private, stabilire segreti condivisi tramite ECDH e produrre firme digitali tramite schemi come ECDSA. La sicurezza dipende dalla difficoltà di invertire questa operazione, cioè dal problema del logaritmo discreto su curve ellittiche.
 
-La moltiplicazione scalare \(dG\) è risultata l'operazione centrale dell'intera costruzione. Essa permette di generare chiavi pubbliche a partire da chiavi private, stabilire segreti condivisi tramite ECDH e produrre firme digitali tramite schemi come ECDSA. In tutti questi casi, la sicurezza dipende dalla difficoltà di invertire la moltiplicazione scalare.
+\section{Rilevanza e limiti}
 
-\section{Rilevanza pratica}
+La rilevanza pratica di ECC deriva soprattutto dalla sua efficienza. Rispetto a sistemi come RSA, ECC permette di ottenere livelli di sicurezza comparabili con chiavi più brevi, riducendo memoria, larghezza di banda e costo computazionale. Questo rende ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e blockchain.
 
-La rilevanza pratica di ECC deriva soprattutto dalla sua efficienza. Rispetto a sistemi come RSA, ECC permette di ottenere livelli di sicurezza comparabili con chiavi più brevi. Questo riduce la quantità di dati da trasmettere e memorizzare, rendendo ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e blockchain.
+Le applicazioni analizzate mostrano questa importanza. Nei protocolli di comunicazione sicura, ECC viene usata soprattutto tramite ECDHE per stabilire chiavi di sessione con forward secrecy. In Bitcoin, invece, ECC è alla base della generazione delle chiavi, della derivazione degli indirizzi e della firma delle transazioni.
 
-Abbiamo visto due contesti applicativi particolarmente importanti. Nei protocolli di comunicazione sicura, ECC viene usata soprattutto tramite ECDHE per stabilire chiavi di sessione con forward secrecy. In Bitcoin, invece, ECC è alla base della gestione delle chiavi, della derivazione degli indirizzi e della firma delle transazioni. In entrambi i casi, la struttura matematica \(Q=dG\) diventa un meccanismo pratico per proteggere identità, comunicazioni e valore economico.
+Tuttavia, ECC non deve essere interpretata come una soluzione assoluta. La sua sicurezza è computazionale e dipende dalla difficoltà dell'ECDLP per i parametri scelti. Inoltre, errori pratici come cattiva generazione delle chiavi, riuso del nonce in ECDSA, mancata validazione dei punti o vulnerabilità side-channel possono compromettere un sistema anche se la matematica sottostante è solida.
 
-\section{Limiti}
-
-Nonostante i suoi vantaggi, ECC non deve essere interpretata come una soluzione assoluta. La sua sicurezza è computazionale, non incondizionata. Essa dipende dal fatto che, per i parametri scelti, non siano noti algoritmi classici efficienti per risolvere l'ECDLP.
-
-Inoltre, la sicurezza teorica può essere compromessa da errori pratici. Una cattiva generazione delle chiavi private, il riuso del nonce in ECDSA, la mancata validazione dei punti ricevuti o vulnerabilità side-channel possono rendere insicuro un sistema anche se la matematica sottostante è solida. Questo mostra una distinzione fondamentale: un protocollo sicuro nel modello teorico deve essere anche implementato correttamente per essere sicuro nella pratica.
-
-Infine, ECC è vulnerabile alla minaccia quantistica. L'algoritmo di Shor mostra che un computer quantistico sufficientemente potente potrebbe risolvere in tempo polinomiale il logaritmo discreto su curve ellittiche. Per questo motivo, ECC è destinata a convivere, e gradualmente a integrarsi o essere sostituita in alcuni contesti, con schemi di crittografia post-quantistica.
+Infine, ECC è vulnerabile alla minaccia quantistica. L'algoritmo di Shor mostra che un computer quantistico sufficientemente potente potrebbe risolvere in tempo polinomiale il logaritmo discreto su curve ellittiche. Per questo motivo, ECC dovrà convivere con schemi post-quantistici durante la fase di transizione verso nuove primitive crittografiche.
 
 \section{Conclusione finale}
 
-La crittografia su curve ellittiche rappresenta un esempio particolarmente efficace di incontro tra matematica pura e ingegneria della sicurezza. Concetti come campi finiti, gruppi abeliani, punti all'infinito e logaritmi discreti non rimangono oggetti teorici isolati, ma diventano componenti operative di protocolli usati quotidianamente.
+La crittografia su curve ellittiche rappresenta un esempio efficace di incontro tra matematica pura e ingegneria della sicurezza. Concetti come campi finiti, gruppi abeliani, punto all'infinito e logaritmo discreto diventano componenti operative di protocolli usati quotidianamente.
 
-Il valore di ECC sta proprio in questa combinazione: una struttura matematica ricca, un problema computazionale difficile e applicazioni pratiche efficienti. Comprendere ECC significa quindi comprendere uno dei meccanismi centrali della crittografia moderna, ma anche riconoscere i limiti di ogni costruzione crittografica: la sicurezza dipende dalle assunzioni matematiche, dai parametri scelti, dalla qualità dell'implementazione e dall'evoluzione tecnologica.
+Il valore di ECC sta in questa combinazione: una struttura matematica ricca, un problema computazionale difficile e applicazioni pratiche efficienti. Comprendere ECC significa quindi comprendere uno dei meccanismi centrali della crittografia moderna, ma anche riconoscere che la sicurezza dipende sempre da assunzioni matematiche, parametri corretti, buone implementazioni e dall'evoluzione tecnologica.
 
-In questo senso, ECC non è soltanto un argomento tecnico, ma un caso di studio generale su come la crittografia moderna costruisca fiducia in ambienti non fidati: trasformando problemi matematici difficili in garanzie pratiche per comunicazioni, identità e transazioni digitali.
-
-
-\appendix
-\chapter{Appendice: richiami di algebra modulare}
-\chapter{Appendice: esempi di calcolo su curve ellittiche}
 
 \printbibliography
 
