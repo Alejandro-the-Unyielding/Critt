@@ -208,7 +208,7 @@ La relazione è organizzata in tre parti principali. La prima parte introduce i 
 
 La crittografia su curve ellittiche utilizza concetti matematici che, a prima vista, possono sembrare lontani dall'informatica applicata: aritmetica modulare, gruppi, campi finiti e logaritmi discreti. Tuttavia, questi strumenti non sono elementi accessori. Essi permettono di costruire operazioni che sono efficienti da calcolare in una direzione, ma difficili da invertire senza conoscere un'informazione segreta.
 
-Questa asimmetria computazionale è alla base della crittografia a chiave pubblica. In un protocollo crittografico moderno, non basta che una funzione sia complicata: deve essere facile da usare per gli utenti legittimi e impraticabile da invertire per un avversario. Per questo motivo, prima di introdurre formalmente le curve ellittiche, è necessario richiamare alcune strutture algebriche fondamentali.
+Questa asimmetria computazionale è alla base della crittografia a chiave pubblica~\cite{margara_complessita,margara_publickey}. In un protocollo crittografico moderno, non basta che una funzione sia complicata: deve essere facile da usare per gli utenti legittimi e impraticabile da invertire per un avversario. Per questo motivo, prima di introdurre formalmente le curve ellittiche, è necessario richiamare alcune strutture algebriche fondamentali.
 
 Lo scopo di questo capitolo non è fornire una trattazione completa di algebra astratta, ma introdurre gli strumenti necessari per comprendere i capitoli successivi. In particolare, verranno presentati l'aritmetica modulare, la nozione di gruppo, i gruppi abeliani e ciclici, i campi finiti, gli inversi modulari e il problema del logaritmo discreto.
 
@@ -220,7 +220,7 @@ L'aritmetica modulare studia gli interi considerando equivalenti due numeri che 
     a \equiv b \pmod n
 \end{equation}
 
-quando \(a\) e \(b\) hanno lo stesso resto nella divisione per \(n\). Equivalentemente, \(a \equiv b \pmod n\) se e solo se \(n\) divide \(a-b\).
+quando \(a\) e \(b\) hanno lo stesso resto nella divisione per \(n\). Equivalentemente, \(a \equiv b \pmod n\) se e solo se \(n\) divide \(a-b\)~\cite{margara_publickey}.
 
 \begin{example}
 Si ha
@@ -244,7 +244,7 @@ Per esempio, modulo \(7\), tutti gli interi possono essere rappresentati mediant
 
 Questa riduzione è importante perché permette di lavorare con insiemi finiti. In crittografia, gli algoritmi devono operare su dati rappresentabili in memoria e manipolabili in tempo finito; l'aritmetica modulare consente di mantenere i risultati all'interno di un dominio controllato.
 
-Le operazioni di somma e prodotto modulo \(n\) si comportano in modo compatibile con le operazioni ordinarie:
+Le operazioni di somma e prodotto modulo \(n\) si comportano in modo compatibile con le operazioni ordinarie~\cite{margara_publickey}:
 
 \begin{align}
     (a+b) \bmod n &= ((a \bmod n)+(b \bmod n)) \bmod n, \\
@@ -255,7 +255,7 @@ Questo permette di ridurre continuamente i risultati intermedi senza modificare 
 
 \section{Gruppi}
 
-Un gruppo è una struttura algebrica composta da un insieme non vuoto e da un'operazione interna. L'idea fondamentale è che l'operazione rimanga sempre dentro l'insieme e che sia possibile definire un elemento neutro e un inverso per ogni elemento.
+Un gruppo è una struttura algebrica composta da un insieme non vuoto e da un'operazione interna. L'idea fondamentale è che l'operazione rimanga sempre dentro l'insieme e che sia possibile definire un elemento neutro e un inverso per ogni elemento~\cite{margara_dh,margara_ec}.
 
 \begin{definition}[Gruppo]
 Una coppia \((G,\ast)\) è un gruppo se valgono le seguenti proprietà:
@@ -296,7 +296,7 @@ Un gruppo è detto abeliano se l'operazione è commutativa. Questo significa che
     a \ast b = b \ast a.
 \end{equation}
 
-La commutatività non è richiesta nella definizione generale di gruppo, ma sarà importante nel nostro caso: i punti di una curva ellittica, con l'operazione di somma, formano un gruppo abeliano.
+La commutatività non è richiesta nella definizione generale di gruppo, ma sarà importante nel nostro caso: i punti di una curva ellittica, con l'operazione di somma, formano un gruppo abeliano~\cite{margara_ec}.
 
 \begin{example}
 Il gruppo \((\mathbb{Z}_n,+)\) è abeliano, perché
@@ -331,11 +331,11 @@ dove
 
 e così via. In questo contesto, \(P\) è un generatore del sottogruppo formato dai suoi multipli.
 
-Questa notazione è importante perché molti protocolli basati su curve ellittiche non utilizzano necessariamente tutti i punti della curva, ma un sottogruppo ciclico generato da un punto base pubblico.
+In ECC si lavora spesso in un sottogruppo ciclico generato da un punto base pubblico~\cite{margara_dh,margara_ec}.
 
 \section{Campi finiti}
 
-Un campo è una struttura algebrica nella quale sono definite due operazioni, somma e prodotto, con proprietà analoghe a quelle note per i numeri razionali o reali. In un campo è possibile sommare, sottrarre, moltiplicare e dividere per ogni elemento non nullo.
+Un campo è una struttura algebrica nella quale sono definite due operazioni, somma e prodotto, con proprietà analoghe a quelle note per i numeri razionali o reali. In un campo è possibile sommare, sottrarre, moltiplicare e dividere per ogni elemento non nullo~\cite{margara_ec}.
 
 \begin{definition}[Campo]
 Un insieme \(K\), dotato di due operazioni \(+\) e \(\cdot\), è un campo se:
@@ -356,7 +356,7 @@ Un campo è finito se contiene un numero finito di elementi. Se \(p\) è un nume
     \mathbb{Z}_p = \{0,1,2,\ldots,p-1\}
 \end{equation}
 
-con somma e prodotto modulo \(p\) è un campo finito. In letteratura, lo stesso campo viene spesso indicato anche con \(\mathbb{F}_p\). In questa relazione useremo entrambe le notazioni: \(\mathbb{Z}_p\) per sottolineare la rappresentazione tramite classi di resto modulo \(p\), e \(\mathbb{F}_p\) quando vorremo evidenziare la struttura di campo.
+con somma e prodotto modulo \(p\) è un campo finito~\cite{margara_ec}. In letteratura, lo stesso campo viene spesso indicato anche con \(\mathbb{F}_p\). In questa relazione useremo entrambe le notazioni: \(\mathbb{Z}_p\) per sottolineare la rappresentazione tramite classi di resto modulo \(p\), e \(\mathbb{F}_p\) quando vorremo evidenziare la struttura di campo.
 
 La primalità di \(p\) è essenziale. Se \(p\) è primo, ogni elemento non nullo di \(\mathbb{Z}_p\) possiede un inverso moltiplicativo. Se invece il modulo non è primo, possono esistere elementi non nulli privi di inverso.
 
@@ -368,7 +368,7 @@ In \(\mathbb{Z}_5 = \{0,1,2,3,4\}\), l'elemento \(2\) ha inverso \(3\), perché
 Tutti gli elementi non nulli di \(\mathbb{Z}_5\) hanno un inverso moltiplicativo.
 \end{example}
 
-Le curve ellittiche usate in crittografia sono definite su campi finiti. In questa relazione ci concentreremo soprattutto sul caso dei campi primi \(\mathbb{F}_p\), perché esso è sufficiente per comprendere molte costruzioni moderne, inclusa la curva secp256k1 usata in Bitcoin.
+Le curve ellittiche usate in crittografia sono definite su campi finiti. In questa relazione ci concentreremo soprattutto sui campi primi \(\mathbb{F}_p\), sufficienti per comprendere molte costruzioni moderne, inclusa la curva secp256k1 usata in Bitcoin~\cite{margara_ec,margara_bitcoin}.
 
 \section{Inversi modulari}
 
@@ -378,7 +378,7 @@ L'inverso modulare è lo strumento che permette di effettuare divisioni in aritm
     aa^{-1} \equiv 1 \pmod p.
 \end{equation}
 
-Quando \(p\) è primo e \(a \not\equiv 0 \pmod p\), tale inverso esiste sempre.
+Quando \(p\) è primo e \(a \not\equiv 0 \pmod p\), tale inverso esiste sempre~\cite{margara_publickey,margara_ec}.
 
 \begin{example}
 In \(\mathbb{Z}_{17}\), l'inverso di \(5\) è \(7\), perché
@@ -402,9 +402,9 @@ Su un campo finito, questa divisione viene interpretata come moltiplicazione per
 
 \section{Facile e difficile in senso computazionale}
 
-In crittografia, dire che un problema è facile o difficile non significa riferirsi all'intuizione umana. Il significato è computazionale. Un problema è considerato facile se esiste un algoritmo efficiente per risolverlo, tipicamente in tempo polinomiale rispetto alla dimensione dell'input. Un problema è considerato difficile se i migliori algoritmi noti richiedono un tempo che cresce troppo rapidamente per essere praticabile su input di dimensione crittografica.
+In crittografia, dire che un problema è facile o difficile non significa riferirsi all'intuizione umana. Il significato è computazionale. Un problema è considerato facile se esiste un algoritmo efficiente per risolverlo, tipicamente in tempo polinomiale rispetto alla dimensione dell'input. È considerato difficile se i migliori algoritmi noti richiedono risorse troppo elevate per essere praticabili su input di dimensione crittografica~\cite{margara_complessita}.
 
-Questa distinzione è alla base della crittografia a chiave pubblica. Si cercano operazioni che siano facili nella direzione legittima, ma difficili nella direzione dell'attacco. Per esempio, moltiplicare due grandi numeri primi è facile, mentre fattorizzare il loro prodotto è ritenuto difficile. Analogamente, calcolare una potenza modulare è facile, mentre risolvere il logaritmo discreto può essere difficile in gruppi opportunamente scelti.
+Questa distinzione è alla base della crittografia a chiave pubblica. Si cercano operazioni che siano facili nella direzione legittima, ma difficili nella direzione dell'attacco. Per esempio, moltiplicare due grandi numeri primi è facile, mentre fattorizzare il loro prodotto è ritenuto difficile. Analogamente, calcolare una potenza modulare è facile, mentre risolvere il logaritmo discreto può essere difficile in gruppi opportunamente scelti~\cite{margara_complessita,margara_publickey}.
 
 La nozione di difficoltà non implica che l'attacco sia logicamente impossibile. Significa piuttosto che il costo dell'attacco supera le risorse realisticamente disponibili. Per questo motivo, la sicurezza crittografica è normalmente una sicurezza pratica, fondata sul costo computazionale.
 
@@ -422,7 +422,7 @@ Dato un elemento \(g \in \mathbb{Z}_p^\ast\) e un intero \(x\), è efficiente ca
     y = g^x \bmod p.
 \end{equation}
 
-Il problema inverso consiste nel determinare \(x\) conoscendo \(g\), \(y\) e \(p\). Questo problema prende il nome di logaritmo discreto.
+Il problema inverso consiste nel determinare \(x\) conoscendo \(g\), \(y\) e \(p\). Questo problema prende il nome di logaritmo discreto~\cite{margara_complessita,margara_dh}.
 
 \begin{definition}[Logaritmo discreto]
 Dato un gruppo finito \(G\), un elemento \(g \in G\) e un elemento \(y \in \langle g \rangle\), il logaritmo discreto di \(y\) in base \(g\) è un intero \(x\) tale che
@@ -443,11 +443,11 @@ Sia \(p=17\). Nel gruppo \(\mathbb{Z}_{17}^\ast\), si ha
 La direzione facile è calcolare \(13\) a partire da \(3\) e \(4\). La direzione inversa è: dati \(3\) e \(13\), trovare l'esponente \(4\). Su numeri piccoli si può procedere per tentativi, ma su parametri crittografici il problema diventa computazionalmente difficile.
 \end{example}
 
-Il problema del logaritmo discreto è centrale in diversi protocolli crittografici, tra cui Diffie--Hellman ed ElGamal. La crittografia su curve ellittiche ne utilizza una variante più sofisticata, definita non su un gruppo moltiplicativo modulo \(p\), ma sul gruppo dei punti di una curva ellittica.
+Il problema del logaritmo discreto è centrale in diversi protocolli crittografici, tra cui Diffie--Hellman ed ElGamal~\cite{margara_dh,margara_elgamal}. La crittografia su curve ellittiche ne utilizza una variante più sofisticata, definita non su un gruppo moltiplicativo modulo \(p\), ma sul gruppo dei punti di una curva ellittica.
 
 \section{Dal logaritmo discreto classico al caso ellittico}
 
-La crittografia su curve ellittiche utilizza un'idea analoga al logaritmo discreto classico, ma sostituisce il gruppo moltiplicativo modulo \(p\) con il gruppo additivo dei punti di una curva ellittica su un campo finito.
+ECC utilizza un'idea analoga al logaritmo discreto classico, ma sostituisce il gruppo moltiplicativo modulo \(p\) con il gruppo additivo dei punti di una curva ellittica su un campo finito~\cite{margara_ec}.
 
 Nel caso classico, l'operazione facile è
 
@@ -479,7 +479,7 @@ Curve ellittiche & \(kP\) & trovare \(k\) da \(P\) e \(kP\) \\
 \label{tab:dlp-ecdlp}
 \end{table}
 
-Il secondo problema è chiamato \textit{Elliptic Curve Discrete Logarithm Problem}, abbreviato in ECDLP. Esso sarà analizzato in dettaglio nel Capitolo 6, ma è utile introdurlo già qui perché spiega perché gruppi, campi finiti e aritmetica modulare sono necessari per costruire ECC.
+Il secondo problema è chiamato \textit{Elliptic Curve Discrete Logarithm Problem}, abbreviato in ECDLP. Esso sarà analizzato in dettaglio nel Capitolo 6, ma è utile introdurlo già qui perché spiega perché gruppi, campi finiti e aritmetica modulare sono necessari per costruire ECC~\cite{margara_ec,sec1}.
 
 % ==========================================================
 % Chapter 3
