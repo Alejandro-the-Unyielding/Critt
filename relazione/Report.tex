@@ -1077,7 +1077,7 @@ Questa struttura permette di costruire protocolli di scambio di chiavi e firme d
 
 Nei capitoli precedenti abbiamo studiato le curve ellittiche sui numeri reali per costruire l'intuizione geometrica della somma tra punti. Tuttavia, le curve sui reali non sono adatte all'uso crittografico, perché i protocolli richiedono operazioni esatte, riproducibili e implementabili in modo efficiente. I numeri reali introducono invece problemi di approssimazione e arrotondamento.
 
-Per questo motivo, la crittografia su curve ellittiche lavora su campi finiti. Una scelta comune è definire la curva su un campo primo \(\mathbb{F}_p\), dove \(p\) è un numero primo grande. Le coordinate dei punti appartengono quindi all'insieme
+Per questo motivo, la crittografia su curve ellittiche lavora su campi finiti~\cite{margara_ec,sec1}. Una scelta comune è definire la curva su un campo primo \(\mathbb{F}_p\), dove \(p\) è un numero primo grande. Le coordinate dei punti appartengono quindi all'insieme
 
 \[
 \mathbb{F}_p=\{0,1,2,\ldots,p-1\},
@@ -1087,14 +1087,14 @@ e tutte le operazioni sono eseguite modulo \(p\). La curva non appare più come 
 
 \section{Curve ellittiche su \texorpdfstring{\(\mathbb{F}_p\)}{Fp}}
 
-Sia \(p>3\) un numero primo. Una curva ellittica su \(\mathbb{F}_p\) è definita da una congruenza della forma
+Sia \(p>3\) un numero primo. Una curva ellittica su \(\mathbb{F}_p\) è definita da una congruenza della forma~\cite{margara_ec,sec1}
 
 \begin{equation}
     y^2 \equiv x^3+ax+b \pmod p,
     \label{eq:ec-fp}
 \end{equation}
 
-dove \(a,b\in\mathbb{F}_p\). L'insieme dei punti della curva è
+dove \(a,b\in\mathbb{F}_p\). L'insieme dei punti della curva è~\cite{margara_ec,sec1}
 
 \begin{equation}
     E(\mathbb{F}_p)=
@@ -1102,7 +1102,7 @@ dove \(a,b\in\mathbb{F}_p\). L'insieme dei punti della curva è
     \cup\{\mathcal{O}\}.
 \end{equation}
 
-Il punto \(\mathcal{O}\) è il punto all'infinito e svolge il ruolo di elemento neutro. Anche nel caso finito è necessario imporre la condizione di non singolarità:
+Il punto \(\mathcal{O}\) è il punto all'infinito e svolge il ruolo di elemento neutro. Anche nel caso finito è necessario imporre la condizione di non singolarità~\cite{margara_ec}:
 
 \begin{equation}
     4a^3+27b^2\not\equiv 0 \pmod p.
@@ -1119,7 +1119,7 @@ Nel caso reale, una curva ellittica può essere disegnata come una curva continu
 0,1,2,\ldots,16.
 \]
 
-Una curva ellittica su \(\mathbb{F}_{17}\) non è quindi una curva liscia, ma un insieme discreto di punti. La costruzione geometrica tramite rette e riflessioni fornisce l'intuizione, ma nei campi finiti l'operazione viene eseguita mediante formule algebriche modulari.
+Una curva ellittica su \(\mathbb{F}_{17}\) non è quindi una curva liscia, ma un insieme discreto di punti~\cite{margara_ec}. La costruzione geometrica tramite rette e riflessioni fornisce l'intuizione, ma nei campi finiti l'operazione viene eseguita mediante formule algebriche modulari.
 
 \section{Esempio di curva su \texorpdfstring{\(\mathbb{F}_{17}\)}{F17}}
 
@@ -1162,7 +1162,7 @@ da cui si ottengono i punti \((3,1)\) e \((3,16)\). Questo esempio mostra che un
 
 \section{Somma di punti modulo \texorpdfstring{\(p\)}{p}}
 
-La somma di punti su una curva ellittica su \(\mathbb{F}_p\) usa le stesse formule del caso reale, ma ogni operazione viene eseguita modulo \(p\). Siano
+La somma di punti su una curva ellittica su \(\mathbb{F}_p\) usa le stesse formule del caso reale, ma ogni operazione viene eseguita modulo \(p\)~\cite{margara_ec,sec1}. Siano
 
 \[
 P=(x_P,y_P), \qquad Q=(x_Q,y_Q),
@@ -1201,7 +1201,7 @@ da cui \(P+Q=(13,10)\), verificabile sostituendo nella congruenza della curva.
 
 \section{Raddoppio di un punto modulo \texorpdfstring{\(p\)}{p}}
 
-Il raddoppio di un punto si ottiene adattando la formula della tangente al caso modulare. Se \(P=(x_P,y_P)\) e \(y_P\not\equiv 0\pmod p\), allora
+Il raddoppio di un punto si ottiene adattando la formula della tangente al caso modulare~\cite{margara_ec,sec1}. Se \(P=(x_P,y_P)\) e \(y_P\not\equiv 0\pmod p\), allora
 
 \begin{equation}
     \lambda \equiv (3x_P^2+a)(2y_P)^{-1}\pmod p.
@@ -1263,7 +1263,7 @@ P=(x,y)
     -P=(x,-y\bmod p).
 \end{equation}
 
-Se \(y\neq 0\), questo può essere scritto anche come \((x,p-y)\). Per esempio, in \(\mathbb{F}_{17}\), l'opposto di \((0,6)\) è \((0,11)\), perché
+Se \(y\neq 0\), questo può essere scritto anche come \((x,p-y)\)~\cite{margara_ec}. Per esempio, in \(\mathbb{F}_{17}\), l'opposto di \((0,6)\) è \((0,11)\), perché
 
 \[
 6+11\equiv 0\pmod{17}.
@@ -1283,7 +1283,7 @@ P+\mathcal{O}=\mathcal{O}+P=P.
 
 \section{Moltiplicazione scalare e sottogruppi ciclici}
 
-La moltiplicazione scalare su una curva ellittica su \(\mathbb{F}_p\) è definita come
+La moltiplicazione scalare su una curva ellittica su \(\mathbb{F}_p\) è definita come~\cite{margara_ec,sec1}
 
 \begin{equation}
     kP=\underbrace{P+P+\cdots+P}_{k\text{ volte}}.
@@ -1331,7 +1331,7 @@ Quindi
 3P=(6,3).
 \]
 
-In crittografia si lavora spesso con un sottogruppo ciclico generato da un punto base \(G\):
+In crittografia si lavora spesso con un sottogruppo ciclico generato da un punto base \(G\)~\cite{margara_ec,sec1}:
 
 \begin{equation}
     \langle G\rangle=\{G,2G,3G,\ldots,nG=\mathcal{O}\}.
@@ -1343,7 +1343,7 @@ Il più piccolo intero positivo \(n\) tale che \(nG=\mathcal{O}\) è chiamato or
 Q=dG.
 \]
 
-Il problema di sicurezza consiste nel recuperare \(d\) dati \(G\) e \(Q\), cioè nel risolvere il logaritmo discreto su curve ellittiche.
+Il problema di sicurezza consiste nel recuperare \(d\) dati \(G\) e \(Q\), cioè nel risolvere il logaritmo discreto su curve ellittiche~\cite{margara_ec,sec1}.
 
 \section{Perché i campi finiti sono adatti alla crittografia}
 
@@ -1353,7 +1353,7 @@ Le curve ellittiche su campi finiti sono adatte alla crittografia perché tutte 
 d\longmapsto Q=dG.
 \]
 
-Il calcolo di \(Q\) a partire da \(d\) e \(G\) è efficiente, mentre il recupero di \(d\) da \(G\) e \(Q\) è ritenuto difficile per parametri scelti correttamente. Questa combinazione di esattezza, finitezza e asimmetria computazionale rende le curve ellittiche su campi finiti particolarmente efficaci per la crittografia a chiave pubblica.
+Il calcolo di \(Q\) a partire da \(d\) e \(G\) è efficiente, mentre il recupero di \(d\) da \(G\) e \(Q\) è ritenuto difficile per parametri scelti correttamente. Questa combinazione di esattezza, finitezza e asimmetria computazionale rende le curve ellittiche su campi finiti particolarmente efficaci per la crittografia a chiave pubblica~\cite{margara_ec,sec1}.
 
 % ==========================================================
 % Chapter 6
