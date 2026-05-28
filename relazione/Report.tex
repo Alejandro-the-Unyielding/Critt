@@ -1720,7 +1720,7 @@ L'idea centrale è la seguente: dato un punto base pubblico \(G\), uno scalare s
 Q=dG.
 \]
 
-Lo scalare \(d\) costituisce la chiave privata, mentre il punto \(Q\) costituisce la chiave pubblica. La sicurezza dipende dal fatto che, conoscendo \(G\) e \(Q\), un avversario non riesca a recuperare \(d\) in tempo praticabile.
+Lo scalare \(d\) costituisce la chiave privata, mentre il punto \(Q\) costituisce la chiave pubblica~\cite{margara_ec,sec1}. La sicurezza dipende dal fatto che, conoscendo \(G\) e \(Q\), un avversario non riesca a recuperare \(d\) in tempo praticabile.
 
 I tre usi principali trattati in questo capitolo sono:
 
@@ -1732,7 +1732,7 @@ I tre usi principali trattati in questo capitolo sono:
 
 \section{Parametri pubblici e generazione delle chiavi}
 
-Un sistema ECC su un campo primo è descritto da parametri pubblici:
+Un sistema ECC su un campo primo è descritto da parametri pubblici~\cite{margara_ec,sec1}:
 
 \[
 (E,\mathbb{F}_p,G,n),
@@ -1746,7 +1746,7 @@ nG=\mathcal{O}.
 
 Questi parametri non devono essere segreti. Nei sistemi reali sono normalmente standardizzati e pubblici. Ciò che deve rimanere segreto è lo scalare privato dell'utente.
 
-La generazione di una coppia di chiavi ECC avviene in due passi:
+La generazione di una coppia di chiavi ECC avviene in due passi~\cite{margara_ec,sec1}:
 
 \begin{enumerate}
     \item si sceglie casualmente una chiave privata
@@ -1763,7 +1763,7 @@ La scelta di \(d\) deve essere casuale e uniforme. Se la generazione casuale è 
 
 \section{Elliptic Curve Diffie--Hellman}
 
-Elliptic Curve Diffie--Hellman, abbreviato ECDH, è la versione su curve ellittiche del protocollo Diffie--Hellman. Il suo obiettivo è permettere a due parti, Alice e Bob, di ottenere una chiave segreta condivisa comunicando su un canale insicuro.
+Elliptic Curve Diffie--Hellman, abbreviato ECDH, è la versione su curve ellittiche del protocollo Diffie--Hellman~\cite{margara_dh,sec1}. Il suo obiettivo è permettere a due parti, Alice e Bob, di ottenere una chiave segreta condivisa comunicando su un canale insicuro.
 
 Alice sceglie una chiave privata \(d_A\) e calcola
 
@@ -1795,7 +1795,7 @@ Poiché la moltiplicazione tra interi è commutativa, si ha
 S_A=S_B=S.
 \]
 
-Alice e Bob ottengono quindi lo stesso punto segreto \(S\), senza trasmetterlo direttamente.
+Alice e Bob ottengono quindi lo stesso punto segreto \(S\), senza trasmetterlo direttamente~\cite{margara_dh,sec1}.
 
 Il punto \(S\) non viene usato direttamente come chiave simmetrica. Se
 
@@ -1803,7 +1803,7 @@ Il punto \(S\) non viene usato direttamente come chiave simmetrica. Se
 S=(x_S,y_S),
 \]
 
-normalmente si applica una funzione di derivazione della chiave:
+normalmente si applica una funzione di derivazione della chiave~\cite{sec1}:
 
 \[
 K=\mathrm{KDF}(x_S).
@@ -1823,25 +1823,25 @@ Per ricavare il segreto condiviso dovrebbe recuperare \(d_A\) da \(Q_A=d_A G\), 
 
 ECDH, però, nella sua forma base non autentica le parti. Se le chiavi pubbliche scambiate non vengono verificate, il protocollo è vulnerabile a un attacco man-in-the-middle. Un avversario può sostituire \(Q_A\) e \(Q_B\) con proprie chiavi pubbliche, stabilendo due segreti distinti: uno con Alice e uno con Bob.
 
-Per questo motivo, nei protocolli reali ECDH viene combinato con meccanismi di autenticazione, come certificati digitali o firme digitali. Il problema non è solo ottenere un segreto condiviso, ma sapere con chi lo si sta condividendo.
+Per questo motivo, nei protocolli reali ECDH viene combinato con meccanismi di autenticazione, come certificati digitali o firme digitali~\cite{margara_dh,margara_ssl}. Il problema non è solo ottenere un segreto condiviso, ma sapere con chi lo si sta condividendo.
 
 \section{ECDHE e forward secrecy}
 
 Una variante importante è ECDHE, cioè \textit{Elliptic Curve Diffie--Hellman Ephemeral}. In questo caso le chiavi usate per lo scambio sono temporanee e vengono generate per una singola sessione.
 
-L'uso di chiavi effimere permette di ottenere \textit{forward secrecy}: se in futuro una chiave privata a lungo termine viene compromessa, le chiavi di sessione passate non vengono automaticamente compromesse. Per questa ragione ECDHE è ampiamente usato nei protocolli moderni di comunicazione sicura.
+L'uso di chiavi effimere permette di ottenere \textit{forward secrecy}~\cite{margara_ssl,sec1}: se in futuro una chiave privata a lungo termine viene compromessa, le chiavi di sessione passate non vengono automaticamente compromesse. Per questa ragione ECDHE è ampiamente usato nei protocolli moderni di comunicazione sicura.
 
 \section{Firme digitali su curve ellittiche}
 
-Oltre allo scambio di chiavi, ECC viene usata per costruire firme digitali. Una firma digitale garantisce autenticità, integrità e non ripudio: il destinatario può verificare che il messaggio provenga dal possessore della chiave privata, che non sia stato modificato e che il firmatario non possa ragionevolmente negare la firma.
+Oltre allo scambio di chiavi, ECC viene usata per costruire firme digitali. Una firma digitale garantisce autenticità, integrità e non ripudio~\cite{margara_firma}: il destinatario può verificare che il messaggio provenga dal possessore della chiave privata, che non sia stato modificato e che il firmatario non possa ragionevolmente negare la firma.
 
-Lo schema più noto basato su curve ellittiche è ECDSA, \textit{Elliptic Curve Digital Signature Algorithm}. Un utente possiede una chiave privata \(d\) e una chiave pubblica
+Lo schema più noto basato su curve ellittiche è ECDSA, \textit{Elliptic Curve Digital Signature Algorithm}~\cite{fips_186_5,sec1}. Un utente possiede una chiave privata \(d\) e una chiave pubblica
 
 \[
 Q=dG.
 \]
 
-Per firmare un messaggio \(m\), non si firma direttamente l'intero messaggio, ma il suo hash
+Per firmare un messaggio \(m\), non si firma direttamente l'intero messaggio, ma il suo hash~\cite{margara_firma,fips_186_5}:
 
 \[
 e=H(m).
@@ -1859,7 +1859,7 @@ Chiunque conosca \(m\), \((r,s)\), \(Q\) e i parametri della curva può verifica
 
 Siano pubblici i parametri \((E,\mathbb{F}_p,G,n)\), con \(G\) di ordine \(n\). Sia \(d\) la chiave privata del firmatario e \(Q=dG\) la chiave pubblica.
 
-Per firmare un messaggio \(m\):
+Per firmare un messaggio \(m\), la generazione della firma ECDSA segue i passaggi seguenti~\cite{fips_186_5,sec1}:
 
 \begin{enumerate}
     \item si calcola
@@ -1883,7 +1883,7 @@ Per firmare un messaggio \(m\):
 
 La firma è la coppia \((r,s)\).
 
-Per verificare la firma, il verificatore calcola:
+Per verificare la firma, il verificatore usa la chiave pubblica \(Q\) e calcola~\cite{fips_186_5,sec1}:
 
 \[
 w\equiv s^{-1}\pmod n,
@@ -1931,7 +1931,7 @@ e quindi il punto calcolato dal verificatore coincide con \(kG\), cioè con il p
 
 \section{Importanza del nonce in ECDSA}
 
-Il nonce \(k\) è critico per la sicurezza di ECDSA. Deve essere segreto, imprevedibile e usato una sola volta. Se lo stesso \(k\) viene riutilizzato per firmare due messaggi diversi, la chiave privata può essere recuperata.
+Il nonce \(k\) è critico per la sicurezza di ECDSA~\cite{fips_186_5}. Deve essere segreto, imprevedibile e usato una sola volta. Se lo stesso \(k\) viene riutilizzato per firmare due messaggi diversi, la chiave privata può essere recuperata.
 
 Infatti, per due hash \(e_1\) ed \(e_2\) firmati con lo stesso nonce, si hanno
 
@@ -1987,7 +1987,7 @@ ECDSA & firmare un messaggio & usata per produrre una firma verificabile \\
 \label{tab:ecdh-ecdsa}
 \end{table}
 
-Nel primo caso, due parti contribuiscono alla generazione di un segreto comune. Nel secondo, una parte produce una firma che chiunque può verificare usando la chiave pubblica. In entrambi i casi, la sicurezza dipende dalla difficoltà di ricavare uno scalare privato da un punto pubblico della forma \(Q=dG\).
+Nel primo caso, due parti contribuiscono alla generazione di un segreto comune. Nel secondo, una parte produce una firma che chiunque può verificare usando la chiave pubblica. In entrambi i casi, la sicurezza dipende dalla difficoltà di ricavare uno scalare privato da un punto pubblico della forma \(Q=dG\)~\cite{margara_ec,sec1}.
 
 % ==========================================================
 % Chapter 8
