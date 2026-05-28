@@ -2195,7 +2195,7 @@ Questi rischi mostrano che una costruzione matematica sicura può diventare vuln
 
 \section{Introduzione}
 
-Dopo aver analizzato le basi matematiche di ECC, i protocolli principali e alcune applicazioni moderne, è utile valutare la crittografia su curve ellittiche in modo critico. ECC è una delle tecniche più importanti della crittografia a chiave pubblica, soprattutto perché permette di ottenere livelli di sicurezza elevati con chiavi più brevi rispetto a sistemi come RSA. Tuttavia, questa efficienza non elimina i limiti: la sicurezza dipende dalla scelta dei parametri, dalla qualità dell'implementazione, dalla generazione corretta dei valori casuali e, in prospettiva futura, dalla resistenza rispetto agli attacchi quantistici.
+Dopo aver analizzato le basi matematiche di ECC, i protocolli principali e alcune applicazioni moderne, è utile valutare la crittografia su curve ellittiche in modo critico. ECC è una delle tecniche più importanti della crittografia a chiave pubblica, soprattutto perché permette di ottenere livelli di sicurezza elevati con chiavi più brevi rispetto a sistemi come RSA. Tuttavia, questa efficienza non elimina i limiti: la sicurezza dipende dalla scelta dei parametri, dalla qualità dell'implementazione, dalla generazione corretta dei valori casuali e, in prospettiva futura, dalla resistenza rispetto agli attacchi quantistici~\cite{margara_ec,nist_sp800_57,sec1}.
 
 Questo capitolo confronta ECC con RSA, discute i principali limiti pratici e teorici delle curve ellittiche, e introduce la prospettiva post-quantistica.
 
@@ -2207,7 +2207,7 @@ RSA ed ECC sono entrambi sistemi a chiave pubblica, ma si basano su problemi mat
 n=pq.
 \]
 
-Moltiplicare \(p\) e \(q\) è efficiente; recuperare \(p\) e \(q\) conoscendo soltanto \(n\) è ritenuto difficile per numeri sufficientemente grandi.
+Moltiplicare \(p\) e \(q\) è efficiente; recuperare \(p\) e \(q\) conoscendo soltanto \(n\) è ritenuto difficile per numeri sufficientemente grandi~\cite{margara_rsa}.
 
 ECC, invece, si basa sul problema del logaritmo discreto su curve ellittiche. Dato un punto base \(G\) e uno scalare segreto \(d\), è efficiente calcolare
 
@@ -2215,7 +2215,7 @@ ECC, invece, si basa sul problema del logaritmo discreto su curve ellittiche. Da
 Q=dG.
 \]
 
-Il problema difficile consiste nel recuperare \(d\) conoscendo soltanto \(G\) e \(Q\). La differenza può essere riassunta così:
+Il problema difficile consiste nel recuperare \(d\) conoscendo soltanto \(G\) e \(Q\)~\cite{margara_ec,sec1}. La differenza può essere riassunta così:
 
 \begin{table}[h]
 \centering
@@ -2232,11 +2232,11 @@ ECC & Calcolare \(Q=dG\) & Logaritmo discreto su curve ellittiche \\
 \label{tab:rsa-dh-ecc}
 \end{table}
 
-Il principio comune è l'asimmetria computazionale: l'utente legittimo deve poter eseguire facilmente l'operazione diretta, mentre l'avversario deve trovarsi davanti a un problema inverso impraticabile.
+Il principio comune è l'asimmetria computazionale: l'utente legittimo deve poter eseguire facilmente l'operazione diretta, mentre l'avversario deve trovarsi davanti a un problema inverso impraticabile~\cite{margara_rsa,margara_dh,margara_ec}.
 
 \section{Efficienza e dimensione delle chiavi}
 
-Uno dei principali vantaggi pratici di ECC è la dimensione ridotta delle chiavi. A parità di sicurezza stimata, ECC richiede chiavi molto più brevi rispetto a RSA. Questo riduce memoria, larghezza di banda e dimensione dei certificati.
+Uno dei principali vantaggi pratici di ECC è la dimensione ridotta delle chiavi. A parità di sicurezza stimata, ECC richiede chiavi molto più brevi rispetto a RSA. Questo riduce memoria, larghezza di banda e dimensione dei certificati~\cite{nist_sp800_57,sec1}.
 
 \begin{table}[h]
 \centering
@@ -2254,11 +2254,11 @@ Circa 256 bit & 15360 bit & 512 bit \\
 \label{tab:key-size-comparison}
 \end{table}
 
-Questa caratteristica rende ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e applicazioni blockchain. Chiavi più brevi non significano però sicurezza automatica: la robustezza dipende dalla scelta della curva, dall'ordine del sottogruppo, dalla corretta generazione delle chiavi e dalla qualità dell'implementazione.
+Questa caratteristica rende ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e applicazioni blockchain~\cite{nist_sp800_57,sec1}. Chiavi più brevi non significano però sicurezza automatica: la robustezza dipende dalla scelta della curva, dall'ordine del sottogruppo, dalla corretta generazione delle chiavi e dalla qualità dell'implementazione.
 
 \section{Limiti teorici}
 
-ECC non offre sicurezza assoluta. Come gran parte della crittografia moderna, si basa su un'assunzione computazionale: l'ECDLP è ritenuto difficile per curve e parametri scelti correttamente. Non esiste però una dimostrazione matematica definitiva che un algoritmo classico efficiente per risolvere l'ECDLP non possa esistere.
+ECC non offre sicurezza assoluta. Come gran parte della crittografia moderna, si basa su un'assunzione computazionale: l'ECDLP è ritenuto difficile per curve e parametri scelti correttamente. Non esiste però una dimostrazione matematica definitiva che un algoritmo classico efficiente per risolvere l'ECDLP non possa esistere~\cite{margara_complessita,sec1}.
 
 Questo non rende ECC insicura; descrive semplicemente la natura della sicurezza computazionale. Un sistema crittografico è considerato sicuro se resiste ai migliori attacchi noti e se il costo dell'attacco rimane fuori dalla portata di un avversario realistico.
 
@@ -2274,21 +2274,21 @@ Molti attacchi contro sistemi crittografici non rompono direttamente il problema
 
 Un primo rischio riguarda la generazione delle chiavi private. Lo scalare segreto \(d\) deve essere generato in modo casuale e uniforme nell'intervallo corretto. Se il generatore di numeri casuali è prevedibile, l'avversario può restringere lo spazio delle possibili chiavi.
 
-Un secondo rischio riguarda le firme digitali. In schemi come ECDSA, il nonce temporaneo \(k\) deve essere segreto, casuale e usato una sola volta. Se lo stesso nonce viene riutilizzato per firmare due messaggi diversi, la chiave privata può essere recuperata algebricamente. In questo caso non viene risolto l'ECDLP: la chiave viene esposta a causa di un errore nell'uso del protocollo.
+Un secondo rischio riguarda le firme digitali. In schemi come ECDSA, il nonce temporaneo \(k\) deve essere segreto, casuale e usato una sola volta. Se lo stesso nonce viene riutilizzato per firmare due messaggi diversi, la chiave privata può essere recuperata algebricamente. In questo caso non viene risolto l'ECDLP: la chiave viene esposta a causa di un errore nell'uso del protocollo~\cite{margara_firma,fips_186_5}.
 
-Un terzo rischio riguarda la validazione delle chiavi pubbliche. Quando un sistema riceve un punto da un'altra parte, deve verificare che appartenga alla curva corretta e al sottogruppo previsto. In assenza di questi controlli, possono comparire attacchi basati su punti non validi o sottogruppi piccoli.
+Un terzo rischio riguarda la validazione delle chiavi pubbliche. Quando un sistema riceve un punto da un'altra parte, deve verificare che appartenga alla curva corretta e al sottogruppo previsto. In assenza di questi controlli, possono comparire attacchi basati su punti non validi o sottogruppi piccoli~\cite{sec1}.
 
-Infine, esistono attacchi side-channel, che sfruttano informazioni indirette come tempi di esecuzione, consumo energetico, comportamento della cache o emissioni elettromagnetiche. Per ridurre questi rischi, le implementazioni devono usare tecniche constant-time e non devono far dipendere il flusso di esecuzione da dati segreti.
+Infine, esistono attacchi side-channel, che sfruttano informazioni indirette come tempi di esecuzione, consumo energetico, comportamento della cache o emissioni elettromagnetiche. Per ridurre questi rischi, le implementazioni devono usare tecniche constant-time e non devono far dipendere il flusso di esecuzione da dati segreti~\cite{sec1}.
 
 \section{Scelta delle curve}
 
-Non tutte le curve ellittiche sono adatte alla crittografia. Una curva deve evitare strutture deboli, deve avere un sottogruppo di ordine sufficientemente grande e deve resistere agli attacchi noti. Per questo motivo, nei sistemi reali si usano curve standardizzate, i cui parametri sono stati pubblicati e analizzati.
+Non tutte le curve ellittiche sono adatte alla crittografia. Una curva deve evitare strutture deboli, deve avere un sottogruppo di ordine sufficientemente grande e deve resistere agli attacchi noti. Per questo motivo, nei sistemi reali si usano curve standardizzate, i cui parametri sono stati pubblicati e analizzati~\cite{sec1}.
 
-La standardizzazione non elimina del tutto il problema della fiducia nei parametri. In alcuni casi, la comunità crittografica ha discusso la trasparenza con cui certe curve sono state generate. Per questa ragione, negli ultimi anni si è data maggiore attenzione a curve con parametri generati in modo verificabile e con implementazioni più semplici e meno soggette a errori.
+La standardizzazione non elimina del tutto il problema della fiducia nei parametri. In alcuni casi, la comunità crittografica ha discusso la trasparenza con cui certe curve sono state generate. Per questa ragione, negli ultimi anni si è data maggiore attenzione a curve con parametri generati in modo verificabile e con implementazioni più semplici e meno soggette a errori~\cite{sec1}.
 
 \section{La minaccia quantistica}
 
-Il limite più importante di ECC in prospettiva futura è rappresentato dai computer quantistici. I principali sistemi a chiave pubblica oggi usati, tra cui RSA, Diffie--Hellman ed ECC, si basano su problemi difficili per computer classici. Tuttavia, l'algoritmo di Shor mostra che un computer quantistico sufficientemente grande e fault-tolerant potrebbe risolvere in tempo polinomiale:
+Il limite più importante di ECC in prospettiva futura è rappresentato dai computer quantistici. I principali sistemi a chiave pubblica oggi usati, tra cui RSA, Diffie--Hellman ed ECC, si basano su problemi difficili per computer classici. Tuttavia, l'algoritmo di Shor mostra che un computer quantistico sufficientemente grande e fault-tolerant potrebbe risolvere in tempo polinomiale problemi considerati difficili per i computer classici~\cite{margara_pqc}:
 
 \begin{itemize}
     \item la fattorizzazione di interi;
@@ -2302,19 +2302,19 @@ Nel caso di ECC, questo significa che un avversario quantistico potrebbe recuper
 Q=dG.
 \]
 
-I computer quantistici attuali non sono ancora in grado di eseguire attacchi di scala crittografica contro ECC, ma il rischio è rilevante per dati che devono rimanere segreti per molti anni.
+Questo comprometterebbe direttamente la relazione tra chiave pubblica e chiave privata nei sistemi ECC~\cite{margara_pqc}. I computer quantistici attuali non sono ancora in grado di eseguire attacchi di scala crittografica contro ECC, ma il rischio è rilevante per dati che devono rimanere segreti per molti anni.
 
 \section{Harvest Now, Decrypt Later}
 
-Un rischio collegato alla minaccia quantistica è chiamato \textit{Harvest Now, Decrypt Later}. Un avversario può registrare oggi traffico cifrato che non riesce a decifrare immediatamente, conservarlo e tentare di decifrarlo in futuro quando saranno disponibili computer quantistici più potenti.
+Un rischio collegato alla minaccia quantistica è chiamato \textit{Harvest Now, Decrypt Later}. Un avversario può registrare oggi traffico cifrato che non riesce a decifrare immediatamente, conservarlo e tentare di decifrarlo in futuro quando saranno disponibili computer quantistici più potenti~\cite{margara_pqc}.
 
-Questo scenario è particolarmente grave per dati con lunga durata di confidenzialità, come informazioni sanitarie, documenti governativi, segreti industriali o dati finanziari. Nel caso di protocolli basati su ECDH o ECDHE, un futuro avversario quantistico potrebbe recuperare i segreti effimeri dai punti pubblici scambiati e ricostruire la chiave di sessione.
+Questo scenario è particolarmente grave per dati con lunga durata di confidenzialità, come informazioni sanitarie, documenti governativi, segreti industriali o dati finanziari. Nel caso di protocolli basati su ECDH o ECDHE, un futuro avversario quantistico potrebbe recuperare i segreti effimeri dai punti pubblici scambiati e ricostruire la chiave di sessione~\cite{margara_pqc}.
 
 \section{Crittografia post-quantistica}
 
-La crittografia post-quantistica studia algoritmi eseguibili su computer classici ma progettati per resistere anche ad avversari dotati di computer quantistici. L'obiettivo è sostituire o affiancare RSA, Diffie--Hellman ed ECC con schemi basati su problemi matematici diversi, per i quali non siano noti algoritmi quantistici efficienti.
+La crittografia post-quantistica studia algoritmi eseguibili su computer classici ma progettati per resistere anche ad avversari dotati di computer quantistici. L'obiettivo è sostituire o affiancare RSA, Diffie--Hellman ed ECC con schemi basati su problemi matematici diversi, per i quali non siano noti algoritmi quantistici efficienti~\cite{margara_pqc}.
 
-Le principali famiglie post-quantistiche si basano su:
+Le principali famiglie post-quantistiche si basano su diverse famiglie di problemi matematici~\cite{margara_pqc}:
 
 \begin{itemize}
     \item problemi su reticoli;
@@ -2323,11 +2323,11 @@ Le principali famiglie post-quantistiche si basano su:
     \item sistemi multivariati.
 \end{itemize}
 
-Negli ultimi anni, gli schemi basati su reticoli hanno avuto un ruolo particolarmente importante nella standardizzazione.
+Negli ultimi anni, gli schemi basati su reticoli hanno avuto un ruolo particolarmente importante nella standardizzazione~\cite{margara_pqc,fips_203,fips_204}.
 
 \section{Standardizzazione e transizione}
 
-Il NIST ha avviato un processo di standardizzazione per selezionare algoritmi post-quantistici adatti all'uso pratico. Tra gli standard pubblicati vi sono:
+Il NIST ha avviato un processo di standardizzazione per selezionare algoritmi post-quantistici adatti all'uso pratico~\cite{margara_pqc,fips_203,fips_204,fips_205}. Tra gli standard pubblicati vi sono:
 
 \begin{itemize}
     \item ML-KEM, derivato da Kyber, per incapsulamento di chiavi;
@@ -2337,17 +2337,17 @@ Il NIST ha avviato un processo di standardizzazione per selezionare algoritmi po
 
 La transizione alla crittografia post-quantistica non può essere immediata. Le infrastrutture esistenti sono profondamente basate su RSA ed ECC, e gli algoritmi post-quantistici hanno caratteristiche diverse, spesso con chiavi o firme più grandi.
 
-Una strategia pratica è l'uso di sistemi ibridi, che combinano un algoritmo classico, come ECDHE, con un algoritmo post-quantistico, come ML-KEM. Il segreto finale può essere derivato da entrambe le componenti:
+Una strategia pratica è l'uso di sistemi ibridi, che combinano un algoritmo classico, come ECDHE, con un algoritmo post-quantistico, come ML-KEM~\cite{margara_pqc,fips_203}. Il segreto finale può essere derivato da entrambe le componenti:
 
 \[
 K = \mathrm{KDF}(K_{\mathrm{ECC}} \parallel K_{\mathrm{PQC}}).
 \]
 
-L'idea è che la comunicazione rimanga sicura se almeno una delle due componenti resta sicura. Durante il periodo di transizione, ECC continuerà probabilmente ad avere un ruolo importante, soprattutto nei sistemi in cui la minaccia quantistica non è immediata o in cui la compatibilità con infrastrutture esistenti è essenziale.
+L'idea è che la comunicazione rimanga sicura se almeno una delle due componenti resta sicura. Durante il periodo di transizione, ECC continuerà probabilmente ad avere un ruolo importante, soprattutto nei sistemi in cui la minaccia quantistica non è immediata o in cui la compatibilità con infrastrutture esistenti è essenziale~\cite{margara_pqc,fips_203}.
 
 \section{Confronto finale}
 
-Il confronto tra RSA, ECC e crittografia post-quantistica può essere riassunto nella seguente tabella:
+Il confronto tra RSA, ECC e crittografia post-quantistica può essere riassunto nella seguente tabella~\cite{margara_rsa,margara_ec,margara_pqc,nist_sp800_57}:
 
 \begin{table}[h]
 \centering
@@ -2364,7 +2364,7 @@ PQC & Reticoli, hash, codici & Resistenza quantistica & Chiavi/firme spesso più
 \label{tab:rsa-ecc-pqc}
 \end{table}
 
-ECC rappresenta quindi una soluzione molto efficace nel paradigma classico, ma non definitiva nel paradigma quantistico. La sua importanza rimane comunque notevole: ha reso più efficiente la crittografia a chiave pubblica e costituisce ancora oggi una componente centrale di molti sistemi reali.
+ECC rappresenta quindi una soluzione molto efficace nel paradigma classico, ma non definitiva nel paradigma quantistico~\cite{margara_ec,margara_pqc}. La sua importanza rimane comunque notevole: ha reso più efficiente la crittografia a chiave pubblica e costituisce ancora oggi una componente centrale di molti sistemi reali.
 
 % ==========================================================
 % Chapter 10
