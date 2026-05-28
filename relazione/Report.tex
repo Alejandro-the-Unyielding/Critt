@@ -2381,7 +2381,7 @@ Dal punto di vista matematico, una curva ellittica in forma di Weierstrass è de
 y^2 = x^3 + ax + b,
 \]
 
-con una condizione di non singolarità che evita cuspidi e nodi. Sui numeri reali, questa equazione permette di comprendere geometricamente la somma tra punti tramite la regola della retta e della riflessione. Sui campi finiti, invece, la stessa struttura diventa utilizzabile in crittografia, perché le operazioni sono esatte, finite e implementabili in modo efficiente.
+con una condizione di non singolarità che evita cuspidi e nodi. Sui numeri reali, questa equazione permette di comprendere geometricamente la somma tra punti tramite la regola della retta e della riflessione. Sui campi finiti, invece, la stessa struttura diventa utilizzabile in crittografia, perché le operazioni sono esatte, finite e implementabili in modo efficiente~\cite{margara_ec,sec1}.
 
 L'operazione centrale è la moltiplicazione scalare
 
@@ -2389,17 +2389,17 @@ L'operazione centrale è la moltiplicazione scalare
 Q=dG.
 \]
 
-Essa permette di generare chiavi pubbliche a partire da chiavi private, stabilire segreti condivisi tramite ECDH e produrre firme digitali tramite schemi come ECDSA. La sicurezza dipende dalla difficoltà di invertire questa operazione, cioè dal problema del logaritmo discreto su curve ellittiche.
+Essa permette di generare chiavi pubbliche a partire da chiavi private, stabilire segreti condivisi tramite ECDH e produrre firme digitali tramite schemi come ECDSA. La sicurezza dipende dalla difficoltà di invertire questa operazione, cioè dal problema del logaritmo discreto su curve ellittiche~\cite{margara_ec,margara_dh,fips_186_5,sec1}.
 
 \section{Rilevanza e limiti}
 
-La rilevanza pratica di ECC deriva soprattutto dalla sua efficienza. Rispetto a sistemi come RSA, ECC permette di ottenere livelli di sicurezza comparabili con chiavi più brevi, riducendo memoria, larghezza di banda e costo computazionale. Questo rende ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e blockchain.
+La rilevanza pratica di ECC deriva soprattutto dalla sua efficienza. Rispetto a sistemi come RSA, ECC permette di ottenere livelli di sicurezza comparabili con chiavi più brevi, riducendo memoria, larghezza di banda e costo computazionale. Questo rende ECC adatta a protocolli di rete, dispositivi mobili, smart card, sistemi embedded e blockchain~\cite{nist_sp800_57,sec1}.
 
-Le applicazioni analizzate mostrano questa importanza. Nei protocolli di comunicazione sicura, ECC viene usata soprattutto tramite ECDHE per stabilire chiavi di sessione con forward secrecy. In Bitcoin, invece, ECC è alla base della generazione delle chiavi, della derivazione degli indirizzi e della firma delle transazioni.
+Le applicazioni analizzate mostrano questa importanza. Nei protocolli di comunicazione sicura, ECC viene usata soprattutto tramite ECDHE per stabilire chiavi di sessione con forward secrecy. In Bitcoin, invece, ECC è alla base della generazione delle chiavi, della derivazione degli indirizzi e della firma delle transazioni~\cite{margara_ssl,margara_bitcoin}.
 
-Tuttavia, ECC non deve essere interpretata come una soluzione assoluta. La sua sicurezza è computazionale e dipende dalla difficoltà dell'ECDLP per i parametri scelti. Inoltre, errori pratici come cattiva generazione delle chiavi, riuso del nonce in ECDSA, mancata validazione dei punti o vulnerabilità side-channel possono compromettere un sistema anche se la matematica sottostante è solida.
+Tuttavia, ECC non deve essere interpretata come una soluzione assoluta. La sua sicurezza è computazionale e dipende dalla difficoltà dell'ECDLP per i parametri scelti. Inoltre, errori pratici come cattiva generazione delle chiavi, riuso del nonce in ECDSA, mancata validazione dei punti o vulnerabilità side-channel possono compromettere un sistema anche se la matematica sottostante è solida~\cite{margara_complessita,fips_186_5,sec1}.
 
-Infine, ECC è vulnerabile alla minaccia quantistica. L'algoritmo di Shor mostra che un computer quantistico sufficientemente potente potrebbe risolvere in tempo polinomiale il logaritmo discreto su curve ellittiche. Per questo motivo, ECC dovrà convivere con schemi post-quantistici durante la fase di transizione verso nuove primitive crittografiche.
+Infine, ECC è vulnerabile alla minaccia quantistica. L'algoritmo di Shor mostra che un computer quantistico sufficientemente potente potrebbe risolvere in tempo polinomiale il logaritmo discreto su curve ellittiche. Per questo motivo, ECC dovrà convivere con schemi post-quantistici durante la fase di transizione verso nuove primitive crittografiche~\cite{margara_pqc}.
 
 \section{Conclusione finale}
 
