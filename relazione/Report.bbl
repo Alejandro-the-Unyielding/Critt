@@ -1,0 +1,559 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{margara_intro}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Introduzione -- Crittografia}
+      \field{year}{2022}
+    \endentry
+    \entry{margara_firma}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Firma Digitale -- Crittografia}
+      \field{year}{2022}
+    \endentry
+    \entry{margara_publickey}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Protocolli a chiave pubblica -- Crittografia}
+      \field{year}{2026}
+    \endentry
+    \entry{margara_complessita}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{4}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Facile e Difficile -- Crittografia}
+      \field{year}{2022}
+    \endentry
+    \entry{margara_ec}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{5}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Crittografia su Curve Ellittiche -- Crittografia}
+      \field{year}{2026}
+    \endentry
+    \entry{sec1}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f313d920ef70083cb0a4df3d0bcd862d}{%
+           family={{Standards for Efficient Cryptography Group}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{fullhash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{fullhashraw}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{bibnamehash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{authorbibnamehash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{authornamehash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{authorfullhash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{authorfullhashraw}{f313d920ef70083cb0a4df3d0bcd862d}
+      \field{extraname}{1}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Standards for Efficient Cryptography}
+      \field{title}{{SEC 1}: Elliptic Curve Cryptography, Version 2.0}
+      \field{year}{2009}
+    \endentry
+    \entry{nist_sp800_57}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=fe89f812e7e0e1b0369322681b2dcd7c}{%
+           family={Barker},
+           familyi={B\bibinitperiod},
+           given={Elaine},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{institution}{2}{%
+        {National Institute of Standards}%
+        {Technology}%
+      }
+      \strng{namehash}{fe89f812e7e0e1b0369322681b2dcd7c}
+      \strng{fullhash}{fe89f812e7e0e1b0369322681b2dcd7c}
+      \strng{fullhashraw}{fe89f812e7e0e1b0369322681b2dcd7c}
+      \strng{bibnamehash}{fe89f812e7e0e1b0369322681b2dcd7c}
+      \strng{authorbibnamehash}{fe89f812e7e0e1b0369322681b2dcd7c}
+      \strng{authornamehash}{fe89f812e7e0e1b0369322681b2dcd7c}
+      \strng{authorfullhash}{fe89f812e7e0e1b0369322681b2dcd7c}
+      \strng{authorfullhashraw}{fe89f812e7e0e1b0369322681b2dcd7c}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{800-57 Part 1 Revision 5}
+      \field{title}{Recommendation for Key Management: Part 1 -- General}
+      \field{type}{Special Publication}
+      \field{year}{2020}
+      \verb{doi}
+      \verb 10.6028/NIST.SP.800-57pt1r5
+      \endverb
+    \endentry
+    \entry{margara_bitcoin}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{6}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Bitcoin -- Crittografia}
+      \field{year}{2026}
+    \endentry
+    \entry{sec2}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f313d920ef70083cb0a4df3d0bcd862d}{%
+           family={{Standards for Efficient Cryptography Group}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{fullhash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{fullhashraw}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{bibnamehash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{authorbibnamehash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{authornamehash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{authorfullhash}{f313d920ef70083cb0a4df3d0bcd862d}
+      \strng{authorfullhashraw}{f313d920ef70083cb0a4df3d0bcd862d}
+      \field{extraname}{2}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Standards for Efficient Cryptography}
+      \field{title}{{SEC 2}: Recommended Elliptic Curve Domain Parameters, Version 2.0}
+      \field{year}{2010}
+    \endentry
+    \entry{margara_dh}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{7}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Diffie Hellman -- Crittografia}
+      \field{year}{2025}
+    \endentry
+    \entry{margara_elgamal}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{8}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Protocollo a chiave pubblica: Elgamal -- Crittografia}
+      \field{year}{2025}
+    \endentry
+    \entry{margara_rsa}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{9}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{RSA -- Crittografia}
+      \field{year}{2026}
+    \endentry
+    \entry{margara_pqc}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{10}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{Crittografia Post-Quantistica -- Crittografia}
+      \field{year}{2026}
+    \endentry
+    \entry{margara_ssl}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=119a8fe723a427f4c3d0579bc5bb1ede}{%
+           family={Margara},
+           familyi={M\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Università di Bologna}%
+      }
+      \strng{namehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{fullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{bibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorbibnamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authornamehash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhash}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \strng{authorfullhashraw}{119a8fe723a427f4c3d0579bc5bb1ede}
+      \field{extraname}{11}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Materiale didattico del corso di Crittografia}
+      \field{title}{SSL/TLS -- Crittografia}
+      \field{year}{2026}
+    \endentry
+    \entry{fips_186_5}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=ef9cb61878e61d434507444346b29d1a}{%
+           family={{National Institute of Standards and Technology}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \list{institution}{2}{%
+        {National Institute of Standards}%
+        {Technology}%
+      }
+      \strng{namehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{fullhash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{fullhashraw}{ef9cb61878e61d434507444346b29d1a}
+      \strng{bibnamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorbibnamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authornamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorfullhash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorfullhashraw}{ef9cb61878e61d434507444346b29d1a}
+      \field{extraname}{1}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{FIPS 186-5}
+      \field{title}{Digital Signature Standard (DSS)}
+      \field{type}{Federal Information Processing Standards Publication}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.6028/NIST.FIPS.186-5
+      \endverb
+    \endentry
+    \entry{nakamoto_bitcoin}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=1977190f018b398e43ede3de043de8ea}{%
+           family={Nakamoto},
+           familyi={N\bibinitperiod},
+           given={Satoshi},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{1977190f018b398e43ede3de043de8ea}
+      \strng{fullhash}{1977190f018b398e43ede3de043de8ea}
+      \strng{fullhashraw}{1977190f018b398e43ede3de043de8ea}
+      \strng{bibnamehash}{1977190f018b398e43ede3de043de8ea}
+      \strng{authorbibnamehash}{1977190f018b398e43ede3de043de8ea}
+      \strng{authornamehash}{1977190f018b398e43ede3de043de8ea}
+      \strng{authorfullhash}{1977190f018b398e43ede3de043de8ea}
+      \strng{authorfullhashraw}{1977190f018b398e43ede3de043de8ea}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{White paper}
+      \field{title}{Bitcoin: A Peer-to-Peer Electronic Cash System}
+      \field{year}{2008}
+    \endentry
+    \entry{fips_203}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=ef9cb61878e61d434507444346b29d1a}{%
+           family={{National Institute of Standards and Technology}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \list{institution}{2}{%
+        {National Institute of Standards}%
+        {Technology}%
+      }
+      \strng{namehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{fullhash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{fullhashraw}{ef9cb61878e61d434507444346b29d1a}
+      \strng{bibnamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorbibnamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authornamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorfullhash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorfullhashraw}{ef9cb61878e61d434507444346b29d1a}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{FIPS 203}
+      \field{title}{Module-Lattice-Based Key-Encapsulation Mechanism Standard}
+      \field{type}{Federal Information Processing Standards Publication}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.6028/NIST.FIPS.203
+      \endverb
+    \endentry
+    \entry{fips_204}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=ef9cb61878e61d434507444346b29d1a}{%
+           family={{National Institute of Standards and Technology}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \list{institution}{2}{%
+        {National Institute of Standards}%
+        {Technology}%
+      }
+      \strng{namehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{fullhash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{fullhashraw}{ef9cb61878e61d434507444346b29d1a}
+      \strng{bibnamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorbibnamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authornamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorfullhash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorfullhashraw}{ef9cb61878e61d434507444346b29d1a}
+      \field{extraname}{3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{FIPS 204}
+      \field{title}{Module-Lattice-Based Digital Signature Standard}
+      \field{type}{Federal Information Processing Standards Publication}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.6028/NIST.FIPS.204
+      \endverb
+    \endentry
+    \entry{fips_205}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=ef9cb61878e61d434507444346b29d1a}{%
+           family={{National Institute of Standards and Technology}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \list{institution}{2}{%
+        {National Institute of Standards}%
+        {Technology}%
+      }
+      \strng{namehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{fullhash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{fullhashraw}{ef9cb61878e61d434507444346b29d1a}
+      \strng{bibnamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorbibnamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authornamehash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorfullhash}{ef9cb61878e61d434507444346b29d1a}
+      \strng{authorfullhashraw}{ef9cb61878e61d434507444346b29d1a}
+      \field{extraname}{4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{FIPS 205}
+      \field{title}{Stateless Hash-Based Digital Signature Standard}
+      \field{type}{Federal Information Processing Standards Publication}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.6028/NIST.FIPS.205
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
