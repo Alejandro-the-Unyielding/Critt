@@ -1362,7 +1362,7 @@ Il calcolo di \(Q\) a partire da \(d\) e \(G\) è efficiente, mentre il recupero
 
 \section{Introduzione}
 
-Nei capitoli precedenti abbiamo costruito progressivamente la struttura matematica necessaria alla crittografia su curve ellittiche. Abbiamo visto che i punti di una curva ellittica su un campo finito formano un gruppo abeliano e che, fissato un punto base \(G\), è possibile calcolare multipli del tipo
+Nei capitoli precedenti abbiamo costruito progressivamente la struttura matematica necessaria alla crittografia su curve ellittiche. Abbiamo visto che i punti di una curva ellittica su un campo finito formano un gruppo abeliano e che, fissato un punto base \(G\), è possibile calcolare multipli del tipo~\cite{margara_ec,sec1}
 
 \[
 Q = dG,
@@ -1372,7 +1372,7 @@ dove \(d\) è un intero e \(Q\) è un altro punto della curva.
 
 Questo capitolo studia il problema inverso: dato il punto base \(G\) e il punto \(Q=dG\), quanto è difficile recuperare lo scalare \(d\)? Questa domanda è centrale perché la sicurezza di molti protocolli basati su curve ellittiche dipende proprio dall'impraticabilità di tale inversione.
 
-Il problema prende il nome di \textit{Elliptic Curve Discrete Logarithm Problem}, abbreviato in ECDLP. Esso è l'analogo, nel gruppo dei punti di una curva ellittica, del problema del logaritmo discreto nei gruppi moltiplicativi modulo un primo.
+Il problema prende il nome di \textit{Elliptic Curve Discrete Logarithm Problem}, abbreviato in ECDLP. Esso è l'analogo, nel gruppo dei punti di una curva ellittica, del problema del logaritmo discreto nei gruppi moltiplicativi modulo un primo~\cite{margara_complessita,margara_ec}.
 
 \section{Richiamo: il logaritmo discreto classico}
 
@@ -1390,7 +1390,7 @@ Il problema inverso consiste nel trovare \(x\) conoscendo \(g\), \(y\) e \(p\). 
 
 Il valore \(x\), se esiste, è chiamato logaritmo discreto di \(y\) in base \(g\).
 
-L'importanza crittografica nasce dall'asimmetria computazionale: l'esponenziazione modulare è efficiente, mentre il calcolo del logaritmo discreto è ritenuto difficile in gruppi opportunamente scelti.
+L'importanza crittografica nasce dall'asimmetria computazionale: l'esponenziazione modulare è efficiente, mentre il calcolo del logaritmo discreto è ritenuto difficile in gruppi opportunamente scelti~\cite{margara_complessita}.
 
 \begin{example}
 Nel gruppo \(\mathbb{Z}_{17}^{\ast}\), si ha
@@ -1429,7 +1429,7 @@ Qui:
 \begin{itemize}
     \item \(G\) è un punto base pubblico della curva;
     \item \(d\) è uno scalare intero, normalmente usato come chiave privata;
-    \item \(Q\) è un punto della curva, normalmente usato come chiave pubblica.
+    \item \(Q\) è un punto della curva, normalmente usato come chiave pubblica~\cite{margara_ec,sec1}.
 \end{itemize}
 
 L'analogia può essere riassunta così:
@@ -1448,7 +1448,7 @@ Curva ellittica & \(Q = dG\) & trovare \(d\) da \(G\) e \(Q\) \\
 \label{tab:dlp-ecdlp-ch6}
 \end{table}
 
-Nel primo caso l'operazione viene scritta in notazione moltiplicativa; nel secondo caso in notazione additiva. La differenza di notazione riflette la diversa operazione di gruppo, ma il principio crittografico è lo stesso: una direzione deve essere efficiente, l'altra deve essere computazionalmente difficile.
+Nel primo caso l'operazione viene scritta in notazione moltiplicativa; nel secondo caso in notazione additiva. La differenza di notazione riflette la diversa operazione di gruppo, ma il principio crittografico è lo stesso: una direzione deve essere efficiente, l'altra deve essere computazionalmente difficile~\cite{margara_complessita,margara_ec}.
 
 \section{Definizione di ECDLP}
 
@@ -1464,7 +1464,7 @@ Dato un punto \(Q \in \langle G \rangle\), esiste un intero \(d\), con \(0 \leq 
     Q = dG.
 \end{equation}
 
-Il problema del logaritmo discreto su curve ellittiche consiste nel determinare \(d\) conoscendo \(G\), \(Q\), la curva \(E\) e il campo finito su cui essa è definita.
+Il problema del logaritmo discreto su curve ellittiche consiste nel determinare \(d\) conoscendo \(G\), \(Q\), la curva \(E\) e il campo finito su cui essa è definita~\cite{margara_ec,sec1}.
 
 \begin{definition}[Elliptic Curve Discrete Logarithm Problem]
 Siano \(E(\mathbb{F}_p)\) una curva ellittica su un campo finito, \(G\in E(\mathbb{F}_p)\) un punto di ordine \(n\), e \(Q\in \langle G\rangle\). Il problema del logaritmo discreto su curve ellittiche consiste nel trovare l'intero \(d\), con \(0 \leq d < n\), tale che
@@ -1484,7 +1484,7 @@ Il calcolo diretto di
 Q=dG
 \]
 
-è efficiente perché può essere eseguito tramite algoritmi di moltiplicazione scalare come il metodo \textit{double-and-add}. Tale metodo sfrutta la rappresentazione binaria di \(d\) e calcola \(dG\) mediante una sequenza di raddoppi e somme.
+è efficiente perché può essere eseguito tramite algoritmi di moltiplicazione scalare come il metodo \textit{double-and-add}. Tale metodo sfrutta la rappresentazione binaria di \(d\) e calcola \(dG\) mediante una sequenza di raddoppi e somme~\cite{sec1}.
 
 Se \(d\) ha \(m\) bit, il numero di operazioni richieste è proporzionale a \(m\), non al valore numerico di \(d\). Questo è essenziale: uno scalare di 256 bit può rappresentare un numero enorme, ma la sua lunghezza è soltanto 256 bit, e l'algoritmo lavora sulla lunghezza della rappresentazione.
 
@@ -1536,7 +1536,7 @@ La sicurezza di ECC dipende quindi dalla scelta di parametri tali che:
     \item non siano noti algoritmi efficienti per risolvere l'ECDLP su quella curva.
 \end{itemize}
 
-In questo senso, ECC non si basa sul fatto che l'inversione sia logicamente impossibile, ma sul fatto che essa sia computazionalmente impraticabile con le risorse disponibili.
+In questo senso, ECC non si basa sul fatto che l'inversione sia logicamente impossibile, ma sul fatto che essa sia computazionalmente impraticabile con le risorse disponibili~\cite{margara_complessita,sec1}.
 
 \section{Esempio su una curva piccola}
 
@@ -1614,7 +1614,7 @@ Il sottogruppo generato da \(G\) contiene quindi esattamente \(n\) elementi:
 
 Se \(n\) è piccolo, l'avversario può enumerare tutti i multipli di \(G\) e risolvere il problema. Se invece \(n\) è molto grande, l'enumerazione diventa impraticabile.
 
-Per questa ragione, nei protocolli ECC il punto base viene scelto con ordine grande, spesso un numero primo o con un grande fattore primo. Questo riduce la possibilità di attacchi basati sulla decomposizione del gruppo in sottogruppi più piccoli.
+Per questa ragione, nei protocolli ECC il punto base viene scelto con ordine grande, spesso un numero primo o con un grande fattore primo. Questo riduce la possibilità di attacchi basati sulla decomposizione del gruppo in sottogruppi più piccoli~\cite{margara_ec,sec1}.
 
 \section{Forza bruta e attacchi generici}
 
@@ -1628,7 +1628,7 @@ In particolare, molti attacchi generici hanno complessità dell'ordine di circa
     O(\sqrt{n}).
 \end{equation}
 
-Questo significa che, per ottenere un livello di sicurezza di circa \(2^{128}\) operazioni contro attacchi generici, si scelgono sottogruppi di ordine approssimativamente \(2^{256}\). Questa è una delle ragioni per cui molte curve moderne usano parametri intorno ai 256 bit.
+Questo significa che, per ottenere un livello di sicurezza di circa \(2^{128}\) operazioni contro attacchi generici, si scelgono sottogruppi di ordine approssimativamente \(2^{256}\). Questa è una delle ragioni per cui molte curve moderne usano parametri intorno ai 256 bit~\cite{nist_sp800_57,sec1}.
 
 Questa osservazione collega direttamente la dimensione del gruppo alla sicurezza: non basta scegliere una curva qualsiasi; bisogna scegliere una curva e un punto base con parametri adeguati.
 
@@ -1640,7 +1640,7 @@ La funzione
     d \longmapsto Q=dG
 \end{equation}
 
-può essere vista come una funzione one-way nel contesto del gruppo dei punti della curva. Essa è facile da calcolare: dato \(d\), si ottiene \(Q\) in modo efficiente tramite moltiplicazione scalare. Tuttavia, è difficile da invertire: dato \(Q\), recuperare \(d\) richiede risolvere l'ECDLP.
+può essere vista come una funzione one-way nel contesto del gruppo dei punti della curva. Essa è facile da calcolare: dato \(d\), si ottiene \(Q\) in modo efficiente tramite moltiplicazione scalare. Tuttavia, è difficile da invertire: dato \(Q\), recuperare \(d\) richiede risolvere l'ECDLP~\cite{margara_ec,margara_complessita,sec1}.
 
 Questa funzione non è una funzione one-way con trap-door nello stesso senso di RSA. In RSA, esiste una informazione segreta, collegata alla fattorizzazione del modulo, che permette di invertire efficientemente la funzione. Nel caso tipico di ECC, invece, la sicurezza dei protocolli deriva dal fatto che solo il proprietario conosce lo scalare privato \(d\); non esiste una scorciatoia pubblica per recuperarlo da \(Q=dG\).
 
@@ -1662,7 +1662,7 @@ L'ECDLP permette di costruire coppie di chiavi asimmetriche. Il procedimento gen
 
 Un avversario può conoscere \(E\), \(\mathbb{F}_p\), \(G\), \(n\) e \(Q\). Tuttavia, per ricavare \(d\), dovrebbe risolvere il logaritmo discreto di \(Q\) in base \(G\). La sicurezza della chiave privata dipende quindi direttamente dalla difficoltà dell'ECDLP.
 
-Questa struttura verrà usata nei capitoli successivi per descrivere protocolli come ECDH ed ECDSA. In entrambi i casi, la chiave privata è uno scalare, mentre la chiave pubblica è un punto della curva.
+Questa struttura verrà usata nei capitoli successivi per descrivere protocolli come ECDH ed ECDSA. In entrambi i casi, la chiave privata è uno scalare, mentre la chiave pubblica è un punto della curva~\cite{margara_ec,sec1}.
 
 \section{Confronto concettuale con RSA}
 
@@ -1693,15 +1693,15 @@ ECC & calcolare \(dG\) & logaritmo discreto su curve ellittiche \\
 \label{tab:public-key-hardness}
 \end{table}
 
-Questa differenza spiega perché la sicurezza dei vari sistemi deve essere valutata rispetto al problema matematico specifico su cui si fondano.
+Questa differenza spiega perché la sicurezza dei vari sistemi deve essere valutata rispetto al problema matematico specifico su cui si fondano~\cite{margara_rsa,nist_sp800_57}.
 
 \section{Limite quantistico}
 
 La difficoltà dell'ECDLP è una difficoltà classica: riguarda gli algoritmi noti su calcolatori tradizionali. Il quadro cambia se si considerano computer quantistici sufficientemente potenti.
 
-L'algoritmo di Shor mostra che, su un computer quantistico fault-tolerant sufficientemente grande, problemi come la fattorizzazione di interi, il logaritmo discreto nei gruppi finiti e il logaritmo discreto su curve ellittiche possono essere risolti in tempo polinomiale.
+L'algoritmo di Shor mostra che, su un computer quantistico fault-tolerant sufficientemente grande, problemi come la fattorizzazione di interi, il logaritmo discreto nei gruppi finiti e il logaritmo discreto su curve ellittiche possono essere risolti in tempo polinomiale~\cite{margara_pqc}.
 
-Questo significa che ECC, come RSA e Diffie--Hellman classico, non è considerata sicura in uno scenario post-quantistico. Tale limite non invalida l'importanza attuale di ECC, ma spiega perché la ricerca crittografica moderna stia sviluppando schemi alternativi resistenti ad attacchi quantistici.
+Questo significa che ECC, come RSA e Diffie--Hellman classico, non è considerata sicura in uno scenario post-quantistico. Tale limite non invalida l'importanza attuale di ECC, ma spiega perché la ricerca crittografica moderna stia sviluppando schemi alternativi resistenti ad attacchi quantistici~\cite{margara_pqc}.
 
 Questo tema verrà ripreso nel capitolo dedicato ai limiti e alla prospettiva post-quantistica.
 
