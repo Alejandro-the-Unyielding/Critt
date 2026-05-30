@@ -1,7 +1,7 @@
 \babel@toc {italian}{}\relax 
 \babel@toc {italian}{}\relax 
 \contentsline {chapter}{Abstract}{i}{chapter*.1}%
-\contentsline {chapter}{Notazione}{vii}{chapter*.5}%
+\contentsline {chapter}{Notazione}{vi}{chapter*.4}%
 \contentsline {chapter}{\numberline {1}Introduzione}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivazione}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Perché le curve ellittiche}{2}{section.1.2}%
@@ -90,12 +90,12 @@
 \contentsline {section}{\numberline {9.2}ECC e RSA}{44}{section.9.2}%
 \contentsline {section}{\numberline {9.3}Efficienza e dimensione delle chiavi}{45}{section.9.3}%
 \contentsline {section}{\numberline {9.4}Limiti teorici}{45}{section.9.4}%
-\contentsline {section}{\numberline {9.5}Limiti implementativi}{45}{section.9.5}%
+\contentsline {section}{\numberline {9.5}Limiti implementativi}{46}{section.9.5}%
 \contentsline {section}{\numberline {9.6}Scelta delle curve}{46}{section.9.6}%
 \contentsline {section}{\numberline {9.7}La minaccia quantistica}{46}{section.9.7}%
 \contentsline {section}{\numberline {9.8}Harvest Now, Decrypt Later}{47}{section.9.8}%
 \contentsline {section}{\numberline {9.9}Crittografia post-quantistica}{47}{section.9.9}%
-\contentsline {section}{\numberline {9.10}Standardizzazione e transizione}{47}{section.9.10}%
+\contentsline {section}{\numberline {9.10}Standardizzazione e transizione}{48}{section.9.10}%
 \contentsline {section}{\numberline {9.11}Confronto finale}{48}{section.9.11}%
 \contentsline {chapter}{\numberline {10}Conclusioni}{49}{chapter.10}%
 \contentsline {section}{\numberline {10.1}Risultati principali}{49}{section.10.1}%

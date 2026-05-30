@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.28)  30 MAY 2026 20:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.28)  30 MAY 2026 20:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1353,19 +1353,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[4] (Report.lof)
-\tf@lof=\write7
-\openout7 = `Report.lof'.
+[4] (Report.lot)
+\tf@lot=\write7
+\openout7 = `Report.lot'.
 
  [5
 
-] (Report.lot)
-\tf@lot=\write8
-\openout8 = `Report.lot'.
-
- [6
-
-] [7
+] [6
 
 {C:/Users/Daniel Alejandro/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-
 mathsy.enc}]
@@ -1375,7 +1369,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.161 
+l.160 
        [1
 
 
@@ -1514,7 +1508,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [19{C:/Users/Daniel Alejandro/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/
 lm-mathex.enc}]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 1037.
+put line 1036.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1534,9 +1528,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [21]
 Capitolo 5.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <17.28> on input line 1088.
+(Font)              <17.28> on input line 1087.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 1088.
+(Font)              <10> on input line 1087.
 [22
 
 ]
@@ -1577,7 +1571,7 @@ Capitolo 6.
 
 ]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-430.
+429.
 
 (C:\Users\Daniel Alejandro\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1623,7 +1617,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [32]
-Overfull \hbox (4.0241pt too wide) in paragraph at lines 1683--1692
+Overfull \hbox (4.0241pt too wide) in paragraph at lines 1682--1691
  [][] 
  []
 
@@ -1663,7 +1657,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [37]
-Overfull \hbox (18.23978pt too wide) in paragraph at lines 1978--1986
+Overfull \hbox (18.23978pt too wide) in paragraph at lines 1977--1985
  [][] 
  []
 
@@ -1713,12 +1707,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [43]
 Capitolo 9.
 
-Overfull \hbox (8.10161pt too wide) in paragraph at lines 2222--2231
+Overfull \hbox (8.10161pt too wide) in paragraph at lines 2221--2230
  [][] 
  []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
 
 [44
 
@@ -1747,7 +1738,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [47]
-Overfull \hbox (54.00572pt too wide) in paragraph at lines 2354--2363
+Overfull \hbox (54.00572pt too wide) in paragraph at lines 2353--2362
  [][] 
  []
 
@@ -1772,12 +1763,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [50]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-411.
+410.
 
 (C:\Users\Daniel Alejandro\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Overfull \hbox (7.68451pt too wide) in paragraph at lines 2412--2412
+Overfull \hbox (7.68451pt too wide) in paragraph at lines 2411--2411
 []\T1/lmr/m/n/12 National In-sti-tu-te of Stan-dards and Tech-no-lo-gy. \T1/lmr
 /m/it/12 Di-gi-tal Si-gna-tu-re Stan-dard (DSS)\T1/lmr/m/n/12 .
  []
@@ -1785,13 +1776,13 @@ Overfull \hbox (7.68451pt too wide) in paragraph at lines 2412--2412
 [51
 
 ]
-Overfull \hbox (43.3255pt too wide) in paragraph at lines 2412--2412
+Overfull \hbox (43.3255pt too wide) in paragraph at lines 2411--2411
 []\T1/lmr/m/n/12 National In-sti-tu-te of Stan-dards and Tech-no-lo-gy. \T1/lmr
 /m/it/12 Module-Lattice-Based Key-Encapsulation
  []
 
 
-Overfull \hbox (5.76155pt too wide) in paragraph at lines 2412--2412
+Overfull \hbox (5.76155pt too wide) in paragraph at lines 2411--2411
 \T1/lmr/m/it/12 Me-cha-ni-sm Stan-dard\T1/lmr/m/n/12 . Fe-de-ral In-for-ma-tion
  Pro-ces-sing Stan-dards Pu-bli-ca-tion FIPS
  []
@@ -1808,24 +1799,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-04-28>
  ***********
-
-
-Package rerunfilecheck Warning: File `Report.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Report.out':
-(rerunfilecheck)             Before: 225FF791864573C5B6A66356ACBA7252;19665
-(rerunfilecheck)             After:  29402573765D136EF8839F1FA95C767B;19564.
+Package rerunfilecheck Info: File `Report.out' has not changed.
+(rerunfilecheck)             Checksum: F00C05F18738E2851A021A80915168DF;19564.
 Package logreq Info: Writing requests to 'Report.run.xml'.
 \openout1 = `Report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 33264 strings out of 467682
- 631031 string characters out of 5409340
- 1448674 words of memory out of 5000000
- 61510 multiletter control sequences out of 15000+600000
+ 33256 strings out of 467682
+ 630907 string characters out of 5409340
+ 1448673 words of memory out of 5000000
+ 61507 multiletter control sequences out of 15000+600000
  694099 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,104p,747b,2157s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1847,9 +1831,9 @@ ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Daniel A
 lejandro/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Use
 rs/Daniel Alejandro/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/s
 ymbols/msbm10.pfb>
-Output written on Report.pdf (60 pages, 560198 bytes).
+Output written on Report.pdf (59 pages, 559434 bytes).
 PDF statistics:
- 1335 PDF objects out of 1440 (max. 8388607)
- 327 named destinations out of 1000 (max. 500000)
+ 1330 PDF objects out of 1440 (max. 8388607)
+ 325 named destinations out of 1000 (max. 500000)
  821 words of extra memory for PDF output out of 10000 (max. 10000000)
 
