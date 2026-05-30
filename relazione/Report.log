@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.28)  28 MAY 2026 17:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.28)  30 MAY 2026 20:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1808,8 +1808,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-04-28>
  ***********
-Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: 29402573765D136EF8839F1FA95C767B;19564.
+
+
+Package rerunfilecheck Warning: File `Report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Report.out':
+(rerunfilecheck)             Before: 225FF791864573C5B6A66356ACBA7252;19665
+(rerunfilecheck)             After:  29402573765D136EF8839F1FA95C767B;19564.
 Package logreq Info: Writing requests to 'Report.run.xml'.
 \openout1 = `Report.run.xml'.
 
@@ -1817,7 +1824,7 @@ Package logreq Info: Writing requests to 'Report.run.xml'.
 Here is how much of TeX's memory you used:
  33264 strings out of 467682
  631031 string characters out of 5409340
- 1448590 words of memory out of 5000000
+ 1448674 words of memory out of 5000000
  61510 multiletter control sequences out of 15000+600000
  694099 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1840,7 +1847,7 @@ ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Daniel A
 lejandro/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Use
 rs/Daniel Alejandro/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/s
 ymbols/msbm10.pfb>
-Output written on Report.pdf (60 pages, 559983 bytes).
+Output written on Report.pdf (60 pages, 560198 bytes).
 PDF statistics:
  1335 PDF objects out of 1440 (max. 8388607)
  327 named destinations out of 1000 (max. 500000)
