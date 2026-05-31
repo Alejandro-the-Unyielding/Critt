@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.28)  30 MAY 2026 20:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.28)  30 MAY 2026 21:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1617,7 +1617,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [32]
-Overfull \hbox (4.0241pt too wide) in paragraph at lines 1682--1691
+Overfull \hbox (4.0241pt too wide) in paragraph at lines 1684--1693
  [][] 
  []
 
@@ -1629,10 +1629,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [33]
-Capitolo 7.
-[34
-
-]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 14.49998pt, for example:
@@ -1640,7 +1636,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[35]
+[34]
+Capitolo 7.
+[35
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 14.49998pt, for example:
@@ -1657,7 +1657,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [37]
-Overfull \hbox (18.23978pt too wide) in paragraph at lines 1977--1985
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[38]
+Overfull \hbox (18.23978pt too wide) in paragraph at lines 1979--1987
  [][] 
  []
 
@@ -1668,19 +1676,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[38]
+[39]
 Capitolo 8.
-[39
+[40
 
 ]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[40]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 14.49998pt, for example:
@@ -1705,15 +1705,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [43]
-Capitolo 9.
-
-Overfull \hbox (8.10161pt too wide) in paragraph at lines 2221--2230
- [][] 
- []
-
-[44
-
-]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 14.49998pt, for example:
@@ -1721,7 +1712,16 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[45]
+[44]
+Capitolo 9.
+
+Overfull \hbox (8.10161pt too wide) in paragraph at lines 2223--2232
+ [][] 
+ []
+
+[45
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 14.49998pt, for example:
@@ -1738,7 +1738,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [47]
-Overfull \hbox (54.00572pt too wide) in paragraph at lines 2353--2362
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[48]
+Overfull \hbox (54.00572pt too wide) in paragraph at lines 2355--2364
  [][] 
  []
 
@@ -1749,9 +1757,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[48]
+[49]
 Capitolo 10.
-[49
+[50
 
 ]
 
@@ -1761,28 +1769,28 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[50]
+[51]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-410.
+412.
 
 (C:\Users\Daniel Alejandro\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Overfull \hbox (7.68451pt too wide) in paragraph at lines 2411--2411
+Overfull \hbox (7.68451pt too wide) in paragraph at lines 2413--2413
 []\T1/lmr/m/n/12 National In-sti-tu-te of Stan-dards and Tech-no-lo-gy. \T1/lmr
 /m/it/12 Di-gi-tal Si-gna-tu-re Stan-dard (DSS)\T1/lmr/m/n/12 .
  []
 
-[51
+[52
 
 ]
-Overfull \hbox (43.3255pt too wide) in paragraph at lines 2411--2411
+Overfull \hbox (43.3255pt too wide) in paragraph at lines 2413--2413
 []\T1/lmr/m/n/12 National In-sti-tu-te of Stan-dards and Tech-no-lo-gy. \T1/lmr
 /m/it/12 Module-Lattice-Based Key-Encapsulation
  []
 
 
-Overfull \hbox (5.76155pt too wide) in paragraph at lines 2411--2411
+Overfull \hbox (5.76155pt too wide) in paragraph at lines 2413--2413
 \T1/lmr/m/it/12 Me-cha-ni-sm Stan-dard\T1/lmr/m/n/12 . Fe-de-ral In-for-ma-tion
  Pro-ces-sing Stan-dards Pu-bli-ca-tion FIPS
  []
@@ -1794,21 +1802,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[52] (Report.aux)
+[53] (Report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-04-28>
  ***********
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: F00C05F18738E2851A021A80915168DF;19564.
+(rerunfilecheck)             Checksum: 31C3E96FA3460DBAA57E2D70C444A815;19773.
 Package logreq Info: Writing requests to 'Report.run.xml'.
 \openout1 = `Report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 33256 strings out of 467682
- 630907 string characters out of 5409340
- 1448673 words of memory out of 5000000
+ 33257 strings out of 467682
+ 630905 string characters out of 5409340
+ 1449559 words of memory out of 5000000
  61507 multiletter control sequences out of 15000+600000
  694099 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1831,9 +1839,9 @@ ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Daniel A
 lejandro/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Use
 rs/Daniel Alejandro/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/s
 ymbols/msbm10.pfb>
-Output written on Report.pdf (59 pages, 559434 bytes).
+Output written on Report.pdf (60 pages, 561883 bytes).
 PDF statistics:
- 1330 PDF objects out of 1440 (max. 8388607)
- 325 named destinations out of 1000 (max. 500000)
- 821 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1338 PDF objects out of 1440 (max. 8388607)
+ 326 named destinations out of 1000 (max. 500000)
+ 829 words of extra memory for PDF output out of 10000 (max. 10000000)
 

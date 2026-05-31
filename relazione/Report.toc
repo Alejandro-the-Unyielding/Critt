@@ -54,50 +54,51 @@
 \contentsline {section}{\numberline {6.1}Introduzione}{27}{section.6.1}%
 \contentsline {section}{\numberline {6.2}Richiamo: il logaritmo discreto classico}{27}{section.6.2}%
 \contentsline {section}{\numberline {6.3}Dal caso moltiplicativo al caso ellittico}{28}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Definizione di ECDLP}{29}{section.6.4}%
+\contentsline {section}{\numberline {6.4}Definizione di ECDLP}{28}{section.6.4}%
 \contentsline {section}{\numberline {6.5}Perché la direzione diretta è efficiente}{29}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Perché l'inversione è difficile}{30}{section.6.6}%
+\contentsline {section}{\numberline {6.6}Perché l'inversione è difficile}{29}{section.6.6}%
 \contentsline {section}{\numberline {6.7}Esempio su una curva piccola}{30}{section.6.7}%
 \contentsline {section}{\numberline {6.8}Ordine del punto e dimensione del sottogruppo}{31}{section.6.8}%
-\contentsline {section}{\numberline {6.9}Forza bruta e attacchi generici}{31}{section.6.9}%
-\contentsline {section}{\numberline {6.10}ECDLP come funzione one-way}{32}{section.6.10}%
-\contentsline {section}{\numberline {6.11}Ruolo di ECDLP nella crittografia a chiave pubblica}{32}{section.6.11}%
-\contentsline {section}{\numberline {6.12}Confronto concettuale con RSA}{33}{section.6.12}%
-\contentsline {section}{\numberline {6.13}Limite quantistico}{33}{section.6.13}%
-\contentsline {chapter}{\numberline {7}Protocolli crittografici basati su ECC}{34}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Introduzione}{34}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Parametri pubblici e generazione delle chiavi}{34}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Elliptic Curve Diffie--Hellman}{35}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Sicurezza e autenticazione in ECDH}{36}{section.7.4}%
-\contentsline {section}{\numberline {7.5}ECDHE e forward secrecy}{36}{section.7.5}%
-\contentsline {section}{\numberline {7.6}Firme digitali su curve ellittiche}{36}{section.7.6}%
-\contentsline {section}{\numberline {7.7}Generazione e verifica di una firma ECDSA}{37}{section.7.7}%
-\contentsline {section}{\numberline {7.8}Importanza del nonce in ECDSA}{38}{section.7.8}%
-\contentsline {section}{\numberline {7.9}ECDH ed ECDSA a confronto}{38}{section.7.9}%
-\contentsline {chapter}{\numberline {8}Applicazioni moderne di ECC}{39}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Introduzione}{39}{section.8.1}%
-\contentsline {section}{\numberline {8.2}ECC nei protocolli di comunicazione sicura}{39}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Forward secrecy e autenticazione}{40}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Crittografia ibrida}{40}{section.8.4}%
-\contentsline {section}{\numberline {8.5}ECC in Bitcoin}{41}{section.8.5}%
-\contentsline {section}{\numberline {8.6}La curva secp256k1}{41}{section.8.6}%
-\contentsline {section}{\numberline {8.7}Wallet, seed phrase e indirizzi}{41}{section.8.7}%
-\contentsline {section}{\numberline {8.8}Transazioni, UTXO e firme}{42}{section.8.8}%
-\contentsline {section}{\numberline {8.9}ECC e decentralizzazione}{42}{section.8.9}%
-\contentsline {section}{\numberline {8.10}Limiti pratici}{43}{section.8.10}%
-\contentsline {chapter}{\numberline {9}Confronto, limiti e prospettiva post-quantistica}{44}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Introduzione}{44}{section.9.1}%
-\contentsline {section}{\numberline {9.2}ECC e RSA}{44}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Efficienza e dimensione delle chiavi}{45}{section.9.3}%
-\contentsline {section}{\numberline {9.4}Limiti teorici}{45}{section.9.4}%
-\contentsline {section}{\numberline {9.5}Limiti implementativi}{46}{section.9.5}%
-\contentsline {section}{\numberline {9.6}Scelta delle curve}{46}{section.9.6}%
-\contentsline {section}{\numberline {9.7}La minaccia quantistica}{46}{section.9.7}%
-\contentsline {section}{\numberline {9.8}Harvest Now, Decrypt Later}{47}{section.9.8}%
-\contentsline {section}{\numberline {9.9}Crittografia post-quantistica}{47}{section.9.9}%
-\contentsline {section}{\numberline {9.10}Standardizzazione e transizione}{48}{section.9.10}%
-\contentsline {section}{\numberline {9.11}Confronto finale}{48}{section.9.11}%
-\contentsline {chapter}{\numberline {10}Conclusioni}{49}{chapter.10}%
-\contentsline {section}{\numberline {10.1}Risultati principali}{49}{section.10.1}%
-\contentsline {section}{\numberline {10.2}Rilevanza e limiti}{49}{section.10.2}%
-\contentsline {section}{\numberline {10.3}Conclusione finale}{50}{section.10.3}%
+\contentsline {section}{\numberline {6.9}Teorema di Hasse e cofattore}{31}{section.6.9}%
+\contentsline {section}{\numberline {6.10}Forza bruta e attacchi generici}{32}{section.6.10}%
+\contentsline {section}{\numberline {6.11}ECDLP come funzione one-way}{32}{section.6.11}%
+\contentsline {section}{\numberline {6.12}Ruolo di ECDLP nella crittografia a chiave pubblica}{32}{section.6.12}%
+\contentsline {section}{\numberline {6.13}Confronto concettuale con RSA}{33}{section.6.13}%
+\contentsline {section}{\numberline {6.14}Limite quantistico}{33}{section.6.14}%
+\contentsline {chapter}{\numberline {7}Protocolli crittografici basati su ECC}{35}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Introduzione}{35}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Parametri pubblici e generazione delle chiavi}{35}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Elliptic Curve Diffie--Hellman}{36}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Sicurezza e autenticazione in ECDH}{37}{section.7.4}%
+\contentsline {section}{\numberline {7.5}ECDHE e forward secrecy}{37}{section.7.5}%
+\contentsline {section}{\numberline {7.6}Firme digitali su curve ellittiche}{37}{section.7.6}%
+\contentsline {section}{\numberline {7.7}Generazione e verifica di una firma ECDSA}{38}{section.7.7}%
+\contentsline {section}{\numberline {7.8}Importanza del nonce in ECDSA}{39}{section.7.8}%
+\contentsline {section}{\numberline {7.9}ECDH ed ECDSA a confronto}{39}{section.7.9}%
+\contentsline {chapter}{\numberline {8}Applicazioni moderne di ECC}{40}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Introduzione}{40}{section.8.1}%
+\contentsline {section}{\numberline {8.2}ECC nei protocolli di comunicazione sicura}{40}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Forward secrecy e autenticazione}{41}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Crittografia ibrida}{41}{section.8.4}%
+\contentsline {section}{\numberline {8.5}ECC in Bitcoin}{42}{section.8.5}%
+\contentsline {section}{\numberline {8.6}La curva secp256k1}{42}{section.8.6}%
+\contentsline {section}{\numberline {8.7}Wallet, seed phrase e indirizzi}{42}{section.8.7}%
+\contentsline {section}{\numberline {8.8}Transazioni, UTXO e firme}{43}{section.8.8}%
+\contentsline {section}{\numberline {8.9}ECC e decentralizzazione}{43}{section.8.9}%
+\contentsline {section}{\numberline {8.10}Limiti pratici}{44}{section.8.10}%
+\contentsline {chapter}{\numberline {9}Confronto, limiti e prospettiva post-quantistica}{45}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Introduzione}{45}{section.9.1}%
+\contentsline {section}{\numberline {9.2}ECC e RSA}{45}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Efficienza e dimensione delle chiavi}{46}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Limiti teorici}{46}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Limiti implementativi}{47}{section.9.5}%
+\contentsline {section}{\numberline {9.6}Scelta delle curve}{47}{section.9.6}%
+\contentsline {section}{\numberline {9.7}La minaccia quantistica}{47}{section.9.7}%
+\contentsline {section}{\numberline {9.8}Harvest Now, Decrypt Later}{48}{section.9.8}%
+\contentsline {section}{\numberline {9.9}Crittografia post-quantistica}{48}{section.9.9}%
+\contentsline {section}{\numberline {9.10}Standardizzazione e transizione}{49}{section.9.10}%
+\contentsline {section}{\numberline {9.11}Confronto finale}{49}{section.9.11}%
+\contentsline {chapter}{\numberline {10}Conclusioni}{50}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Risultati principali}{50}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Rilevanza e limiti}{50}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Conclusione finale}{51}{section.10.3}%

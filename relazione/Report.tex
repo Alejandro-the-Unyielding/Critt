@@ -1333,10 +1333,10 @@ Quindi
 In crittografia si lavora spesso con un sottogruppo ciclico generato da un punto base \(G\)~\cite{margara_ec,sec1}:
 
 \begin{equation}
-    \langle G\rangle=\{G,2G,3G,\ldots,nG=\mathcal{O}\}.
+    \langle G\rangle=\{\mathcal{O},G,2G,\ldots,(n-1)G\},
 \end{equation}
 
-Il più piccolo intero positivo \(n\) tale che \(nG=\mathcal{O}\) è chiamato ordine del punto \(G\). Nei protocolli ECC, \(G\) è pubblico, mentre la chiave privata è uno scalare segreto \(d\). La chiave pubblica è
+dove \(nG=\mathcal{O}\). Il più piccolo intero positivo \(n\) tale che \(nG=\mathcal{O}\) è chiamato ordine del punto \(G\). Nei protocolli ECC, \(G\) è pubblico, mentre la chiave privata è uno scalare segreto \(d\). La chiave pubblica è
 
 \[
 Q=dG.
@@ -1431,21 +1431,7 @@ Qui:
     \item \(Q\) è un punto della curva, normalmente usato come chiave pubblica~\cite{margara_ec,sec1}.
 \end{itemize}
 
-L'analogia può essere riassunta così:
-
-\begin{table}[h]
-\centering
-\begin{tabular}{lll}
-\toprule
-\textbf{Contesto} & \textbf{Operazione diretta} & \textbf{Problema inverso} \\
-\midrule
-Gruppo moltiplicativo & \(y = g^x \bmod p\) & trovare \(x\) da \(g\) e \(y\) \\
-Curva ellittica & \(Q = dG\) & trovare \(d\) da \(G\) e \(Q\) \\
-\bottomrule
-\end{tabular}
-\caption{Analogia tra logaritmo discreto classico e logaritmo discreto su curve ellittiche.}
-\label{tab:dlp-ecdlp-ch6}
-\end{table}
+L'analogia tra i due contesti è la stessa già introdotta nel Capitolo 2: in entrambi i casi, un'operazione diretta è efficiente mentre il problema inverso è computazionalmente difficile.
 
 Nel primo caso l'operazione viene scritta in notazione moltiplicativa; nel secondo caso in notazione additiva. La differenza di notazione riflette la diversa operazione di gruppo, ma il principio crittografico è lo stesso: una direzione deve essere efficiente, l'altra deve essere computazionalmente difficile~\cite{margara_complessita,margara_ec}.
 
@@ -1454,10 +1440,10 @@ Nel primo caso l'operazione viene scritta in notazione moltiplicativa; nel secon
 Sia \(E(\mathbb{F}_p)\) una curva ellittica definita su un campo finito e sia \(G\) un punto della curva di ordine \(n\). Consideriamo il sottogruppo ciclico generato da \(G\):
 
 \begin{equation}
-    \langle G \rangle = \{G,2G,3G,\ldots,nG=\mathcal{O}\}.
+    \langle G \rangle = \{\mathcal{O},G,2G,\ldots,(n-1)G\},
 \end{equation}
 
-Dato un punto \(Q \in \langle G \rangle\), esiste un intero \(d\), con \(0 \leq d < n\), tale che
+dove \(nG=\mathcal{O}\). Dato un punto \(Q \in \langle G \rangle\), esiste un intero \(d\), con \(0 \leq d < n\), tale che
 
 \begin{equation}
     Q = dG.
@@ -1614,6 +1600,22 @@ Il sottogruppo generato da \(G\) contiene quindi esattamente \(n\) elementi:
 Se \(n\) è piccolo, l'avversario può enumerare tutti i multipli di \(G\) e risolvere il problema. Se invece \(n\) è molto grande, l'enumerazione diventa impraticabile.
 
 Per questa ragione, nei protocolli ECC il punto base viene scelto con ordine grande, spesso un numero primo o con un grande fattore primo. Questo riduce la possibilità di attacchi basati sulla decomposizione del gruppo in sottogruppi più piccoli~\cite{margara_ec,sec1}.
+
+\section{Teorema di Hasse e cofattore}
+
+Il numero totale di punti della curva \(E(\mathbb{F}_p)\) non è arbitrario. Il teorema di Hasse stabilisce che
+
+\[
+\left|\#E(\mathbb{F}_p)-(p+1)\right|\leq 2\sqrt{p}.
+\]
+
+Quindi il numero di punti della curva è dell'ordine di \(p\). L'ordine \(n\) del punto base \(G\) divide \(\#E(\mathbb{F}_p)\), e il quoziente
+
+\[
+h=\frac{\#E(\mathbb{F}_p)}{n}
+\]
+
+è chiamato cofattore~\cite{margara_ec,sec1}. Nei protocolli ECC si sceglie normalmente un punto base \(G\) di ordine primo grande e un cofattore piccolo. Questa scelta riduce il rischio di attacchi basati su sottogruppi piccoli e rafforza la validità dei parametri usati nel sistema.
 
 \section{Forza bruta e attacchi generici}
 
