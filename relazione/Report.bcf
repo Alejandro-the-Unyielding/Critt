@@ -2488,7 +2488,9 @@
     <bcf:citekey order="69" intorder="1">margara_ec</bcf:citekey>
     <bcf:citekey order="69" intorder="2">sec1</bcf:citekey>
     <bcf:citekey order="70" intorder="1">margara_rsa</bcf:citekey>
-    <bcf:citekey order="70" intorder="2">nist_sp800_57</bcf:citekey>
+    <bcf:citekey order="70" intorder="2">margara_dh</bcf:citekey>
+    <bcf:citekey order="70" intorder="3">margara_ec</bcf:citekey>
+    <bcf:citekey order="70" intorder="4">nist_sp800_57</bcf:citekey>
     <bcf:citekey order="71" intorder="1">margara_pqc</bcf:citekey>
     <bcf:citekey order="72" intorder="1">margara_pqc</bcf:citekey>
     <bcf:citekey order="73" intorder="1">margara_ec</bcf:citekey>

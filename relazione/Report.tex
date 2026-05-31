@@ -1677,24 +1677,7 @@ In ECC, invece, la sicurezza è legata alla difficoltà di recuperare lo scalare
 Q=dG.
 \]
 
-Quindi:
-
-\begin{table}[h]
-\centering
-\begin{tabular}{lll}
-\toprule
-\textbf{Sistema} & \textbf{Operazione facile} & \textbf{Problema difficile} \\
-\midrule
-RSA & moltiplicare \(p\) e \(q\) & fattorizzare \(n=pq\) \\
-Diffie--Hellman classico & calcolare \(g^x \bmod p\) & logaritmo discreto modulo \(p\) \\
-ECC & calcolare \(dG\) & logaritmo discreto su curve ellittiche \\
-\bottomrule
-\end{tabular}
-\caption{Problemi computazionali alla base di diversi sistemi a chiave pubblica.}
-\label{tab:public-key-hardness}
-\end{table}
-
-Questa differenza spiega perché la sicurezza dei vari sistemi deve essere valutata rispetto al problema matematico specifico su cui si fondano~\cite{margara_rsa,nist_sp800_57}.
+Questa differenza mostra che RSA, Diffie--Hellman classico ed ECC si basano su problemi matematici distinti: rispettivamente fattorizzazione, logaritmo discreto modulo \(p\) ed ECDLP~\cite{margara_rsa,margara_dh,margara_ec,nist_sp800_57}. Un confronto sistematico tra questi sistemi è presentato nel Capitolo~9.
 
 \section{Limite quantistico}
 
